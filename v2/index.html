@@ -163,7 +163,7 @@ html:not(.intro-on) #intro { display: none; }
 .h-card .pic { width: 100%; height: 100%; box-shadow: 0 40px 80px rgba(0,0,0,.45); }
 .h-card.l { left: 7vw; bottom: 17%; width: clamp(120px, 14vw, 230px); aspect-ratio: 3 / 4; }
 .h-card.r { right: 9vw; bottom: 25%; width: clamp(100px, 10vw, 170px); aspect-ratio: 4 / 5; }
-@media (min-width: 901px) { .h-foot a:last-child { padding-right: 230px; } }
+@media (min-width: 901px) { html:not(.locked) .h-foot a:last-child { padding-right: 370px; } }
 .js .h-card { opacity: 0; transition: opacity 1.8s ease 1s; }
 .ready .h-card { opacity: 1; }
 .h-copy { position: relative; z-index: 4; padding-top: 150px; padding-bottom: 150px; will-change: transform; }
@@ -343,7 +343,7 @@ html:not(.intro-on) #intro { display: none; }
   body { font-size: 16px; }
   .side, .h-card.r, .pal span { display: none; }
   .pal { padding-left: 6px; }
-  .h-foot a:last-child { padding-right: 140px; }
+  .h-foot a:last-child { padding-right: 206px; }
   .locked .h-foot a:last-child { padding-right: 18px; }
   .h-card.l { display: none; }
   .h-eye { gap: 10px; letter-spacing: .2em; font-size: 10px; }
@@ -584,6 +584,8 @@ html:not(.intro-on) #intro { display: none; }
   <button type="button" data-set="forest" aria-pressed="true" aria-label="Forest Green and Antique Gold"><i style="background:linear-gradient(90deg,#183B32 50%,#B49A62 50%)"></i></button>
   <button type="button" data-set="burgundy" aria-pressed="false" aria-label="Burgundy and Champagne"><i style="background:linear-gradient(90deg,#481C2C 50%,#D6B98C 50%)"></i></button>
   <button type="button" data-set="navy" aria-pressed="false" aria-label="Midnight Navy and Platinum"><i style="background:linear-gradient(90deg,#101D35 50%,#A8ADB5 50%)"></i></button>
+  <button type="button" data-set="sage" aria-pressed="false" aria-label="Truffle with Sage accents"><i style="background:linear-gradient(90deg,#2C2420 50%,#A6C090 50%)"></i></button>
+  <button type="button" data-set="sagemain" aria-pressed="false" aria-label="Ink with Sage"><i style="background:linear-gradient(90deg,#1F2A30 50%,#8FA287 50%)"></i></button>
 </div>
 
 <script>
@@ -612,7 +614,7 @@ html:not(.intro-on) #intro { display: none; }
   });
 
   // Three palettes; fabric imagery follows.
-  var PAL = { forest: { name: 'Forest', main: 'h_forest', mid: 'm_emerald', accent: 'h_gold' }, burgundy: { name: 'Burgundy', main: 'h_burgundy', mid: 'm_rose', accent: 'h_champagne' }, navy: { name: 'Navy', main: 'h_navy', mid: 'm_slate', accent: 'h_platinum' }, sage: { name: 'Sage', main: 'h_truffle', mid: 'm_taupe', accent: 'h_sage' }, sagemain: { name: 'Sage', main: 'h_ink', mid: 'm_sage', accent: 'h_champagne' } };
+  var PAL = { forest: { name: 'Forest', main: 'h_forest', mid: 'm_emerald', accent: 'h_gold' }, burgundy: { name: 'Burgundy', main: 'h_burgundy', mid: 'm_rose', accent: 'h_champagne' }, navy: { name: 'Navy', main: 'h_navy', mid: 'm_slate', accent: 'h_platinum' }, sage: { name: 'Sage Accent', main: 'h_truffle', mid: 'm_taupe', accent: 'h_sage' }, sagemain: { name: 'Ink & Sage', main: 'h_ink', mid: 'm_sage', accent: 'h_champagne' } };
   function setPalette(id, save) {
     if (!PAL[id]) id = 'forest';
     if (id === 'forest') root.removeAttribute('data-palette'); else root.setAttribute('data-palette', id);

@@ -1,2 +1,2 @@
-// v3: published as lock.js. Sage on accents only (truffle and ivory ground).
-window.HM_LOCK = 'sage';
+// Palette lock for this edition. Empty = the visitor picks from the three brand palettes (v1, v2).
+window.HM_LOCK = '';

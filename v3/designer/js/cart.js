@@ -4,9 +4,9 @@
 // the same browser bag the rest of the site uses, so a composition shows up on the bag page.
 
 const KEY = 'hemmings.bag.v3';
-const V = document.documentElement.dataset.v === '2' ? 2 : 1;
+const V = { 2: 2, 3: 3 }[document.documentElement.dataset.v] || 1;
 const local = location.protocol === 'file:' || /^(localhost|127\.0\.0\.1)$/.test(location.hostname);
-const sitePages = { bag: `../v${V}-bag.html`, home: V === 2 && local ? '../index.html' : '../index.html' };
+const sitePages = { bag: `../v${V}-bag.html`, home: V !== 1 && local ? '../index.html' : '../index.html' };
 
 const shopifyCart = {
   mode: 'shopify',

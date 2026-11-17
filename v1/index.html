@@ -454,12 +454,14 @@ html:not(.intro-on) #intro { display: none; }
   <button type="button" data-set="forest" aria-pressed="true" aria-label="Forest Green and Antique Gold"><i style="background:linear-gradient(135deg,#183B32 50%,#B49A62 50%)"></i></button>
   <button type="button" data-set="burgundy" aria-pressed="false" aria-label="Burgundy and Champagne"><i style="background:linear-gradient(135deg,#481C2C 50%,#D6B98C 50%)"></i></button>
   <button type="button" data-set="navy" aria-pressed="false" aria-label="Midnight Navy and Platinum"><i style="background:linear-gradient(135deg,#101D35 50%,#A8ADB5 50%)"></i></button>
+  <button type="button" data-set="sage" aria-pressed="false" aria-label="Truffle with Sage accents"><i style="background:linear-gradient(135deg,#2C2420 50%,#A6C090 50%)"></i></button>
+  <button type="button" data-set="sagemain" aria-pressed="false" aria-label="Ink with Sage"><i style="background:linear-gradient(135deg,#1F2A30 50%,#8FA287 50%)"></i></button>
 </div>
 
 <script>
 (function () {
   // Three brand palettes; fabric imagery follows the palette.
-  var PAL = { forest: { name: 'Forest', main: 'h_forest', accent: 'h_gold' }, burgundy: { name: 'Burgundy', main: 'h_burgundy', accent: 'h_champagne' }, navy: { name: 'Navy', main: 'h_navy', accent: 'h_platinum' }, sage: { name: 'Sage', main: 'h_truffle', mid: 'm_taupe', accent: 'h_sage' }, sagemain: { name: 'Sage', main: 'h_ink', mid: 'm_sage', accent: 'h_champagne' } };
+  var PAL = { forest: { name: 'Forest', main: 'h_forest', accent: 'h_gold' }, burgundy: { name: 'Burgundy', main: 'h_burgundy', accent: 'h_champagne' }, navy: { name: 'Navy', main: 'h_navy', accent: 'h_platinum' }, sage: { name: 'Sage Accent', main: 'h_truffle', mid: 'm_taupe', accent: 'h_sage' }, sagemain: { name: 'Ink & Sage', main: 'h_ink', mid: 'm_sage', accent: 'h_champagne' } };
   function setPalette(id, save) {
     if (!PAL[id]) id = 'forest';
     if (id === 'forest') document.documentElement.removeAttribute('data-palette'); else document.documentElement.setAttribute('data-palette', id);

@@ -11,6 +11,9 @@
 :root[data-v="2"] { --serif: 'Cormorant Garamond', 'Garamond', serif; }
 :root[data-v="2"] .brand { font-family: 'Libre Caslon Display', serif; letter-spacing: .18em; }
 :root[data-v="2"] .panel-head h1 { font-weight: 300; font-size: 31px; }
+:root[data-v="3"] { --serif: 'Instrument Serif', 'Times New Roman', serif; --sans: 'DM Sans', 'Helvetica Neue', Arial, sans-serif; }
+:root[data-v="3"] .brand { font-family: 'Instrument Serif', serif; letter-spacing: .06em; font-size: 24px; }
+:root[data-v="3"] .panel-head h1 { font-weight: 400; font-size: 34px; letter-spacing: -.02em; }
 * { box-sizing: border-box; }
 html, body { height: 100%; }
 body { margin: 0; background: var(--ivory); color: var(--charcoal); font-family: var(--sans); font-size: 15px; line-height: 1.45; }

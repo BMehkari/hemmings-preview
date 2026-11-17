@@ -1,14 +1,14 @@
 // Hemmings inner pages: shared catalogue, bag, palette, page chrome and page logic for both design versions.
-// The version comes from <html data-v="1|2">; each version has its own stylesheet and layout.
+// The version comes from <html data-v="1|2|3">; each version has its own stylesheet, page chrome and layout.
 // SAMPLE DATA: product names, prices, specifications and stock are illustrative, modelled on a typical
 // premium bedding range. The store catalogue replaces this list.
 (function () {
-  var root = document.documentElement, V = root.dataset.v === '1' ? 1 : 2, $ = function (id) { return document.getElementById(id); };
+  var root = document.documentElement, V = root.dataset.v === '1' ? 1 : root.dataset.v === '3' ? 3 : 2, $ = function (id) { return document.getElementById(id); };
   var all = function (s, r) { return [].slice.call((r || document).querySelectorAll(s)); };
   var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
   var HM = window.HM = { v: V };
   var page = function (n) { return 'v' + V + '-' + n + '.html'; }, local = location.protocol === 'file:' || /^(localhost|127\.0\.0\.1)$/.test(location.hostname);
-  // Published, each version's homepage is the artifact's own index page; on disk the v2 homepage is v2.html.
+  // Deployed, each version's homepage is its folder's index page; in the source folder v2 and v3 are v2.html and v3.html.
   var home = V === 1 || !local ? 'index.html' : 'index.html';
   HM.money = function (n) { return 'Rs. ' + n.toLocaleString('en-PK'); };
 
@@ -93,11 +93,18 @@
   var li = function (x) { return '<li><a href="' + x[1] + '"' + (x[2] && x[2] === dept ? ' aria-current="true"' : '') + '>' + x[0] + '</a></li>'; };
   var tools = '<a href="' + home + '" aria-label="Search">' + svg('search') + '</a><a href="' + home + '" aria-label="Account">' + svg('user') + '</a><a href="' + home + '" aria-label="Wishlist">' + svg('heart') + '</a><a class="bag" href="' + page('bag') + '" aria-label="Shopping bag">' + svg('bag') + '<span class="bagN">0</span></a>';
   var palette = '<div class="pal" role="group" aria-label="Colour palette"><span class="lab" id="palName">Forest</span>' +
-    [['forest', 'Forest Green and Antique Gold', '#183B32', '#B49A62'], ['burgundy', 'Burgundy and Champagne', '#481C2C', '#D6B98C'], ['navy', 'Midnight Navy and Platinum', '#101D35', '#A8ADB5']].map(function (p) { return '<button type="button" data-set="' + p[0] + '" aria-pressed="false" aria-label="' + p[1] + '"><i style="background:linear-gradient(90deg,' + p[2] + ' 50%,' + p[3] + ' 50%)"></i></button>'; }).join('') + '</div>';
+    [['forest', 'Forest Green and Antique Gold', '#183B32', '#B49A62'], ['burgundy', 'Burgundy and Champagne', '#481C2C', '#D6B98C'], ['navy', 'Midnight Navy and Platinum', '#101D35', '#A8ADB5'], ['sage', 'Truffle with Sage accents', '#2C2420', '#A6C090'], ['sagemain', 'Ink with Sage', '#1F2A30', '#8FA287']].map(function (p) { return '<button type="button" data-set="' + p[0] + '" aria-pressed="false" aria-label="' + p[1] + '"><i style="background:linear-gradient(90deg,' + p[2] + ' 50%,' + p[3] + ' 50%)"></i></button>'; }).join('') + '</div>';
   var cols = '<div><h3>Shop</h3><ul>' + links.slice(0, 6).map(li).join('') + '</ul></div><div><h3>Customer Support</h3><ul><li><a href="' + page('contact') + '">Contact</a></li><li><a href="' + page('terms') + '">Shipping and Returns</a></li><li><a href="' + page('contact') + '">Track an Order</a></li></ul></div><div><h3>About Hemmings</h3><ul><li><a href="' + home + '">Our Story</a></li><li><a href="' + home + '">The Journal</a></li><li><a href="' + designer + '">The Bed Designer</a></li></ul></div><div><h3>Follow</h3><ul><li><a href="' + home + '">Instagram</a></li><li><a href="' + home + '">Facebook</a></li><li><a href="' + home + '">Pinterest</a></li></ul></div>';
   var legal = '<span>&copy; 2026 Hemmings</span><a href="' + page('privacy') + '">Privacy Policy</a><a href="' + page('terms') + '">Terms and Conditions</a>';
   var top, foot;
-  if (V === 2) {
+  if (V === 3) {
+    top = '<nav class="mx" id="sheet" aria-label="Menu"><div class="mx-in wrap"><ol class="mx-list">' + links.map(function (x, i) { return '<li><a href="' + x[1] + '"><span class="n">0' + (i + 1) + '</span><span class="t">' + x[0] + '</span></a></li>'; }).join('') + '</ol>' +
+      '<div class="mx-side"><span class="lab">Hemmings, home textiles</span><p>Complimentary delivery across Pakistan on orders over Rs. 5,000.</p><p class="mx-tools"><a href="' + home + '">Search</a><a href="' + home + '">Account</a><a href="' + home + '">Wishlist</a><a href="' + page('contact') + '">Contact</a></p></div></div></nav>' +
+      '<header class="hx" id="hd"><div class="hx-in wrap"><a class="wm" href="' + home + '" aria-label="Hemmings home">Hemmings</a><ul class="hx-nav">' + links.slice(0, 6).map(li).join('') + '</ul>' +
+      '<div class="hx-r"><a class="bag" href="' + page('bag') + '" aria-label="Shopping bag">Bag (<span class="bagN">0</span>)</a><button class="mbtn" id="burger" type="button" aria-expanded="false"><span class="o">Menu</span><span class="c">Close</span><i></i></button></div></div></header>';
+    foot = '<footer class="fx dark"><div class="wrap"><div class="fx-top"><h2 class="h">Stay <em>close.</em></h2><form class="fx-form"><label class="sr" for="fxMail">Email address</label><input id="fxMail" type="email" placeholder="Email address" autocomplete="email"><button type="submit" class="lab">Subscribe</button></form></div>' +
+      '<div class="ft-cols">' + cols + '</div><div class="fx-end"><div class="legal">' + legal + '</div><span class="lab">Home textiles, Pakistan</span></div></div><div class="fx-word" aria-hidden="true">Hemmings</div></footer>' + palette;
+  } else if (V === 2) {
     top = '<nav class="sheet wrap" id="sheet" aria-label="Menu">' + links.map(function (x) { return '<a href="' + x[1] + '">' + x[0] + '</a>'; }).join('') + '</nav>' +
       '<header class="hd" id="hd"><div class="hd-in wrap"><div class="ic left"><button class="burger" id="burger" aria-label="Menu" aria-expanded="false">' + svg('menu') + '</button></div>' +
       '<ul class="nv">' + links.slice(0, 5).map(li).join('') + '</ul><a class="lock" href="' + home + '" aria-label="Hemmings home">HEMMINGS</a>' +
@@ -114,7 +121,7 @@
   HM.bag.paint();
 
   /* ---------- palette ---------- */
-  var PAL = { forest: { name: 'Forest', main: 'h_forest', mid: 'm_emerald', accent: 'h_gold' }, burgundy: { name: 'Burgundy', main: 'h_burgundy', mid: 'm_rose', accent: 'h_champagne' }, navy: { name: 'Navy', main: 'h_navy', mid: 'm_slate', accent: 'h_platinum' }, sage: { name: 'Sage', main: 'h_truffle', mid: 'm_taupe', accent: 'h_sage' }, sagemain: { name: 'Sage', main: 'h_ink', mid: 'm_sage', accent: 'h_champagne' } };
+  var PAL = { forest: { name: 'Forest', main: 'h_forest', mid: 'm_emerald', accent: 'h_gold' }, burgundy: { name: 'Burgundy', main: 'h_burgundy', mid: 'm_rose', accent: 'h_champagne' }, navy: { name: 'Navy', main: 'h_navy', mid: 'm_slate', accent: 'h_platinum' }, sage: { name: 'Sage Accent', main: 'h_truffle', mid: 'm_taupe', accent: 'h_sage' }, sagemain: { name: 'Ink & Sage', main: 'h_ink', mid: 'm_sage', accent: 'h_champagne' } };
   HM.setPalette = function (id, save) {
     if (!PAL[id]) id = 'forest';
     if (id === 'forest') root.removeAttribute('data-palette'); else root.setAttribute('data-palette', id);
@@ -129,7 +136,7 @@
 
   /* ---------- shared behaviour ---------- */
   var hd = $('hd'), burger = $('burger'), sheet = $('sheet');
-  burger.addEventListener('click', function () { var o = !sheet.classList.contains('open'); sheet.classList.toggle('open', o); hd.classList.toggle('open', o); hd.classList.toggle('over', o && V === 2); burger.setAttribute('aria-expanded', o); });
+  burger.addEventListener('click', function () { var o = !sheet.classList.contains('open'); sheet.classList.toggle('open', o); hd.classList.toggle('open', o); hd.classList.toggle('over', o && V !== 1); burger.setAttribute('aria-expanded', o); });
   var onScroll = function () { hd.classList.toggle('solid', window.scrollY > 80); };
   window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
   HM.reveal = function () {
@@ -138,6 +145,7 @@
     var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }); }, { rootMargin: '0px 0px -6% 0px', threshold: 0.05 });
     t.forEach(function (x) { io.observe(x); });
   };
+  document.addEventListener('submit', function (e) { if (e.target.classList.contains('fx-form')) { e.preventDefault(); e.target.querySelector('button').textContent = 'Thank you'; } });
   document.addEventListener('click', function (e) {
     var w = e.target.closest('.wish'), q = e.target.closest('[data-quick]');
     if (w) w.setAttribute('aria-pressed', w.getAttribute('aria-pressed') !== 'true');
@@ -221,7 +229,7 @@
       document.title = p.n + ' | Hemmings';
       if (full) {
         $('crumb').innerHTML = '<a href="' + home + '">Home</a><span>/</span><a href="' + page(p.dept) + '">' + HM.depts[p.dept].t + '</a><span>/</span><span>' + esc(p.n) + '</span>';
-        $('gal').innerHTML = V === 2
+        $('gal').innerHTML = V !== 1
           ? shots.map(function (s, i) { return '<button type="button" class="pic shot' + (i === 0 ? ' wide' : '') + '" data-zoom aria-label="Zoom image ' + (i + 1) + '"><img src="img/' + s + '.jpg" alt="' + esc(p.n) + ', view ' + (i + 1) + '"></button>'; }).join('')
           : '<button type="button" class="pic shot main" data-zoom aria-label="Zoom image"><img id="mainShot" src="img/' + shots[0] + '.jpg" alt="' + esc(p.n) + '"></button><div class="thumbs">' + shots.map(function (s, i) { return '<button type="button" class="pic" data-shot="' + s + '" aria-pressed="' + (i === 0) + '" aria-label="View ' + (i + 1) + '"><img src="img/' + s + '.jpg" alt=""></button>'; }).join('') + '</div>';
         var others = HM.products.filter(function (x) { return x.id !== p.id; }).sort(function (a, b) { return (b.dept === p.dept) - (a.dept === p.dept); });
