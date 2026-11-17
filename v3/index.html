@@ -21,6 +21,17 @@ html.intro-on { overflow: hidden; }
 .big-h em { color: var(--metal-ink); }
 .dark .big-h em { color: var(--metal-soft); }
 
+/* Silk: one length of fabric drawn behind the page (script at the end of the file). It starts as a narrow ribbon,
+   widens as the page goes down, and its end fills the footer. */
+#silk { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+.light .fx.dark { background: transparent; color: var(--ink); }
+.light .fx-top .h, .light .fx .h em, .light .fx-form button, .light .fx .ft-cols h3 { color: var(--deep); }
+.light .fx .ft-cols ul, .light .fx-end, .light .fx .legal { color: var(--ink); }
+.light .fx-form input::placeholder { color: color-mix(in srgb, var(--ink) 70%, transparent); }
+.light .fx .ft-cols a:hover { color: var(--deep); }
+.light .fx-form, .light .fx .ft-cols, .light .fx-end { border-color: color-mix(in srgb, var(--ink) 32%, transparent); }
+.light .fx-word { color: color-mix(in srgb, var(--ink) 16%, transparent); }
+
 /* Preloader: wordmark rolls down into the weave icon, the icon grows away, the panel lifts off.
    Steps are classes the script adds: p1 wordmark in, p2 roll to the icon, p3 icon grows away. */
 #intro { position: fixed; inset: 0; z-index: 300; display: grid; place-items: center; background: var(--deep); color: var(--metal-soft); perspective: 1000px; overflow: hidden; animation: introSafe .6s ease 14s forwards; }
@@ -201,6 +212,7 @@ html:not(.intro-on) #intro { display: none; }
 </style>
 </head>
 <body class="light">
+<canvas id="silk" aria-hidden="true"></canvas>
 <div id="intro" aria-hidden="true">
   <div class="face word">Hemmings</div>
   <div class="face icon"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="44"/><path d="M22 38H44M56 38H78M22 50H32M44 50H56M68 50H78M22 62H44M56 62H78M38 22V32M38 44V56M38 68V78M50 22V44M50 56V78M62 22V32M62 44V56M62 68V78"/></svg></div>
@@ -371,6 +383,90 @@ html:not(.intro-on) #intro { display: none; }
   } else {
     all('[data-rot]').forEach(function (el) { el.style.transform = 'rotate(' + el.dataset.rot + 'deg)'; });
   }
+
+  // Silk: a length of fabric behind the page, drawn per pixel on a canvas.
+  // Its position and width are functions of the distance down the document, so scrolling travels along the cloth:
+  // a ribbon 5% of the screen wide at the top, widening to 40%, then spreading to fill the footer.
+  // Scroll speed sways it and runs the folds, the pointer presses a soft dent that follows it, a click or tap sends a ripple.
+  (function silk() {
+    var cv = document.getElementById('silk'), gl = null;
+    try { gl = cv.getContext('webgl', { alpha: true, premultipliedAlpha: true, antialias: false }); } catch (e) {}
+    if (!gl) { cv.style.display = 'none'; return; }
+    var VS = 'attribute vec2 a;varying vec2 v;void main(){v=vec2(a.x*.5+.5,.5-a.y*.5);gl_Position=vec4(a,0.,1.);}';
+    var FS = [
+      'precision highp float;',
+      'varying vec2 v;',
+      'uniform vec2 uRes,uMouse;',
+      'uniform float uScroll,uLen,uTime,uVel,uMAmp;',
+      'uniform vec3 uCol,uShade;',
+      'uniform vec3 uClk[4];',
+      'float path(float t){return .5+.36*sin(t*6.5+2.6);}',
+      'float wid(float t){return clamp(mix(.05,.40,smoothstep(0.,.85,t))*(.8+.2*sin(t*17.)),.05,.40);}',
+      'void main(){',
+      '  vec2 p=v*uRes;float y=uScroll+p.y;float t=clamp(y/uLen,0.,1.);',
+      '  float full=smoothstep(uLen-340.,uLen+60.,y);',
+      '  float w=max(mix(wid(t),1.6,full)*uRes.x,46.);',
+      '  float c=mix(path(t),.5,full)*uRes.x+(10.*sin(y*.009+uTime*.5)+uVel*30.*sin(y*.0035+1.))*(1.-full);',
+      '  float x0=c-.5*w;float u=(p.x-x0)/w;',
+      '  float dOut=max(x0-p.x,p.x-(x0+w));',
+      '  if(dOut>0.){float s=(p.x>x0?.17:.05)*exp(-dOut/26.);gl_FragColor=vec4(0.,0.,0.,s);return;}',
+      '  float k=6.2831853*(1.2+w/170.);',
+      '  float a1=k*u+y*.0042+uTime*.22+uVel*1.6;',
+      '  float a2=k*.53*u-y*.0071+1.7+uTime*.15;',
+      '  float a3=k*1.9*u+y*.0113+4.1-uTime*.3-uVel*2.2;',
+      '  vec2 g=vec2((cos(a1)+.32*cos(a2)+.42*cos(a3))*.85,(.0042*cos(a1)-.0043*cos(a2)+.0025*cos(a3))*90.);',
+      '  vec2 dm=p-uMouse;float m=exp(-dot(dm,dm)/22500.)*uMAmp;g+=dm/150.*m*1.7;',
+      '  for(int i=0;i<4;i++){vec2 dc=vec2(p.x,y)-uClk[i].xy;float d=length(dc);float age=uTime-uClk[i].z;',
+      '    if(age>0.&&age<4.){float fr=age*520.;float env=exp(-age*1.3)*smoothstep(fr+30.,fr-140.,d);g+=dc/max(d,1.)*sin(d*.055-age*10.)*env*1.3;}}',
+      '  vec3 n=normalize(vec3(-g,1.15));vec3 L=normalize(vec3(-.55,-.45,.7));',
+      '  float diff=dot(n,L);float nh=max(dot(n,normalize(L+vec3(0.,0.,1.))),0.);',
+      '  vec3 col=mix(uShade,uCol,smoothstep(-.25,.75,diff));',
+      '  col+=(vec3(1.)-col)*(pow(nh,38.)*.55+pow(nh,7.)*.16);',
+      '  col=mix(col,uCol,full*.5);',
+      '  float e=min(u,1.-u)*w;col*=.86+.14*smoothstep(0.,14.,e);',
+      '  float al=smoothstep(0.,1.5,e);gl_FragColor=vec4(col*al,al);',
+      '}'].join('\n');
+    function sh(type, src) { var s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return gl.getShaderParameter(s, gl.COMPILE_STATUS) ? s : null; }
+    var vs = sh(gl.VERTEX_SHADER, VS), fs = sh(gl.FRAGMENT_SHADER, FS), pr = gl.createProgram();
+    if (!vs || !fs) { cv.style.display = 'none'; return; }
+    gl.attachShader(pr, vs); gl.attachShader(pr, fs); gl.linkProgram(pr);
+    if (!gl.getProgramParameter(pr, gl.LINK_STATUS)) { cv.style.display = 'none'; return; }
+    gl.useProgram(pr);
+    gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
+    var loc = gl.getAttribLocation(pr, 'a'); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+    var U = {}; ['uRes', 'uMouse', 'uScroll', 'uLen', 'uTime', 'uVel', 'uMAmp', 'uCol', 'uShade', 'uClk'].forEach(function (n) { U[n] = gl.getUniformLocation(pr, n); });
+
+    var W = 0, H = 0, foot = document.querySelector('.fx'), probe = document.createElement('i');
+    probe.style.cssText = 'position:absolute;width:0;height:0;visibility:hidden'; document.body.appendChild(probe);
+    function rgb(v) { probe.style.color = 'var(' + v + ')'; return (getComputedStyle(probe).color.match(/[\d.]+/g) || [128, 128, 128]).slice(0, 3).map(function (x) { return x / 255; }); }
+    var col = rgb('--metal'), shade = rgb('--deep'), colT = col, shadeT = shade;
+    function size() { var d = Math.min(window.devicePixelRatio || 1, 1.5); W = window.innerWidth; H = window.innerHeight; cv.width = Math.round(W * d); cv.height = Math.round(H * d); gl.viewport(0, 0, cv.width, cv.height); }
+    size(); window.addEventListener('resize', size);
+    var mouse = [-999, -999], mAmp = 0, mTarget = 0, vel = 0, lastY = window.scrollY, clicks = new Float32Array(12), ci = 0, t0 = performance.now(), lastPal = 0;
+    for (var i = 0; i < 4; i++) clicks[i * 3 + 2] = -100;
+    window.addEventListener('pointermove', function (e) { mouse = [e.clientX, e.clientY]; mTarget = 1; });
+    window.addEventListener('pointerdown', function (e) { clicks[ci * 3] = e.clientX; clicks[ci * 3 + 1] = e.clientY + window.scrollY; clicks[ci * 3 + 2] = (performance.now() - t0) / 1000; ci = (ci + 1) % 4; });
+    function draw(now) {
+      var time = reduce ? 0 : (now - t0) / 1000, sy = window.scrollY;
+      vel += ((sy - lastY) / 40 - vel) * 0.12; lastY = sy; if (reduce) vel = 0;
+      vel = Math.max(-1.6, Math.min(1.6, vel));
+      mTarget *= 0.97; mAmp += (mTarget - mAmp) * 0.08;
+      if (now - lastPal > 400) { lastPal = now; colT = rgb('--metal'); shadeT = rgb('--deep'); }
+      for (var j = 0; j < 3; j++) { col[j] += (colT[j] - col[j]) * 0.06; shade[j] += (shadeT[j] - shade[j]) * 0.06; }
+      gl.uniform2f(U.uRes, W, H); gl.uniform2f(U.uMouse, mouse[0], mouse[1]);
+      gl.uniform1f(U.uScroll, sy); gl.uniform1f(U.uLen, Math.max(H, foot.getBoundingClientRect().top + sy));
+      gl.uniform1f(U.uTime, time); gl.uniform1f(U.uVel, vel); gl.uniform1f(U.uMAmp, reduce ? 0 : mAmp);
+      gl.uniform3f(U.uCol, col[0], col[1], col[2]);
+      gl.uniform3f(U.uShade, col[0] * 0.5 + shade[0] * 0.12, col[1] * 0.5 + shade[1] * 0.12, col[2] * 0.5 + shade[2] * 0.12);
+      gl.uniform3fv(U.uClk, clicks);
+      gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT);
+      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+      if (!document.hidden) requestAnimationFrame(draw);
+    }
+    document.addEventListener('visibilitychange', function () { if (!document.hidden) requestAnimationFrame(draw); });
+    requestAnimationFrame(draw);
+  })();
 
   // The Edit rail: drag with a mouse (touch scrolls natively).
   var rail = document.getElementById('rail'), down = false, sx = 0, sl = 0;
