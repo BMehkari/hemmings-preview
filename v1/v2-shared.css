@@ -157,7 +157,10 @@ button { cursor: pointer; }
   .pc .quick button { opacity: 1; transform: none; height: 44px; }
   .ft-cols { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .pal span { display: none; }
-  .pal { padding-left: 6px; }
+  .pal { padding: 2px 4px; }
+  .pal button { width: 36px; height: 38px; }
+  html:not(.locked) .ft-end { padding-bottom: 84px; }
+  html:not(.locked) .foot .legal { padding-bottom: 64px; }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }

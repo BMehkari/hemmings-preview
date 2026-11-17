@@ -125,7 +125,7 @@
   };
   HM.setPalette(root.getAttribute('data-palette') || 'forest');
   document.querySelector('.pal').addEventListener('click', function (e) { var b = e.target.closest('button'); if (b) HM.setPalette(b.dataset.set, true); });
-  if (window.HM_LOCK) document.querySelector('.pal').style.display = 'none';
+  if (window.HM_LOCK) { document.querySelector('.pal').style.display = 'none'; root.classList.add('locked'); }
 
   /* ---------- shared behaviour ---------- */
   var hd = $('hd'), burger = $('burger'), sheet = $('sheet');

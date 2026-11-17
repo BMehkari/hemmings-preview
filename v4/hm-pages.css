@@ -118,8 +118,12 @@
 @media (max-width: 700px) {
   .contact form { grid-template-columns: minmax(0, 1fr); }
   #sort { max-width: 150px; }
-  .line { grid-template-columns: 84px 1fr auto; }
-  .line .lp { grid-column: 2 / -1; text-align: left; }
+  #sort { max-width: 128px; }
+  /* Bag rows stack: picture on the left; name, quantity and price in one column beside it. */
+  .line { grid-template-columns: 84px minmax(0, 1fr); align-items: start; row-gap: 10px; }
+  .line .pic { grid-row: 1 / span 3; }
+  .line .qty, .line .lp { grid-column: 2; justify-self: start; text-align: left; }
+  .ln h3 { font-size: 20px; }
   .buy { flex-wrap: wrap; }
   .buy .cta { order: 3; flex: 1 1 100%; }
 }
