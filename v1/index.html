@@ -8,7 +8,7 @@
 <title>Hemmings Homepage</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Jost:wght@300;400;500&display=swap">
 <script src="lock.js"></script>
-<script>(function(){var s=false;try{s=sessionStorage.getItem('hemmings.intro')==='1'}catch(e){}var d=document.documentElement;d.classList.add('js');try{var p=window.HM_LOCK||localStorage.getItem('hemmings.palette');if(p&&p!=='forest')d.setAttribute('data-palette',p)}catch(e){}if(s||matchMedia('(prefers-reduced-motion: reduce)').matches){d.classList.add('ready')}else{d.classList.add('intro-on')}})();</script>
+<script>(function(){var s=false;var d=document.documentElement;d.classList.add('js');try{var p=window.HM_LOCK||localStorage.getItem('hemmings.palette');if(p&&p!=='forest')d.setAttribute('data-palette',p)}catch(e){}if(s||matchMedia('(prefers-reduced-motion: reduce)').matches){d.classList.add('ready')}else{d.classList.add('intro-on')}})();</script>
 <style>
 /* Layout: full-bleed editorial bands; every band layers a slow background, a framed midground and fast foreground type. */
 :root {
@@ -488,9 +488,9 @@ html:not(.intro-on) #intro { display: none; }
       '<h3><a href="v1-product.html">' + x.n + '</a></h3><div class="meta"><span>' + x.p + '</span><span class="dots">' + x.c.map(function (h) { return '<i style="background:' + h + '"></i>'; }).join('') + '</span></div></article>';
   }).join('');
 
-  // Preloader: plays once per visit. Steps are classes on #intro: p1 wordmark in, p2 roll to the icon, p3 icon grows away.
+  // Preloader: plays every time the homepage is opened. Steps are classes on #intro: p1 wordmark in, p2 roll to the icon, p3 icon grows away.
   var introT = [], introTick;
-  function endIntro() { root.classList.remove('intro-on'); try { sessionStorage.setItem('hemmings.intro', '1'); } catch (e) {} }
+  function endIntro() { root.classList.remove('intro-on'); }
   function runIntro() {
     var el = document.getElementById('intro'), rule = el.querySelector('.intro-rule'), p = 0;
     introT.forEach(clearTimeout); introT = []; clearInterval(introTick);

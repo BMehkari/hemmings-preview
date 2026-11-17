@@ -8,7 +8,7 @@
 <title>Hemmings Homepage V3</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Libre+Caslon+Display&family=Tenor+Sans&family=Jost:wght@300;400&display=swap">
 <script src="lock.js"></script>
-<script>(function(){var d=document.documentElement,s=false;d.classList.add('js');try{s=sessionStorage.getItem('hemmings.v2.intro')==='1';var p=window.HM_LOCK||localStorage.getItem('hemmings.palette');if(p&&p!=='forest')d.setAttribute('data-palette',p)}catch(e){}if(s||matchMedia('(prefers-reduced-motion: reduce)').matches){d.classList.add('ready')}else{d.classList.add('intro-on')}})();</script>
+<script>(function(){var d=document.documentElement,s=false;d.classList.add('js');try{var p=window.HM_LOCK||localStorage.getItem('hemmings.palette');if(p&&p!=='forest')d.setAttribute('data-palette',p)}catch(e){}if(s||matchMedia('(prefers-reduced-motion: reduce)').matches){d.classList.add('ready')}else{d.classList.add('intro-on')}})();</script>
 <style>
 /* Layout: a centred maison. Dark, framed openings; a pinned sideways gallery; a typographic index; hairlines and lozenges instead of boxes. */
 :root {
@@ -625,9 +625,9 @@ html:not(.intro-on) #intro { display: none; }
   document.querySelector('.pal').addEventListener('click', function (e) { var b = e.target.closest('button'); if (b) setPalette(b.dataset.set, true); });
   if (window.HM_LOCK) { document.querySelector('.pal').style.display = 'none'; root.classList.add('locked'); }
 
-  // Preloader: plays once per visit. Steps are classes on #intro: p1 wordmark in, p2 roll to the icon, p3 icon grows away.
+  // Preloader: plays every time the homepage is opened. Steps are classes on #intro: p1 wordmark in, p2 roll to the icon, p3 icon grows away.
   var introT = [], introTick;
-  function endIntro() { root.classList.remove('intro-on'); try { sessionStorage.setItem('hemmings.v2.intro', '1'); } catch (e) {} }
+  function endIntro() { root.classList.remove('intro-on'); }
   function runIntro() {
     var el = document.getElementById('intro'), rule = el.querySelector('.intro-rule'), p = 0;
     introT.forEach(clearTimeout); introT = []; clearInterval(introTick);
