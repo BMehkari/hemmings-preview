@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en" data-v="2">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Product | Hemmings</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Libre+Caslon+Display&family=Tenor+Sans&family=Jost:wght@300;400&display=swap">
+<link rel="stylesheet" href="v2-shared.css">
+<link rel="stylesheet" href="hm-pages.css">
+<script src="lock.js"></script>
+<script>(function(){var d=document.documentElement;d.classList.add('js');try{var p=window.HM_LOCK||localStorage.getItem('hemmings.palette');if(p&&p!=='forest')d.setAttribute('data-palette',p)}catch(e){}})();</script>
+<style>
+main { padding-top: calc(74px + env(safe-area-inset-top, 0px)); }
+.pd-top { padding-block: 26px; }
+.pd { display: grid; grid-template-columns: 7fr 5fr; gap: clamp(30px, 5vw, 96px); align-items: start; padding-bottom: clamp(80px, 10vw, 160px); }
+#gal { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(10px, 1.2vw, 20px); }
+#gal .shot { aspect-ratio: 4 / 5; }
+#gal .shot.wide { grid-column: 1 / -1; aspect-ratio: 5 / 4; }
+#gal .shot:last-child:nth-child(even) { grid-column: 1 / -1; aspect-ratio: 16 / 9; }
+#info { position: sticky; top: 104px; }
+.look { background: var(--sand); padding-block: clamp(80px, 10vw, 160px); transition: background-color .8s; }
+.look-in { display: grid; grid-template-columns: 5fr 7fr; gap: clamp(30px, 6vw, 110px); align-items: center; }
+.look .big { aspect-ratio: 4 / 5; margin: 12px; }
+.look .h { font-size: clamp(40px, 5vw, 84px); color: var(--deep); margin: 18px 0 30px; }
+.look .lrow { border-color: color-mix(in srgb, var(--ink) 16%, transparent); }
+.also { padding-block: clamp(80px, 10vw, 160px); }
+@media (max-width: 900px) {
+  .pd, .look-in { grid-template-columns: minmax(0, 1fr); }
+  #info { position: static; }
+}
+</style>
+</head>
+<body class="plain">
+<div id="hm-top"></div>
+<main>
+  <div class="pd-top wrap"><nav class="crumb" id="crumb" aria-label="Breadcrumb"></nav></div>
+  <section class="pd wrap">
+    <div id="gal"></div>
+    <div id="info"></div>
+  </section>
+
+  <section class="look">
+    <div class="look-in wrap">
+      <div class="pic big matted"><img src="img/r_layering.jpg" alt="Cream pillows layered on a bed"></div>
+      <div><span class="lab m">Pair it with</span><h2 class="h">Complete the <em>Look</em></h2><div id="look"></div></div>
+    </div>
+  </section>
+
+  <section class="also wrap">
+    <div class="sec-h"><h2 class="h">You May Also <em>Like</em></h2><a class="go" href="v2-bedding.html">Shop all bedding <i>&rarr;</i></a></div>
+    <div class="pg four" id="also"></div>
+  </section>
+</main>
+<div id="hm-foot"></div>
+<script src="hm.js"></script>
+<script>HM.product();</script>
+</body>
+</html>

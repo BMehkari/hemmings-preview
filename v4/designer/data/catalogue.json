@@ -1,0 +1,86 @@
+{
+  "_note": "SAMPLE DATA. Names, prices and stock are illustrative. In production this file is replaced by a feed generated from the store catalogue (one entry per product, variantIds filled per colour/size).",
+  "currency": "PKR",
+  "sizes": [
+    { "id": "single", "title": "Single" },
+    { "id": "queen", "title": "Queen" },
+    { "id": "king", "title": "King" }
+  ],
+  "categories": [
+    { "id": "frames", "title": "Bed Frames" },
+    { "id": "bedsheets", "title": "Bedsheets" },
+    { "id": "fitted", "title": "Fitted Sheets" },
+    { "id": "flat", "title": "Flat Sheets" },
+    { "id": "duvet-covers", "title": "Duvet Covers", "group": "top" },
+    { "id": "inserts", "title": "Duvets & Inserts" },
+    { "id": "comforters", "title": "Comforters", "group": "top" },
+    { "id": "blankets", "title": "Blankets" },
+    { "id": "pillows", "title": "Pillows", "maxQty": 4, "defaultQty": 2 },
+    { "id": "pillowcases", "title": "Pillowcases", "maxQty": 4, "defaultQty": 2 },
+    { "id": "cushions", "title": "Cushions", "multi": true, "maxQty": 3 },
+    { "id": "throws", "title": "Throws" }
+  ],
+  "products": [
+    { "id": "frame-oak", "sku": "HM-FR-OAK", "category": "frames", "title": "Oak Platform Frame", "material": "Solid oak", "collection": "Heritage Weave", "style": "platform", "price": { "single": 64000, "queen": 82000, "king": 96000 },
+      "variants": [ { "code": "NAT", "name": "Natural oak", "hex": "#C2A57C", "family": "earth" }, { "code": "WAL", "name": "Walnut", "hex": "#6B4A35", "family": "earth" } ] },
+    { "id": "frame-linen", "sku": "HM-FR-UPH", "category": "frames", "title": "Upholstered Linen Frame", "material": "Linen upholstery", "collection": "Washed Linen", "style": "upholstered", "price": { "single": 72000, "queen": 94000, "king": 110000 },
+      "variants": [ { "code": "OAT", "name": "Oat", "hex": "#D8CDB6", "family": "neutral" }, { "code": "FOR", "name": "Forest", "hex": "#2F4F42", "family": "green" }, { "code": "CHA", "name": "Charcoal", "hex": "#3A3D38", "family": "dark" } ] },
+    { "id": "frame-arch", "sku": "HM-FR-ARC", "category": "frames", "title": "Arched Walnut Frame", "material": "Walnut veneer", "collection": "Heritage Weave", "style": "arch", "price": { "single": 78000, "queen": 99000, "king": 118000 },
+      "variants": [ { "code": "WAL", "name": "Walnut", "hex": "#5E4130", "family": "earth" } ] },
+
+    { "id": "sheet-sateen", "sku": "HM-BS-SAT", "category": "bedsheets", "title": "Sateen Bedsheet Set", "material": "Cotton sateen", "collection": "Sateen Classics", "price": { "single": 5200, "queen": 6900, "king": 7900 },
+      "variants": [ { "code": "IVO", "name": "Ivory", "hex": "#F4F0E6", "family": "neutral" }, { "code": "SAG", "name": "Sage", "hex": "#9DAA94", "family": "green" }, { "code": "SAN", "name": "Sand", "hex": "#CDB894", "family": "earth" }, { "code": "MIS", "name": "Mist", "hex": "#AEBBC2", "family": "blue" } ] },
+    { "id": "sheet-stripe", "sku": "HM-BS-STR", "category": "bedsheets", "title": "Ticking Stripe Bedsheet Set", "material": "Cotton percale", "collection": "Heritage Weave", "price": { "single": 5600, "queen": 7400, "king": 8400 },
+      "variants": [ { "code": "FOR", "name": "Forest stripe", "hex": "#F4F0E6", "pattern": "stripe", "accent": "#2F4F42", "family": "green" }, { "code": "CLA", "name": "Clay stripe", "hex": "#F4F0E6", "pattern": "stripe", "accent": "#B98566", "family": "earth" } ] },
+
+    { "id": "fitted-percale", "sku": "HM-FT-PER", "category": "fitted", "title": "Percale Fitted Sheet", "material": "Cotton percale", "collection": "Sateen Classics", "price": { "single": 2400, "queen": 3100, "king": 3600 },
+      "variants": [ { "code": "IVO", "name": "Ivory", "hex": "#F4F0E6", "family": "neutral" }, { "code": "STO", "name": "Stone", "hex": "#B9B2A3", "family": "neutral" }, { "code": "FOR", "name": "Forest", "hex": "#2F4F42", "family": "green" } ] },
+    { "id": "fitted-linen", "sku": "HM-FT-LIN", "category": "fitted", "title": "Washed Linen Fitted Sheet", "material": "Washed linen", "collection": "Washed Linen", "price": { "single": 4200, "queen": 5400, "king": 6200 },
+      "variants": [ { "code": "OAT", "name": "Oat", "hex": "#DDD2BC", "family": "neutral" }, { "code": "CLA", "name": "Clay", "hex": "#B98566", "family": "earth" } ] },
+
+    { "id": "flat-percale", "sku": "HM-FL-PER", "category": "flat", "title": "Percale Flat Sheet", "material": "Cotton percale", "collection": "Sateen Classics", "price": { "single": 2600, "queen": 3300, "king": 3800 },
+      "variants": [ { "code": "IVO", "name": "Ivory", "hex": "#F8F5EE", "family": "neutral" }, { "code": "SAG", "name": "Sage", "hex": "#9DAA94", "family": "green" } ] },
+    { "id": "flat-pinstripe", "sku": "HM-FL-PIN", "category": "flat", "title": "Pinstripe Flat Sheet", "material": "Cotton sateen", "collection": "Heritage Weave", "price": { "single": 2900, "queen": 3700, "king": 4200 },
+      "variants": [ { "code": "CHA", "name": "Charcoal pinstripe", "hex": "#F4F0E6", "pattern": "pinstripe", "accent": "#3A3D38", "family": "dark" } ] },
+
+    { "id": "duvet-sateen", "sku": "HM-DC-SAT", "category": "duvet-covers", "title": "Sateen Duvet Cover", "material": "Cotton sateen", "collection": "Sateen Classics", "price": { "single": 7800, "queen": 9800, "king": 11200 },
+      "variants": [ { "code": "IVO", "name": "Ivory", "hex": "#F4F0E6", "family": "neutral" }, { "code": "SAG", "name": "Sage", "hex": "#9DAA94", "family": "green" }, { "code": "FOR", "name": "Forest", "hex": "#2F4F42", "family": "green" }, { "code": "MIS", "name": "Mist", "hex": "#AEBBC2", "family": "blue", "soldOut": true } ] },
+    { "id": "duvet-linen", "sku": "HM-DC-LIN", "category": "duvet-covers", "title": "Washed Linen Duvet Cover", "material": "Washed linen", "collection": "Washed Linen", "price": { "single": 11500, "queen": 14500, "king": 16800 },
+      "variants": [ { "code": "OAT", "name": "Oat", "hex": "#DDD2BC", "family": "neutral" }, { "code": "CLA", "name": "Clay", "hex": "#B98566", "family": "earth" }, { "code": "CHA", "name": "Charcoal", "hex": "#3A3D38", "family": "dark" } ] },
+    { "id": "duvet-check", "sku": "HM-DC-CHK", "category": "duvet-covers", "title": "Heritage Check Duvet Cover", "material": "Cotton percale", "collection": "Heritage Weave", "price": { "single": 8900, "queen": 11200, "king": 12900 },
+      "variants": [ { "code": "FOR", "name": "Forest check", "hex": "#EFE9DC", "pattern": "check", "accent": "#315C4B", "family": "green" }, { "code": "SAN", "name": "Sand check", "hex": "#F4F0E6", "pattern": "check", "accent": "#B49A62", "family": "earth" } ] },
+
+    { "id": "insert-all", "sku": "HM-IN-ALL", "category": "inserts", "title": "All-Season Duvet Insert", "material": "Down alternative", "collection": "Sateen Classics", "price": { "single": 8500, "queen": 10500, "king": 12000 },
+      "variants": [ { "code": "WHT", "name": "White", "hex": "#F6F3EC", "family": "neutral" } ] },
+    { "id": "insert-winter", "sku": "HM-IN-WIN", "category": "inserts", "title": "Winter Weight Duvet Insert", "material": "Down alternative", "collection": "Sateen Classics", "price": { "single": 10500, "queen": 13000, "king": 14800 },
+      "variants": [ { "code": "WHT", "name": "White", "hex": "#F6F3EC", "family": "neutral" } ] },
+
+    { "id": "comforter-quilt", "sku": "HM-CF-QLT", "category": "comforters", "title": "Diamond Quilted Comforter", "material": "Cotton sateen", "collection": "Sateen Classics", "price": { "single": 9800, "queen": 12400, "king": 14200 },
+      "variants": [ { "code": "IVO", "name": "Ivory", "hex": "#F1ECE0", "pattern": "quilt", "family": "neutral" }, { "code": "SAG", "name": "Sage", "hex": "#9DAA94", "pattern": "quilt", "family": "green" }, { "code": "SAN", "name": "Sand", "hex": "#CDB894", "pattern": "quilt", "family": "earth" } ] },
+
+    { "id": "blanket-waffle", "sku": "HM-BL-WAF", "category": "blankets", "title": "Waffle Cotton Blanket", "material": "Cotton", "collection": "Washed Linen", "price": { "single": 5400, "queen": 6800, "king": 7600 },
+      "variants": [ { "code": "OAT", "name": "Oat", "hex": "#DDD2BC", "pattern": "waffle", "family": "neutral" }, { "code": "FOR", "name": "Forest", "hex": "#315C4B", "pattern": "waffle", "family": "green" }, { "code": "CLA", "name": "Clay", "hex": "#B98566", "pattern": "waffle", "family": "earth" } ] },
+    { "id": "blanket-wool", "sku": "HM-BL-WOL", "category": "blankets", "title": "Brushed Wool Blanket", "material": "Wool blend", "collection": "Heritage Weave", "price": { "single": 8200, "queen": 9900, "king": 11400 },
+      "variants": [ { "code": "STO", "name": "Stone", "hex": "#B9B2A3", "family": "neutral" }, { "code": "CHA", "name": "Charcoal", "hex": "#3A3D38", "family": "dark" } ] },
+
+    { "id": "pillow-soft", "sku": "HM-PL-SFT", "category": "pillows", "title": "Soft Support Pillow", "material": "Down alternative", "collection": "Sateen Classics", "price": 2800,
+      "variants": [ { "code": "WHT", "name": "White", "hex": "#F6F3EC", "family": "neutral" } ] },
+    { "id": "pillow-firm", "sku": "HM-PL-FRM", "category": "pillows", "title": "Firm Support Pillow", "material": "Memory fibre", "collection": "Sateen Classics", "price": 3400,
+      "variants": [ { "code": "WHT", "name": "White", "hex": "#F6F3EC", "family": "neutral" } ] },
+
+    { "id": "case-sateen", "sku": "HM-PC-SAT", "category": "pillowcases", "title": "Sateen Pillowcase", "material": "Cotton sateen", "collection": "Sateen Classics", "price": 1200,
+      "variants": [ { "code": "IVO", "name": "Ivory", "hex": "#F4F0E6", "family": "neutral" }, { "code": "SAG", "name": "Sage", "hex": "#9DAA94", "family": "green" }, { "code": "FOR", "name": "Forest", "hex": "#2F4F42", "family": "green" }, { "code": "SAN", "name": "Sand", "hex": "#CDB894", "family": "earth" } ] },
+    { "id": "case-stripe", "sku": "HM-PC-STR", "category": "pillowcases", "title": "Ticking Stripe Pillowcase", "material": "Cotton percale", "collection": "Heritage Weave", "price": 1400,
+      "variants": [ { "code": "FOR", "name": "Forest stripe", "hex": "#F4F0E6", "pattern": "stripe", "accent": "#2F4F42", "family": "green" }, { "code": "CLA", "name": "Clay stripe", "hex": "#F4F0E6", "pattern": "stripe", "accent": "#B98566", "family": "earth" } ] },
+
+    { "id": "cushion-velvet", "sku": "HM-CU-VEL", "category": "cushions", "title": "Velvet Cushion", "material": "Cotton velvet", "collection": "Heritage Weave", "price": 2600,
+      "variants": [ { "code": "FOR", "name": "Forest", "hex": "#244A3D", "family": "green" }, { "code": "GLD", "name": "Antique gold", "hex": "#B49A62", "family": "earth" }, { "code": "CLA", "name": "Clay", "hex": "#A8704F", "family": "earth" } ] },
+    { "id": "cushion-linen", "sku": "HM-CU-LIN", "category": "cushions", "title": "Linen Herringbone Cushion", "material": "Washed linen", "collection": "Washed Linen", "price": 2200,
+      "variants": [ { "code": "OAT", "name": "Oat", "hex": "#DDD2BC", "pattern": "herringbone", "accent": "#B9A98A", "family": "neutral" }, { "code": "CHA", "name": "Charcoal", "hex": "#3A3D38", "pattern": "herringbone", "accent": "#5A5F55", "family": "dark" } ] },
+
+    { "id": "throw-herringbone", "sku": "HM-TH-HER", "category": "throws", "title": "Herringbone Throw", "material": "Wool blend", "collection": "Heritage Weave", "price": 6400,
+      "variants": [ { "code": "SAN", "name": "Sand", "hex": "#CDB894", "pattern": "herringbone", "accent": "#B49A62", "family": "earth" }, { "code": "FOR", "name": "Forest", "hex": "#2F4F42", "pattern": "herringbone", "accent": "#4A7562", "family": "green" } ] },
+    { "id": "throw-linen", "sku": "HM-TH-LIN", "category": "throws", "title": "Washed Linen Throw", "material": "Washed linen", "collection": "Washed Linen", "price": 4800,
+      "variants": [ { "code": "CLA", "name": "Clay", "hex": "#B98566", "family": "earth" }, { "code": "STO", "name": "Stone", "hex": "#B9B2A3", "family": "neutral" }, { "code": "MIS", "name": "Mist", "hex": "#AEBBC2", "family": "blue" } ] }
+  ]
+}
