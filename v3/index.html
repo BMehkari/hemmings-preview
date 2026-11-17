@@ -59,9 +59,9 @@ html:not(.intro-on) #intro { display: none; }
 .sh .in img { width: 100%; height: 100%; object-fit: cover; }
 .js .sh .in, .js .sh.ring, .js .sh.dot { clip-path: inset(100% 0 0 0); transition: clip-path 1.7s var(--ease) var(--d, 0s); }
 .ready .sh .in, .ready .sh.ring, .ready .sh.dot { clip-path: inset(0); }
-.sh.arch { z-index: 1; right: 8vw; top: 12vh; width: clamp(150px, 22vw, 400px); aspect-ratio: 3 / 4.3; }
+.sh.arch { z-index: 1; right: 8vw; top: max(13vh, 150px); width: clamp(150px, 22vw, 400px); aspect-ratio: 3 / 4.3; }
 .sh.arch .in { border-radius: 999px 999px 0 0; }
-.sh.circle { z-index: 2; left: 34vw; bottom: 7vh; width: clamp(110px, 14vw, 260px); aspect-ratio: 1; }
+.sh.circle { z-index: 2; left: max(44vw, 540px); bottom: 7vh; width: clamp(110px, 14vw, 260px); aspect-ratio: 1; }
 .sh.circle .in { border-radius: 50%; }
 .sh.pill { z-index: 1; left: 3.5vw; top: 43%; width: clamp(64px, 7.4vw, 140px); aspect-ratio: 1 / 2.3; }
 .sh.pill .in { border-radius: 999px; }
@@ -174,7 +174,7 @@ html:not(.intro-on) #intro { display: none; }
   .mega { font-size: clamp(64px, 21vw, 170px); line-height: .84; margin-top: 30vw; }
   .mega .l2 { padding-left: 9vw; }
   .mega .l3 { text-align: left; padding-right: 0; }
-  .sh.arch { right: 5vw; top: 96px; width: 38vw; }
+  .sh.arch { right: 5vw; top: 100px; width: 38vw; }
   .sh.circle { left: auto; right: 6vw; bottom: auto; top: calc(30vw + 208px); width: 20vw; }
   .sh.pill { left: 6vw; top: 104px; width: 15vw; }
   .sh.ring { right: 30vw; bottom: auto; top: 150px; width: 24vw; }
@@ -341,7 +341,7 @@ html:not(.intro-on) #intro { display: none; }
       if (el.classList.contains('p1')) return;
       el.classList.add('p1');
       var shown = Date.now(), go = function () { later(leave, Math.max(300, 1500 - (Date.now() - shown))); };
-      if (document.readyState === 'complete') go(); else { window.addEventListener('load', go, { once: true }); later(leave, 7000); }
+      if (document.readyState === 'complete') go(); else { window.addEventListener('load', go, { once: true }); later(leave, 3500); }
     }
     try { document.fonts.load('400 48px "Instrument Serif"').then(start, start); } catch (e) { start(); }
     later(start, 1800);

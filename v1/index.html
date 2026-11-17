@@ -512,7 +512,7 @@ html:not(.intro-on) #intro { display: none; }
       if (el.classList.contains('p1')) return;
       el.classList.add('p1');
       var shown = Date.now(), go = function () { later(leave, Math.max(300, 1500 - (Date.now() - shown))); };
-      if (document.readyState === 'complete') go(); else { window.addEventListener('load', go, { once: true }); later(leave, 7000); }
+      if (document.readyState === 'complete') go(); else { window.addEventListener('load', go, { once: true }); later(leave, 3500); }
     }
     try { document.fonts.load('400 48px "Bodoni Moda"').then(start, start); } catch (e) { start(); }
     later(start, 1800);
