@@ -21,8 +21,8 @@ html.intro-on { overflow: hidden; }
 .big-h em { color: var(--metal-ink); }
 .dark .big-h em { color: var(--metal-soft); }
 
-/* Silk: one length of fabric drawn behind the page (script at the end of the file). It starts as a narrow ribbon,
-   widens as the page goes down, and its end fills the footer. */
+/* Silk: one length of cloth drawn behind the page (script at the end of the file). It hangs down the page on the side
+   each section leaves open, and ends as a sheet laid across the footer. */
 #silk { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
 .light .fx.dark { background: transparent; color: var(--ink); }
 .light .fx-top .h, .light .fx .h em, .light .fx-form button, .light .fx .ft-cols h3 { color: var(--deep); }
@@ -31,6 +31,7 @@ html.intro-on { overflow: hidden; }
 .light .fx .ft-cols a:hover { color: var(--deep); }
 .light .fx-form, .light .fx .ft-cols, .light .fx-end { border-color: color-mix(in srgb, var(--ink) 32%, transparent); }
 .light .fx-word { color: color-mix(in srgb, var(--ink) 16%, transparent); }
+.light .fx { padding-top: clamp(150px, 15vw, 240px); }
 
 /* Preloader: wordmark rolls down into the weave icon, the icon grows away, the panel lifts off.
    Steps are classes the script adds: p1 wordmark in, p2 roll to the icon, p3 icon grows away. */
@@ -384,10 +385,11 @@ html:not(.intro-on) #intro { display: none; }
     all('[data-rot]').forEach(function (el) { el.style.transform = 'rotate(' + el.dataset.rot + 'deg)'; });
   }
 
-  // Silk: a length of fabric behind the page, drawn per pixel on a canvas.
-  // Its position and width are functions of the distance down the document, so scrolling travels along the cloth:
-  // a ribbon 5% of the screen wide at the top, widening to 40%, then spreading to fill the footer.
-  // Scroll speed sways it and runs the folds, the pointer presses a soft dent that follows it, a click or tap sends a ripple.
+  // Silk: one length of cloth behind the page, shaded per pixel on a canvas.
+  // Shape: a route of key points taken from the page's own sections (which side the cloth hangs on, how wide),
+  // joined to a sheet that lies across the footer with a turned-down edge, so the footer is the end of the cloth.
+  // Surface: irregular soft folds from layered noise, lit as satin (broad sheen, soft shadow, fine grain).
+  // It drifts slowly, slides and sways with scroll speed, dents under the pointer and ripples from a click or tap.
   (function silk() {
     var cv = document.getElementById('silk'), gl = null;
     try { gl = cv.getContext('webgl', { alpha: true, premultipliedAlpha: true, antialias: false }); } catch (e) {}
@@ -397,36 +399,73 @@ html:not(.intro-on) #intro { display: none; }
       'precision highp float;',
       'varying vec2 v;',
       'uniform vec2 uRes,uMouse;',
-      'uniform float uScroll,uLen,uTime,uVel,uMAmp;',
+      'uniform float uScroll,uFoot,uTime,uVel,uSlide,uMAmp;',
       'uniform vec3 uCol,uShade;',
       'uniform vec3 uClk[4];',
-      'float path(float t){return .5+.36*sin(t*6.5+2.6);}',
-      'float wid(float t){return clamp(mix(.05,.40,smoothstep(0.,.85,t))*(.8+.2*sin(t*17.)),.05,.40);}',
+      'uniform vec3 uK[10];',
+      'float hash(vec2 p){p=fract(p*vec2(123.34,456.21));p+=dot(p,p+45.32);return fract(p.x*p.y);}',
+      'float noise(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*f*(f*(f*6.-15.)+10.);',
+      '  return mix(mix(hash(i),hash(i+vec2(1.,0.)),f.x),mix(hash(i+vec2(0.,1.)),hash(i+vec2(1.,1.)),f.x),f.y);}',
+      'float smin(float a,float b,float k){float h=clamp(.5+.5*(b-a)/k,0.,1.);return mix(b,a,h)-k*h*(1.-h);}',
+      // centre (px) and width (px) of the hanging cloth at document height y
+      'vec2 route(float y){float c=uK[0].y,w=uK[0].z;',
+      '  for(int i=0;i<9;i++){float s=smoothstep(uK[i].x,uK[i+1].x,y);c=mix(c,uK[i+1].y,s);w=mix(w,uK[i+1].z,s);}',
+      '  c=c*uRes.x+16.*(noise(vec2(y/420.,3.))-.5)+8.*sin(y*.006+uTime*.35)+uVel*34.*sin(y*.003+1.);',
+      '  return vec2(c,max(w*uRes.x,90.));}',
+      // signed distance to the cloth: negative inside. x = hanging part, y = footer sheet
+      'vec2 parts(vec2 p,float y){vec2 r=route(y);',
+      '  float dR=abs(p.x-r.x)-.5*r.y+7.*(noise(vec2(y/150.,p.x>r.x?9.:21.))-.5);',
+      '  float dS=uFoot+16.*sin(p.x*.0042+1.)+9.*sin(p.x*.0105+uTime*.25)-y;',
+      '  return vec2(dR,dS);}',
+      'float sd(vec2 p,float y){vec2 d=parts(p,y);return smin(d.x,d.y,170.);}',
+      'float height(vec2 p,float y,float c,float flat_){',
+      '  vec2 d=vec2(p.x-c,y);',
+      '  float h=0.;',
+      '  if(flat_<.999){',   // hanging cloth: long folds that follow the route
+      '    vec2 q=vec2(d.x/132.,d.y/1050.);',
+      '    q.x+=1.1*noise(vec2(d.x/340.,y/560.)+vec2(0.,uTime*.025));',
+      '    q.y+=uTime*.018+uSlide;',
+      '    h+=(1.-flat_)*(noise(q)+.5*noise(q*vec2(2.03,1.7)+7.1)+.2*noise(q*vec2(4.1,2.9)+13.7));}',
+      '  if(flat_>.001){',   // the sheet across the footer: a few broad, shallow folds
+      '    vec2 f=vec2(p.x/560.+(y-uFoot)/1500.,(y-uFoot)/520.);',
+      '    f+=.5*noise(f*.6+vec2(uTime*.02,3.));',
+      '    h+=flat_*.5*(noise(f)+.35*noise(f*2.1+5.3));}',
+      '  vec2 dm=p-uMouse;h-=.6*uMAmp*exp(-dot(dm,dm)/30000.);',
+      '  for(int i=0;i<4;i++){vec2 dc=vec2(p.x,y)-uClk[i].xy;float dd=length(dc);float age=uTime-uClk[i].z;',
+      '    if(age>0.&&age<4.){float fr=age*460.;h+=.17*sin(dd*.048-age*8.5)*exp(-age*1.4)*smoothstep(fr+30.,fr-170.,dd);}}',
+      '  return h;}',
       'void main(){',
-      '  vec2 p=v*uRes;float y=uScroll+p.y;float t=clamp(y/uLen,0.,1.);',
-      '  float full=smoothstep(uLen-340.,uLen+60.,y);',
-      '  float w=max(mix(wid(t),1.6,full)*uRes.x,46.);',
-      '  float c=mix(path(t),.5,full)*uRes.x+(10.*sin(y*.009+uTime*.5)+uVel*30.*sin(y*.0035+1.))*(1.-full);',
-      '  float x0=c-.5*w;float u=(p.x-x0)/w;',
-      '  float dOut=max(x0-p.x,p.x-(x0+w));',
-      '  if(dOut>0.){float s=(p.x>x0?.17:.05)*exp(-dOut/26.);gl_FragColor=vec4(0.,0.,0.,s);return;}',
-      '  float k=6.2831853*(1.2+w/170.);',
-      '  float a1=k*u+y*.0042+uTime*.22+uVel*1.6;',
-      '  float a2=k*.53*u-y*.0071+1.7+uTime*.15;',
-      '  float a3=k*1.9*u+y*.0113+4.1-uTime*.3-uVel*2.2;',
-      '  vec2 g=vec2((cos(a1)+.32*cos(a2)+.42*cos(a3))*.85,(.0042*cos(a1)-.0043*cos(a2)+.0025*cos(a3))*90.);',
-      '  vec2 dm=p-uMouse;float m=exp(-dot(dm,dm)/22500.)*uMAmp;g+=dm/150.*m*1.7;',
-      '  for(int i=0;i<4;i++){vec2 dc=vec2(p.x,y)-uClk[i].xy;float d=length(dc);float age=uTime-uClk[i].z;',
-      '    if(age>0.&&age<4.){float fr=age*520.;float env=exp(-age*1.3)*smoothstep(fr+30.,fr-140.,d);g+=dc/max(d,1.)*sin(d*.055-age*10.)*env*1.3;}}',
-      '  vec3 n=normalize(vec3(-g,1.15));vec3 L=normalize(vec3(-.55,-.45,.7));',
-      '  float diff=dot(n,L);float nh=max(dot(n,normalize(L+vec3(0.,0.,1.))),0.);',
-      '  vec3 col=mix(uShade,uCol,smoothstep(-.25,.75,diff));',
-      '  col+=(vec3(1.)-col)*(pow(nh,38.)*.55+pow(nh,7.)*.16);',
-      '  col=mix(col,uCol,full*.5);',
-      '  float e=min(u,1.-u)*w;col*=.86+.14*smoothstep(0.,14.,e);',
-      '  float al=smoothstep(0.,1.5,e);gl_FragColor=vec4(col*al,al);',
+      '  vec2 p=v*uRes;float y=uScroll+p.y;',
+      '  vec2 ds=parts(p,y);float d=smin(ds.x,ds.y,170.);',
+      '  if(d>0.){',   // the page: a soft shadow thrown down and to the right
+      '    float s=sd(p-vec2(18.,24.),y-24.);',
+      '    float a=.20*smoothstep(46.,-12.,s)+.10*exp(-d/7.);',
+      '    gl_FragColor=vec4(0.,0.,0.,a);return;}',
+      '  float flat_=smoothstep(uFoot-60.,uFoot+240.,y);',
+      '  float c=route(y).x;',
+      '  float e=1.6;',
+      '  float hx=height(p+vec2(e,0.),y,c,flat_)-height(p-vec2(e,0.),y,c,flat_);',
+      '  float hy=height(p,y+e,c,flat_)-height(p,y-e,c,flat_);',
+      '  vec3 n=normalize(vec3(-hx*30.,-hy*30.,1.));',
+      '  vec3 L=normalize(vec3(-.5,-.55,.66));',
+      '  float wrap=dot(n,L)*.5+.5;float nh=max(dot(n,normalize(L+vec3(0.,0.,1.))),0.);',
+      '  vec3 hi=mix(uCol,vec3(1.),.6);',
+      '  vec3 col=mix(uShade,uCol,smoothstep(.2,.66,wrap));',
+      '  col=mix(col,hi,smoothstep(.66,1.,wrap)*.5);',
+      '  col+=hi*(pow(nh,70.)*.28+pow(nh,16.)*.16);',
+      '  col=mix(col,hi,pow(1.-n.z,1.6)*.16);',
+      '  col*=.98+.04*noise(vec2(p.x,mod(y,997.))*.85);',
+      '  float ed=-d;',
+      '  col*=.74+.26*smoothstep(0.,40.,ed);',                                  // the edge rolls away from the light
+      '  col+=hi*.07*(smoothstep(5.,6.5,ed)-smoothstep(8.,9.5,ed));',           // a stitched hem
+      // the footer sheet: a turned-down band along its top edge
+      '  float yy=-ds.y;float wt=smoothstep(-20.,90.,ds.x);',
+      '  float band=smoothstep(0.,12.,yy)*(1.-smoothstep(58.,62.,yy));',
+      '  col=mix(col,hi,.10*band*wt);',
+      '  col*=1.-.24*wt*step(60.,yy)*exp(-max(yy-60.,0.)/20.);',
+      '  float al=smoothstep(0.,1.6,ed);gl_FragColor=vec4(col*al,al);',
       '}'].join('\n');
-    function sh(type, src) { var s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s); return gl.getShaderParameter(s, gl.COMPILE_STATUS) ? s : null; }
+    function sh(type, src) { var x = gl.createShader(type); gl.shaderSource(x, src); gl.compileShader(x); if (!gl.getShaderParameter(x, gl.COMPILE_STATUS)) { console.warn(gl.getShaderInfoLog(x)); return null; } return x; }
     var vs = sh(gl.VERTEX_SHADER, VS), fs = sh(gl.FRAGMENT_SHADER, FS), pr = gl.createProgram();
     if (!vs || !fs) { cv.style.display = 'none'; return; }
     gl.attachShader(pr, vs); gl.attachShader(pr, fs); gl.linkProgram(pr);
@@ -435,31 +474,42 @@ html:not(.intro-on) #intro { display: none; }
     gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
     var loc = gl.getAttribLocation(pr, 'a'); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
-    var U = {}; ['uRes', 'uMouse', 'uScroll', 'uLen', 'uTime', 'uVel', 'uMAmp', 'uCol', 'uShade', 'uClk'].forEach(function (n) { U[n] = gl.getUniformLocation(pr, n); });
+    var U = {}; ['uRes', 'uMouse', 'uScroll', 'uFoot', 'uTime', 'uVel', 'uSlide', 'uMAmp', 'uCol', 'uShade', 'uClk', 'uK'].forEach(function (n) { U[n] = gl.getUniformLocation(pr, n); });
 
-    var W = 0, H = 0, foot = document.querySelector('.fx'), probe = document.createElement('i');
+    var W = 0, H = 0, foot = document.querySelector('.fx'), probe = document.createElement('i'), keys = new Float32Array(30), footY = 0, lastKeys = 0;
     probe.style.cssText = 'position:absolute;width:0;height:0;visibility:hidden'; document.body.appendChild(probe);
     function rgb(v) { probe.style.color = 'var(' + v + ')'; return (getComputedStyle(probe).color.match(/[\d.]+/g) || [128, 128, 128]).slice(0, 3).map(function (x) { return x / 255; }); }
     var col = rgb('--metal'), shade = rgb('--deep'), colT = col, shadeT = shade;
-    function size() { var d = Math.min(window.devicePixelRatio || 1, 1.5); W = window.innerWidth; H = window.innerHeight; cv.width = Math.round(W * d); cv.height = Math.round(H * d); gl.viewport(0, 0, cv.width, cv.height); }
+    function size() { var d = Math.min(window.devicePixelRatio || 1, 1.25); W = window.innerWidth; H = window.innerHeight; cv.width = Math.round(W * d); cv.height = Math.round(H * d); gl.viewport(0, 0, cv.width, cv.height); lastKeys = 0; }
+    // The route: [distance down the page, centre, width] (centre and width as fractions of the screen width), from the sections themselves.
+    function route() {
+      var sy = window.scrollY, mid = function (sel, k) { var r = document.querySelector(sel).getBoundingClientRect(); return r.top + sy + r.height * k; };
+      footY = foot.getBoundingClientRect().top + sy;
+      var pts = W < 900
+        ? [[0, .9, .34], [mid('.hero3', .9), .92, .34], [mid('.say', .5), .95, .3], [mid('.stack', .5), .5, .4], [mid('.forms', .5), .5, .3], [mid('.q3', .45), .86, .4], [mid('.jr3', .5), .95, .3]]
+        : [[0, .8, .38], [mid('.hero3', .86), .8, .38], [mid('.say', .5), .12, .25], [mid('.stack', .5), .5, .34], [mid('.forms', .5), .9, .24], [mid('.q3', .5), .78, .4], [mid('.jr3', .5), .9, .22]];
+      pts.push([footY - 180, pts[pts.length - 1][1], pts[pts.length - 1][2]]);
+      for (var i = 0; i < 10; i++) { var k = pts[Math.min(i, pts.length - 1)], prev = i ? keys[(i - 1) * 3] : -1; keys[i * 3] = Math.max(k[0], prev + 1); keys[i * 3 + 1] = k[1]; keys[i * 3 + 2] = k[2]; }
+    }
     size(); window.addEventListener('resize', size);
-    var mouse = [-999, -999], mAmp = 0, mTarget = 0, vel = 0, lastY = window.scrollY, clicks = new Float32Array(12), ci = 0, t0 = performance.now(), lastPal = 0;
+    var mouse = [-999, -999], mAmp = 0, mTarget = 0, vel = 0, slide = 0, lastY = window.scrollY, clicks = new Float32Array(12), ci = 0, t0 = performance.now(), lastPal = 0;
     for (var i = 0; i < 4; i++) clicks[i * 3 + 2] = -100;
     window.addEventListener('pointermove', function (e) { mouse = [e.clientX, e.clientY]; mTarget = 1; });
     window.addEventListener('pointerdown', function (e) { clicks[ci * 3] = e.clientX; clicks[ci * 3 + 1] = e.clientY + window.scrollY; clicks[ci * 3 + 2] = (performance.now() - t0) / 1000; ci = (ci + 1) % 4; });
     function draw(now) {
       var time = reduce ? 0 : (now - t0) / 1000, sy = window.scrollY;
-      vel += ((sy - lastY) / 40 - vel) * 0.12; lastY = sy; if (reduce) vel = 0;
-      vel = Math.max(-1.6, Math.min(1.6, vel));
-      mTarget *= 0.97; mAmp += (mTarget - mAmp) * 0.08;
+      vel += ((sy - lastY) / 40 - vel) * 0.1; lastY = sy; if (reduce) vel = 0;
+      vel = Math.max(-1.6, Math.min(1.6, vel)); slide += vel * 0.004;
+      mTarget *= 0.975; mAmp += (mTarget - mAmp) * 0.07;
+      if (now - lastKeys > 700) { lastKeys = now; route(); }
       if (now - lastPal > 400) { lastPal = now; colT = rgb('--metal'); shadeT = rgb('--deep'); }
       for (var j = 0; j < 3; j++) { col[j] += (colT[j] - col[j]) * 0.06; shade[j] += (shadeT[j] - shade[j]) * 0.06; }
       gl.uniform2f(U.uRes, W, H); gl.uniform2f(U.uMouse, mouse[0], mouse[1]);
-      gl.uniform1f(U.uScroll, sy); gl.uniform1f(U.uLen, Math.max(H, foot.getBoundingClientRect().top + sy));
-      gl.uniform1f(U.uTime, time); gl.uniform1f(U.uVel, vel); gl.uniform1f(U.uMAmp, reduce ? 0 : mAmp);
+      gl.uniform1f(U.uScroll, sy); gl.uniform1f(U.uFoot, footY + 46);
+      gl.uniform1f(U.uTime, time); gl.uniform1f(U.uVel, vel); gl.uniform1f(U.uSlide, slide); gl.uniform1f(U.uMAmp, reduce ? 0 : mAmp);
       gl.uniform3f(U.uCol, col[0], col[1], col[2]);
-      gl.uniform3f(U.uShade, col[0] * 0.5 + shade[0] * 0.12, col[1] * 0.5 + shade[1] * 0.12, col[2] * 0.5 + shade[2] * 0.12);
-      gl.uniform3fv(U.uClk, clicks);
+      gl.uniform3f(U.uShade, col[0] * 0.5 + shade[0] * 0.1, col[1] * 0.5 + shade[1] * 0.1, col[2] * 0.5 + shade[2] * 0.1);
+      gl.uniform3fv(U.uClk, clicks); gl.uniform3fv(U.uK, keys);
       gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT);
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
       if (!document.hidden) requestAnimationFrame(draw);
