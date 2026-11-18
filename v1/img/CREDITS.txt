@@ -37,3 +37,6 @@ r_chair.jpg  photo-1649185885618-4bda573fc4b4
 r_throw2.jpg  photo-1757969704802-4d0050f038d7
 r_knit2.jpg  photo-1734553529922-bc020a21643b
 r_knit3.jpg  photo-1608158222851-af032106bca9
+
+r_silk_hang.jpg  photo-1606259457945-67dc66271ee6
+r_silk_sheet.jpg  photo-1619043518800-7f14be467dca
