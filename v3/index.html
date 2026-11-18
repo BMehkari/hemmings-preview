@@ -22,15 +22,11 @@ html.intro-on { overflow: hidden; }
 .dark .big-h em { color: var(--metal-soft); }
 
 /* Silk: one length of photographed silk behind the page (script at the end of the file). It hangs down the right edge,
-   as wide as each section leaves room for, and ends as a sheet laid across the footer. */
+   as wide as each section leaves room for, and its end falls over the top of the footer (the footer ground is drawn
+   beneath the canvas so the cloth lies on it). */
 #silk { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
-.light .fx.dark { background: transparent; color: var(--ink); }
-.light .fx-top .h, .light .fx .h em, .light .fx-form button, .light .fx .ft-cols h3 { color: var(--deep); }
-.light .fx .ft-cols ul, .light .fx-end, .light .fx .legal { color: var(--ink); }
-.light .fx-form input::placeholder { color: color-mix(in srgb, var(--ink) 70%, transparent); }
-.light .fx .ft-cols a:hover { color: var(--deep); }
-.light .fx-form, .light .fx .ft-cols, .light .fx-end { border-color: color-mix(in srgb, var(--ink) 32%, transparent); }
-.light .fx-word { color: color-mix(in srgb, var(--ink) 16%, transparent); }
+.light .fx.dark { background: transparent; }
+.light .fx::before { content: ""; position: absolute; inset: 0; z-index: -2; background: var(--deep); }
 .light .fx { padding-top: clamp(150px, 15vw, 240px); }
 
 /* Preloader: wordmark rolls down into the weave icon, the icon grows away, the panel lifts off.
@@ -385,11 +381,11 @@ html:not(.intro-on) #intro { display: none; }
     all('[data-rot]').forEach(function (el) { el.style.transform = 'rotate(' + el.dataset.rot + 'deg)'; });
   }
 
-  // Silk: one length of real, photographed silk behind the page (two free-licence photographs, tinted to the palette's accent).
+  // Silk: one length of real, photographed silk behind the page (a free-licence photograph, tinted to the palette's accent).
   // Shape: it hangs from the top down the right edge, as wide as each section leaves room for (about 5% to 40% of the screen),
-  // then sweeps out in a quarter-arch to lie across the whole footer, so the footer is the end of the cloth.
-  // Motion: the photograph is gently warped: it breathes, sways and slides with scroll speed, swells under the pointer
-  // and ripples from a click or tap.
+  // and its end falls over the top edge of the footer and rests on it, finishing in a rounded hem.
+  // Where the cloth is narrow the same cloth is gathered (the photograph is drawn together into pleats), not cropped.
+  // Motion: it sways a little with scroll speed, swells under the pointer and ripples from a click or tap.
   (function silk() {
     var cv = document.getElementById('silk'), gl = null;
     try { gl = cv.getContext('webgl', { alpha: true, premultipliedAlpha: true, antialias: false }); } catch (e) {}
@@ -398,49 +394,49 @@ html:not(.intro-on) #intro { display: none; }
     var FS = [
       'precision highp float;',
       'varying vec2 v;',
-      'uniform vec2 uRes,uMouse,uHang;',
-      'uniform float uScroll,uFoot,uFlare,uBase,uTime,uVel,uSlide,uMAmp,uFade;',
+      'uniform vec2 uRes,uMouse;',
+      'uniform float uScroll,uFoot,uEnd,uTh,uPx,uTime,uVel,uSlide,uMAmp,uFade;',
       'uniform vec3 uCol,uShade;',
       'uniform vec3 uClk[4];',
       'uniform vec2 uK[8];',
-      'uniform vec4 uSheet;',
-      'uniform sampler2D tA,tB;',
-      'float hash(vec2 p){p=fract(p*vec2(123.34,456.21));p+=dot(p,p+45.32);return fract(p.x*p.y);}',
-      'float noise(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);',
-      '  return mix(mix(hash(i),hash(i+vec2(1.,0.)),f.x),mix(hash(i+vec2(0.,1.)),hash(i+vec2(1.,1.)),f.x),f.y);}',
+      'uniform sampler2D tA;',
       // width of the hanging cloth (fraction of the screen) at document height y
       'float wid(float y){float w=uK[0].y;for(int i=0;i<7;i++){w=mix(w,uK[i+1].y,smoothstep(uK[i].x,uK[i+1].x,y));}return w;}',
-      'float edgeX(float y){return uRes.x*(1.-wid(y))+34.*(noise(vec2(y/330.,3.))-.5)+12.*(noise(vec2(y/95.,11.))-.5)+5.*sin(y*.006+uTime*.4)+uVel*26.*sin(y*.003+1.);}',
-      // distance into the cloth (positive inside): the hanging length, or the sheet whose top edge is a quarter-arch
-      'float dist(vec2 p,float y){',
-      '  float dH=p.x-edgeX(y);',
-      '  float s=clamp(p.x/uBase,0.,.998),q=sqrt(1.-s*s);',
-      '  float ye=uFoot-uFlare*(1.-q)+3.*sin(p.x*.011+uTime*.3);',
-      '  float sl=uFlare*s/(q*uBase);',
-      '  return max(dH,(y-ye)/sqrt(1.+sl*sl));}',
+      'float edgeX(float y){return uRes.x*(1.-wid(y))+20.*sin(y/270.+1.3)+8.*sin(y/103.+.4)+3.*sin(y*.006+uTime*.4)+uVel*12.*sin(y*.003+1.);}',
+      // distance into the cloth (positive inside): left edge follows the route, the end is a hem with a rounded corner
+      'float dist(vec2 p,float y,float ex){',
+      '  float dx=p.x-ex;',
+      '  float dy=uEnd+9.*sin(p.x*.013+2.)+4.*sin(p.x*.037+uTime*.3)-y;',
+      '  float R=min(max(uRes.x-ex,40.)*.6,110.);',
+      '  if(dx<R&&dy<R)return R-length(vec2(R-dx,R-dy));',
+      '  return min(dx,dy);}',
       'void main(){',
       '  vec2 p=v*uRes;float y=uScroll+p.y;',
-      '  float d=dist(p,y);',
-      '  if(d<0.){float a=(.13*exp(d/34.)+.07*exp(d/7.))*uFade;gl_FragColor=vec4(0.,0.,0.,a);return;}',
-      '  vec2 o=vec2(4.*sin(uTime*.31+y*.0045),5.*cos(uTime*.27+p.x*.006));',
+      '  float ex=edgeX(y);',
+      '  float d=dist(p,y,ex);',
+      '  if(d<0.){float a=(.14*exp(d/34.)+.09*exp(d/7.))*uFade;gl_FragColor=vec4(0.,0.,0.,a);return;}',
+      '  vec2 o=vec2(2.*sin(uTime*.31+y*.0045),3.*cos(uTime*.27+p.x*.006));',
       '  vec2 dm=p-uMouse;float g=exp(-dot(dm,dm)/26000.)*uMAmp;',
-      '  o-=dm*g*.24;float lift=g*.45;',
+      '  o-=dm*g*.22;float lift=g*.45;',
       '  for(int i=0;i<4;i++){vec2 dc=vec2(p.x,y)-uClk[i].xy;float dd=length(dc),age=uTime-uClk[i].z;',
-      '    if(age>0.&&age<4.){float fr=age*520.;float w=sin(dd*.045-age*9.)*exp(-age*1.5)*smoothstep(fr+30.,fr-190.,dd);o+=dc/(dd+1.)*w*14.;lift+=w*.4;}}',
+      '    if(age>0.&&age<4.){float fr=age*520.;float w=sin(dd*.045-age*9.)*exp(-age*1.5)*smoothstep(fr+30.,fr-190.,dd);o+=dc/(dd+1.)*w*12.;lift+=w*.4;}}',
       '  vec2 q=vec2(p.x,y)+o;',
-      '  vec2 ua=abs(mod(vec2((uRes.x-q.x)/uHang.x,q.y/uHang.y+uSlide),2.)-1.);',
-      '  vec2 ub=clamp((q-uSheet.xy)/uSheet.zw,0.,1.);',
-      '  float m=smoothstep(uFoot-uFlare*.95,uFoot-uFlare*.2,y);',
-      '  vec3 W=vec3(.3,.59,.11);',
-      '  float la=dot(texture2D(tA,ua).rgb,W),lb=dot(texture2D(tB,ub).rgb,W);',
-      '  float t=mix(smoothstep(.44,.9,la),mix(smoothstep(.34,.94,lb),.64,.3),m);',
-      '  t=clamp(t+lift*.22,0.,1.);',
+      // gather: a narrow stretch shows most of the cloth drawn together, a wide stretch shows it spread out
+      '  float cw=max(uRes.x-ex,1.);',
+      '  float span=mix(.4,1.,clamp(cw/(uRes.x*.4),0.,1.));',
+      '  float uu=clamp((uRes.x-q.x)/cw,0.,1.)*span,vv=q.y/uTh+uSlide,va=fract(vv),vb=fract(vv+.5);',
+      // the photograph repeats down the page; a second copy, half a length out of step, covers each seam
+      '  vec3 lw=vec3(.3,.59,.11);',
+      '  float la=mix(dot(texture2D(tA,vec2(span-uu,vb)).rgb,lw),dot(texture2D(tA,vec2(uu,va)).rgb,lw),smoothstep(.02,.3,min(va,1.-va)));',
+      '  float t=clamp(smoothstep(.44,.9,la)+lift*.22,0.,1.);',
       '  vec3 hi=mix(uCol,vec3(1.),.62);',
       '  vec3 col=mix(uShade,uCol,smoothstep(0.,.6,t));',
       '  col=mix(col,hi,smoothstep(.6,1.,t)*.62);',
-      '  col*=.8+.2*smoothstep(0.,28.,d);',
-      '  col+=hi*.07*(smoothstep(1.,2.5,d)-smoothstep(4.,6.5,d));',
-      '  float al=smoothstep(0.,1.5,d)*uFade;gl_FragColor=vec4(col*al,al);',
+      '  col*=.78+.22*smoothstep(0.,34.,d);',                                   // the edge rolls away from the light
+      '  col+=hi*.06*(smoothstep(1.5,3.,d)-smoothstep(5.,8.,d));',              // hem
+      // where it bends over the top edge of the footer: a soft crease, lit above and shaded below
+      '  float b=(y-uFoot)/16.;col*=1.-.2*exp(-b*b)*step(0.,b)-.06*smoothstep(0.,60.,y-uFoot);col+=hi*.07*exp(-b*b)*step(b,0.);',
+      '  float al=smoothstep(0.,uPx,d)*uFade;gl_FragColor=vec4(col*al,al);',
       '}'].join('\n');
     function sh(type, src) { var x = gl.createShader(type); gl.shaderSource(x, src); gl.compileShader(x); if (!gl.getShaderParameter(x, gl.COMPILE_STATUS)) { console.warn(gl.getShaderInfoLog(x)); return null; } return x; }
     var vs = sh(gl.VERTEX_SHADER, VS), fs = sh(gl.FRAGMENT_SHADER, FS), pr = gl.createProgram();
@@ -451,48 +447,37 @@ html:not(.intro-on) #intro { display: none; }
     gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]), gl.STATIC_DRAW);
     var loc = gl.getAttribLocation(pr, 'a'); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
-    var U = {}; ['uRes', 'uMouse', 'uHang', 'uScroll', 'uFoot', 'uFlare', 'uBase', 'uTime', 'uVel', 'uSlide', 'uMAmp', 'uFade', 'uCol', 'uShade', 'uClk', 'uK', 'uSheet', 'tA', 'tB'].forEach(function (n) { U[n] = gl.getUniformLocation(pr, n); });
+    var U = {}; ['uRes', 'uMouse', 'uScroll', 'uFoot', 'uEnd', 'uTh', 'uPx', 'uTime', 'uVel', 'uSlide', 'uMAmp', 'uFade', 'uCol', 'uShade', 'uClk', 'uK', 'tA'].forEach(function (n) { U[n] = gl.getUniformLocation(pr, n); });
 
-    // The two photographs. Nothing is drawn until both are in; then the cloth fades up.
-    var loaded = 0, ratio = [4 / 3, 3 / 4], maxTex = gl.getParameter(gl.MAX_TEXTURE_SIZE);
-    ['r_silk_hang', 'r_silk_sheet'].forEach(function (name, i) {
-      var im = new Image();
-      im.onload = function () {
-        var src = im, big = Math.max(im.naturalWidth, im.naturalHeight);
-        if (big > maxTex) { var k = maxTex / big, c = document.createElement('canvas'); c.width = Math.floor(im.naturalWidth * k); c.height = Math.floor(im.naturalHeight * k); c.getContext('2d').drawImage(im, 0, 0, c.width, c.height); src = c; }
-        ratio[i] = im.naturalHeight / im.naturalWidth;
-        gl.activeTexture(i ? gl.TEXTURE1 : gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, gl.createTexture());
-        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, src);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-        loaded++; lastKeys = 0; if (loaded === 2) tIn = performance.now();
-      };
-      im.src = 'img/' + name + '.jpg';
-    });
-    gl.uniform1i(U.tA, 0); gl.uniform1i(U.tB, 1);
+    // The photograph. Nothing is drawn until it is in; then the cloth fades up.
+    var loaded = false, ratio = 4 / 3, tIn = 0, im = new Image();
+    im.onload = function () {
+      var src = im, big = Math.max(im.naturalWidth, im.naturalHeight), maxTex = gl.getParameter(gl.MAX_TEXTURE_SIZE);
+      if (big > maxTex) { var k = maxTex / big, c = document.createElement('canvas'); c.width = Math.floor(im.naturalWidth * k); c.height = Math.floor(im.naturalHeight * k); c.getContext('2d').drawImage(im, 0, 0, c.width, c.height); src = c; }
+      ratio = im.naturalHeight / im.naturalWidth;
+      gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, gl.createTexture());
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, src);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+      loaded = true; tIn = performance.now();
+    };
+    im.src = 'img/r_silk_hang.jpg';
+    gl.uniform1i(U.tA, 0);
 
-    var W = 0, H = 0, foot = document.querySelector('.fx'), probe = document.createElement('i'), keys = new Float32Array(16), footY = 0, flare = 400, base = 1, sheet = [0, 0, 1, 1], hang = [1, 1], lastKeys = 0, fade = 0, tIn = 0;
+    var W = 0, H = 0, dpr = 1, foot = document.querySelector('.fx'), probe = document.createElement('i'), keys = new Float32Array(16), footY = 0, endY = 0, lastKeys = 0, fade = 0;
     probe.style.cssText = 'position:absolute;width:0;height:0;visibility:hidden'; document.body.appendChild(probe);
     function rgb(v) { probe.style.color = 'var(' + v + ')'; return (getComputedStyle(probe).color.match(/[\d.]+/g) || [128, 128, 128]).slice(0, 3).map(function (x) { return x / 255; }); }
     var col = rgb('--metal'), shade = rgb('--deep'), colT = col, shadeT = shade;
-    function size() { var d = Math.min(window.devicePixelRatio || 1, 1.5); W = window.innerWidth; H = window.innerHeight; cv.width = Math.round(W * d); cv.height = Math.round(H * d); gl.viewport(0, 0, cv.width, cv.height); lastKeys = 0; }
+    function size() { dpr = Math.min(window.devicePixelRatio || 1, 2); W = window.innerWidth; H = window.innerHeight; cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr); gl.viewport(0, 0, cv.width, cv.height); lastKeys = 0; }
     // The route: [distance down the page, width as a fraction of the screen], read from the sections themselves.
     function route() {
       var sy = window.scrollY, mid = function (sel, k) { var r = document.querySelector(sel).getBoundingClientRect(); return r.top + sy + r.height * k; };
-      footY = foot.getBoundingClientRect().top + sy + (W < 900 ? 16 : 30);
-      flare = Math.min(H * 0.62, W < 900 ? 300 : 540);
+      footY = foot.getBoundingClientRect().top + sy;
+      endY = footY + (W < 900 ? 96 : 170);
       var pts = W < 900
-        ? [[0, .24], [mid('.hero3', .82), .24], [mid('.say', .3), .07], [mid('.stack', .5), .05], [mid('.forms', .5), .08], [mid('.q3', .5), .36], [mid('.jr3', .3), .07]]
-        : [[0, .31], [mid('.hero3', .8), .31], [mid('.say', .3), .09], [mid('.stack', .5), .055], [mid('.forms', .5), .13], [mid('.q3', .5), .4], [mid('.jr3', .3), .12]];
-      var last = pts[pts.length - 1][1];
-      pts.push([footY - flare - 60, last]);
-      for (var i = 0; i < 8; i++) { var k = pts[Math.min(i, pts.length - 1)], prev = i ? keys[(i - 1) * 2] : -1; keys[i * 2] = Math.max(k[0], prev + 1); keys[i * 2 + 1] = k[1]; }
-      base = W * (1 - last);
-      // hanging photograph: a fixed size on screen, anchored to the right edge, mirrored as it repeats down the page
-      hang[0] = Math.max(W * 0.43, 300); hang[1] = hang[0] * ratio[0];
-      // footer photograph: covers everything from the top of the arch to the end of the page
-      var y0 = footY - flare, hs = Math.max(document.documentElement.scrollHeight - y0, 1), sw = Math.max(W, hs / ratio[1]), shh = sw * ratio[1];
-      sheet = [(W - sw) / 2, y0 + (hs - shh) / 2, sw, shh];
+        ? [[0, .24], [mid('.hero3', .82), .24], [mid('.say', .3), .07], [mid('.stack', .5), .05], [mid('.forms', .5), .08], [mid('.q3', .5), .36], [mid('.jr3', .3), .07], [footY - 20, .16]]
+        : [[0, .31], [mid('.hero3', .8), .31], [mid('.say', .3), .09], [mid('.stack', .5), .055], [mid('.forms', .5), .13], [mid('.q3', .5), .4], [mid('.jr3', .3), .12], [footY - 30, .18]];
+      for (var i = 0; i < 8; i++) { var k = pts[i], prev = i ? keys[(i - 1) * 2] : -1; keys[i * 2] = Math.max(k[0], prev + 1); keys[i * 2 + 1] = k[1]; }
     }
     size(); window.addEventListener('resize', size);
     var mouse = [-999, -999], mAmp = 0, mTarget = 0, vel = 0, slide = 0, lastY = window.scrollY, clicks = new Float32Array(12), ci = 0, t0 = performance.now(), lastPal = 0;
@@ -502,18 +487,19 @@ html:not(.intro-on) #intro { display: none; }
     function draw(now) {
       var time = reduce ? 0 : (now - t0) / 1000, sy = window.scrollY;
       vel += ((sy - lastY) / 40 - vel) * 0.1; lastY = sy; if (reduce) vel = 0;
-      vel = Math.max(-1.6, Math.min(1.6, vel)); slide += vel * 0.0016;
+      vel = Math.max(-1.6, Math.min(1.6, vel)); slide += vel * 0.0012;
       mTarget *= 0.975; mAmp += (mTarget - mAmp) * 0.07;
-      if (loaded === 2) fade = Math.min(1, (now - tIn) / 900);
+      if (loaded) fade = Math.min(1, (now - tIn) / 900);
       if (now - lastKeys > 700) { lastKeys = now; route(); }
       if (now - lastPal > 400) { lastPal = now; colT = rgb('--metal'); shadeT = rgb('--deep'); }
       for (var j = 0; j < 3; j++) { col[j] += (colT[j] - col[j]) * 0.06; shade[j] += (shadeT[j] - shade[j]) * 0.06; }
-      gl.uniform2f(U.uRes, W, H); gl.uniform2f(U.uMouse, mouse[0], mouse[1]); gl.uniform2f(U.uHang, hang[0], hang[1]);
-      gl.uniform1f(U.uScroll, sy); gl.uniform1f(U.uFoot, footY); gl.uniform1f(U.uFlare, flare); gl.uniform1f(U.uBase, base);
+      gl.uniform2f(U.uRes, W, H); gl.uniform2f(U.uMouse, mouse[0], mouse[1]);
+      gl.uniform1f(U.uScroll, sy); gl.uniform1f(U.uFoot, footY); gl.uniform1f(U.uEnd, endY);
+      gl.uniform1f(U.uTh, Math.max(W * 0.4, 330) * ratio); gl.uniform1f(U.uPx, 1.6 / dpr + 0.4);
       gl.uniform1f(U.uTime, time); gl.uniform1f(U.uVel, vel); gl.uniform1f(U.uSlide, slide); gl.uniform1f(U.uMAmp, reduce ? 0 : mAmp); gl.uniform1f(U.uFade, fade);
       gl.uniform3f(U.uCol, col[0], col[1], col[2]);
       gl.uniform3f(U.uShade, col[0] * 0.52 + shade[0] * 0.1, col[1] * 0.52 + shade[1] * 0.1, col[2] * 0.52 + shade[2] * 0.1);
-      gl.uniform3fv(U.uClk, clicks); gl.uniform2fv(U.uK, keys); gl.uniform4f(U.uSheet, sheet[0], sheet[1], sheet[2], sheet[3]);
+      gl.uniform3fv(U.uClk, clicks); gl.uniform2fv(U.uK, keys);
       gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT);
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
       if (!document.hidden) requestAnimationFrame(draw);
