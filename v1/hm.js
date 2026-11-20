@@ -3,11 +3,11 @@
 // SAMPLE DATA: product names, prices, specifications and stock are illustrative, modelled on a typical
 // premium bedding range. The store catalogue replaces this list.
 (function () {
-  var root = document.documentElement, V = root.dataset.v === '1' ? 1 : root.dataset.v === '3' ? 3 : 2, $ = function (id) { return document.getElementById(id); };
+  var root = document.documentElement, V = +root.dataset.v >= 1 && +root.dataset.v <= 5 ? +root.dataset.v : 2, $ = function (id) { return document.getElementById(id); };
   var all = function (s, r) { return [].slice.call((r || document).querySelectorAll(s)); };
   var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
   var HM = window.HM = { v: V };
-  var page = function (n) { return 'v' + V + '-' + n + '.html'; }, local = location.protocol === 'file:' || /^(localhost|127\.0\.0\.1)$/.test(location.hostname);
+  var page = function (n) { return 'v' + (V === 5 ? 4 : V) + '-' + n + '.html'; }, local = location.protocol === 'file:' || /^(localhost|127\.0\.0\.1)$/.test(location.hostname);
   // Deployed, each version's homepage is its folder's index page; in the source folder v2 and v3 are v2.html and v3.html.
   var home = V === 1 || !local ? 'index.html' : 'index.html';
   HM.money = function (n) { return 'Rs. ' + n.toLocaleString('en-PK'); };
@@ -97,7 +97,46 @@
   var cols = '<div><h3>Shop</h3><ul>' + links.slice(0, 6).map(li).join('') + '</ul></div><div><h3>Customer Support</h3><ul><li><a href="' + page('contact') + '">Contact</a></li><li><a href="' + page('terms') + '">Shipping and Returns</a></li><li><a href="' + page('contact') + '">Track an Order</a></li></ul></div><div><h3>About Hemmings</h3><ul><li><a href="' + home + '">Our Story</a></li><li><a href="' + home + '">The Journal</a></li><li><a href="' + designer + '">The Bed Designer</a></li></ul></div><div><h3>Follow</h3><ul><li><a href="' + home + '">Instagram</a></li><li><a href="' + home + '">Facebook</a></li><li><a href="' + home + '">Pinterest</a></li></ul></div>';
   var legal = '<span>&copy; 2026 Hemmings</span><a href="' + page('privacy') + '">Privacy Policy</a><a href="' + page('terms') + '">Terms and Conditions</a>';
   var top, foot;
-  if (V === 3) {
+  if (V >= 4) {
+    // Versions 4 and 5: the storefront chrome (utility bar, header with menus, drawer, newsletter band, footer). Styles: v4-chrome.css.
+    var ico = function (d, box, cls) { return '<svg class="si' + (cls || '') + '" viewBox="0 0 ' + (box || '24 24') + '" aria-hidden="true">' + d + '</svg>'; }, chev = ico('<path d="M2.5 4.5 6 8l3.5-3.5"/>', '12 12', ' chev'), arrow = '<svg class="arr" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    var A = function (t, h) { return '<li><a href="' + h + '">' + t + '</a></li>'; }, bed = page('bedding'), des = 'designer/index.html#v1';
+    HM.designer = des; HM.arrow = arrow;
+    top = '<div class="s-util" role="region" aria-label="Store information"><ul class="s-wrap">' +
+      '<li>' + ico('<path d="M2 7h11v9H2zM13 10h4l4 3v3h-8zM6.5 19a1.8 1.8 0 1 0 0-3.6 1.8 1.8 0 0 0 0 3.6zM17 19a1.8 1.8 0 1 0 0-3.6 1.8 1.8 0 0 0 0 3.6z"/>') + 'Free Delivery Across Pakistan</li>' +
+      '<li>' + ico('<path d="M4 12a8 8 0 1 0 2.6-5.9M4 4v4h4M12 8v4l2.5 2"/>') + 'Easy Returns</li>' +
+      '<li>' + ico('<path d="M6 10V7.5a6 6 0 0 1 12 0V10M5 10h14v10H5zM12 14v2.5"/>') + 'Cash on Delivery &amp; Secure Payments</li></ul></div>' +
+      '<header class="s-hd" id="hd"><div class="s-hd-in s-wrap">' +
+      '<button class="s-burger" id="burger" aria-label="Menu" aria-expanded="false" aria-controls="sheet">' + ico('<path d="M3 8h18M3 16h18"/>') + '</button>' +
+      '<nav aria-label="Main"><ul class="s-nav">' +
+      '<li><button type="button" aria-expanded="false"' + (dept === 'bedding' ? ' aria-current="true"' : '') + '>Bedding ' + chev + '</button><div class="s-mega"><div class="s-mega-in s-wrap">' +
+      '<div><h3>Shop Bedding</h3><ul>' + A('All Bedding', bed) + A('Sheet Sets', bed) + A('Fitted Sheets', bed) + A('Pillowcases', bed) + A('Blankets', bed) + '</ul></div>' +
+      '<div><h3>By Fabric</h3><ul>' + A('Crisp Percale', bed) + A('Smooth Sateen', bed) + A('Washed Linen', bed) + A('Pure Cotton', bed) + '</ul></div>' +
+      '<div><h3>By Style</h3><ul>' + A('Solids', home + '#sheets') + A('Prints', home + '#sheets') + A('Ultra Luxury', home + '#sheets') + A('New Arrivals', page('new')) + '</ul></div>' +
+      '<a class="s-mega-f" href="' + des + '"><img src="img/r_comfort.jpg" alt="" loading="lazy"><span>Make Your Own Bed</span></a></div></div></li>' +
+      A('Duvets &amp; Comforters', bed) + A('Quilts', bed) + '</ul></nav>' +
+      '<a class="s-wm" href="' + home + '" aria-label="Hemmings home">HEMMINGS</a>' +
+      '<div class="s-right"><nav aria-label="More"><ul class="s-nav">' +
+      '<li><button type="button" aria-expanded="false">Decor ' + chev + '</button><div class="s-mega sm"><div class="s-mega-in s-wrap">' +
+      '<div><h3>Living</h3><ul>' + A('Cushions', page('cushions')) + A('Throws', page('living')) + A('Sofa Covers', page('living')) + '</ul></div>' +
+      '<div><h3>Around the Home</h3><ul>' + A('Curtains', page('curtains')) + A('Bath', page('bath')) + '</ul></div>' +
+      '<a class="s-mega-f" href="' + page('living') + '"><img src="img/r_knit.jpg" alt="" loading="lazy"><span>Throws for Cooler Nights</span></a><span></span></div></div></li>' +
+      A('Gifting', home + '#gifting') + A('Our Story', home + '#why') + '</ul></nav>' +
+      '<div class="s-tools"><a href="' + bed + '" aria-label="Search">' + svg('search') + '</a><a class="opt" href="' + page('contact') + '" aria-label="Account">' + svg('user') + '</a><a class="opt" href="' + home + '#best" aria-label="Wishlist">' + svg('heart') + '</a><a href="' + page('bag') + '" aria-label="Shopping bag">' + svg('bag') + '<span class="bagN">0</span></a></div></div>' +
+      '</div></header>' +
+      '<div class="s-drawer" id="sheet"><nav aria-label="Menu"><button class="x" type="button" aria-label="Close menu">' + ico('<path d="M5 5l14 14M19 5 5 19"/>') + '</button><ul>' +
+      A('Bedding', bed) + A('Duvets &amp; Comforters', bed) + A('Quilts', bed) + A('Pillows &amp; Cushions', page('cushions')) + A('Throws &amp; More', page('living')) + A('Curtains', page('curtains')) + A('Bath', page('bath')) + A('Gifting', home + '#gifting') + A('Make Your Own Bed', des) +
+      '</ul><h3>Help</h3><ul class="sub">' + A('Contact Us', page('contact')) + A('Delivery &amp; Returns', page('terms')) + A('Track an Order', page('contact')) + '</ul></nav></div>';
+    foot = '<section class="s-news" aria-labelledby="newsH"><div class="s-wrap"><div><h2 id="newsH">Join the Hemmings list</h2><p>New arrivals, seasonal edits and care advice. No clutter.</p></div>' +
+      '<form id="news"><label class="sr" for="mail">Email address</label><input id="mail" type="email" required placeholder="Email address" autocomplete="email"><button class="s-btn" type="submit">Subscribe</button></form></div></section>' +
+      '<footer class="s-ft"><div class="s-wrap"><div class="s-ft-g"><div><a class="s-wm big" href="' + home + '" aria-label="Hemmings home">HEMMINGS</a><p>Premium bed and home textiles, crafted for the way you live.</p></div>' +
+      '<div><h3>Shop</h3><ul>' + A('Bedding', bed) + A('Duvets &amp; Comforters', bed) + A('Quilts', bed) + A('Pillows &amp; Cushions', page('cushions')) + A('Throws &amp; More', page('living')) + '</ul></div>' +
+      '<div><h3>Help</h3><ul>' + A('Contact Us', page('contact')) + A('Delivery &amp; Returns', page('terms')) + A('Track an Order', page('contact')) + A('Privacy Policy', page('privacy')) + '</ul></div>' +
+      '<div><h3>Hemmings</h3><ul>' + A('Our Story', home + '#why') + A('Gifting', home + '#gifting') + A('Make Your Own Bed', des) + '</ul></div>' +
+      '<div><h3>Follow</h3><ul>' + A('Instagram', home) + A('Facebook', home) + A('Pinterest', home) + '</ul></div></div>' +
+      '<div class="s-ft-e"><span>&copy; 2026 Hemmings. All rights reserved.</span><div><a href="' + page('privacy') + '">Privacy Policy</a><a href="' + page('terms') + '">Terms &amp; Conditions</a></div></div></div><div class="s-ft-word" aria-hidden="true">HEMMINGS</div></footer>' +
+      '<div class="s-toast" id="toast" role="status"></div>' + palette;
+  } else if (V === 3) {
     top = '<nav class="mx" id="sheet" aria-label="Menu"><div class="mx-in wrap"><ol class="mx-list">' + links.map(function (x, i) { return '<li><a href="' + x[1] + '"><span class="n">0' + (i + 1) + '</span><span class="t">' + x[0] + '</span></a></li>'; }).join('') + '</ol>' +
       '<div class="mx-side"><span class="lab">Hemmings, home textiles</span><p>Complimentary delivery across Pakistan on orders over Rs. 5,000.</p><p class="mx-tools"><a href="' + home + '">Search</a><a href="' + home + '">Account</a><a href="' + home + '">Wishlist</a><a href="' + page('contact') + '">Contact</a></p></div></div></nav>' +
       '<header class="hx" id="hd"><div class="hx-in wrap"><a class="wm" href="' + home + '" aria-label="Hemmings home"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M24 84V46A26 26 0 0 1 76 46V84M33 84V46A17 17 0 0 1 67 46V84M18 84H82M24 91H76M50 29V50M50 66V84M50 50L57 58L50 66L43 58Z"/><circle cx="50" cy="11" r="1.8" fill="currentColor" stroke="none"/></svg>HEMMINGS</a><ul class="hx-nav">' + links.slice(0, 6).map(li).join('') + '</ul>' +
@@ -139,6 +178,17 @@
   burger.addEventListener('click', function () { var o = !sheet.classList.contains('open'); sheet.classList.toggle('open', o); hd.classList.toggle('open', o); hd.classList.toggle('over', o && V !== 1); burger.setAttribute('aria-expanded', o); });
   var onScroll = function () { hd.classList.toggle('solid', window.scrollY > 80); };
   window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
+  if (V >= 4) {
+    var shut = function () { sheet.classList.remove('open'); burger.setAttribute('aria-expanded', 'false'); document.body.style.overflow = ''; };
+    var menus = function (keep) { all('.s-nav > li.open').forEach(function (x) { if (x !== keep) { x.classList.remove('open'); x.firstElementChild.setAttribute('aria-expanded', 'false'); } }); };
+    burger.addEventListener('click', function () { document.body.style.overflow = sheet.classList.contains('open') ? 'hidden' : ''; });
+    sheet.addEventListener('click', function (e) { var a = e.target.closest('a'); if (e.target === sheet || e.target.closest('.x') || (a && a.getAttribute('href').indexOf('#') > -1)) shut(); });
+    all('.s-nav > li > button').forEach(function (b) { b.addEventListener('click', function () { var li = b.parentNode, o = !li.classList.contains('open'); menus(li); li.classList.toggle('open', o); b.setAttribute('aria-expanded', o); }); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { menus(); shut(); } });
+    document.addEventListener('click', function (e) { if (!e.target.closest('.s-nav')) menus(); });
+    var toastT; HM.toast = function (html) { var t = $('toast'); t.innerHTML = html; t.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(function () { t.classList.remove('on'); }, 3600); };
+    $('news').addEventListener('submit', function (e) { e.preventDefault(); this.reset(); HM.toast('<span>Thank you. You are on the list.</span>'); });
+  }
   HM.reveal = function () {
     var t = all('.rv:not(.in)');
     if (!('IntersectionObserver' in window)) return t.forEach(function (x) { x.classList.add('in'); });
@@ -229,7 +279,7 @@
       document.title = p.n + ' | Hemmings';
       if (full) {
         $('crumb').innerHTML = '<a href="' + home + '">Home</a><span>/</span><a href="' + page(p.dept) + '">' + HM.depts[p.dept].t + '</a><span>/</span><span>' + esc(p.n) + '</span>';
-        $('gal').innerHTML = V !== 1
+        $('gal').innerHTML = V !== 1 && V < 4
           ? shots.map(function (s, i) { return '<button type="button" class="pic shot' + (i === 0 ? ' wide' : '') + '" data-zoom aria-label="Zoom image ' + (i + 1) + '"><img src="img/' + s + '.jpg" alt="' + esc(p.n) + ', view ' + (i + 1) + '"></button>'; }).join('')
           : '<button type="button" class="pic shot main" data-zoom aria-label="Zoom image"><img id="mainShot" src="img/' + shots[0] + '.jpg" alt="' + esc(p.n) + '"></button><div class="thumbs">' + shots.map(function (s, i) { return '<button type="button" class="pic" data-shot="' + s + '" aria-pressed="' + (i === 0) + '" aria-label="View ' + (i + 1) + '"><img src="img/' + s + '.jpg" alt=""></button>'; }).join('') + '</div>';
         var others = HM.products.filter(function (x) { return x.id !== p.id; }).sort(function (a, b) { return (b.dept === p.dept) - (a.dept === p.dept); });

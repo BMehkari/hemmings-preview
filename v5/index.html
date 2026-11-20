@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en" data-v="5">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hemmings | Home Textiles</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://images.unsplash.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=Figtree:wght@400;500;600&family=Libre+Caslon+Display&display=swap">
+<link rel="stylesheet" href="v4-chrome.css">
+<link rel="stylesheet" href="v4-home.css">
+<link rel="stylesheet" href="v5-fx.css">
+<script src="lock.js"></script>
+<script>(function(){var d=document.documentElement;d.classList.add('js');try{var p=window.HM_LOCK||localStorage.getItem('hemmings.palette');if(p&&p!=='forest')d.setAttribute('data-palette',p)}catch(e){}})();</script>
+</head>
+<body>
+<!-- Version 5 homepage. GENERATED from v4.html by design/tools/build-pages.mjs: edit v4.html, v5-fx.css and v5-fx.js, not this file. -->
+<canvas id="silk" aria-hidden="true"></canvas>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="arrow" viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="heart" viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-9.6A3.9 3.9 0 0 1 12 8a3.9 3.9 0 0 1 7 2.4C19 15.6 12 20 12 20z"/></symbol>
+  <symbol id="emblem" viewBox="0 0 100 100"><path d="M24 84V46A26 26 0 0 1 76 46V84M33 84V46A17 17 0 0 1 67 46V84M18 84H82M24 91H76M50 29V50M50 66V84M50 50L57 58L50 66L43 58Z"/><circle cx="50" cy="11" r="1.2"/></symbol>
+</svg>
+<div id="hm-top"></div>
+
+<main id="top">
+<!-- background ornaments: the arch emblem, drifting at its own pace behind the sections -->
+<div class="deco a" data-drift="-.12" aria-hidden="true"><svg viewBox="0 0 100 100"><use href="#emblem"/></svg></div>
+<div class="deco b" data-drift="-.2" aria-hidden="true"><svg viewBox="0 0 100 100"><use href="#emblem"/></svg></div>
+<div class="deco c" data-drift="-.1" aria-hidden="true"><svg viewBox="0 0 100 100"><use href="#emblem"/></svg></div>
+<div class="deco d" data-drift="-.18" aria-hidden="true"><svg viewBox="0 0 100 100"><use href="#emblem"/></svg></div>
+
+<!-- HERO. Each slide takes an image now; a <video autoplay muted loop playsinline> can replace the <img> one-for-one. -->
+<section class="hero play" id="hero" aria-roledescription="carousel" aria-label="Featured">
+  <div class="slide on">
+    <span class="px" data-plx="hero"><img src="https://images.unsplash.com/photo-1772567732940-568fc18984f1?auto=format&fit=crop&q=80&w=2200" alt="A neatly made bed with layered pillows beside a warm lamp" fetchpriority="high" style="object-position:70% 62%"></span>
+    <div class="wrap"><div class="tx">
+      <p class="kick">Home textiles by Hemmings</p>
+      <h1>Everyday Comfort for Modern Homes</h1>
+      <p class="s">Premium bed and home textiles, crafted for the way you live.</p>
+      <a class="btn" href="v4-bedding.html">Shop Bedding <svg class="arr"><use href="#arrow"/></svg></a>
+    </div></div>
+  </div>
+  <div class="slide">
+    <span class="px" data-plx="hero"><img src="https://images.unsplash.com/photo-1688383454669-9f5cc5991778?auto=format&fit=crop&q=80&w=2200" alt="A calm bedroom with a wooden bed and soft layered bedding" loading="lazy" style="object-position:80% 60%"></span>
+    <div class="wrap"><div class="tx">
+      <p class="kick">The Season Edit</p>
+      <p class="h1">Layers for Cooler Nights</p>
+      <p class="s">Quilts, comforters and throws in warm, quiet tones.</p>
+      <a class="btn" href="#season">Shop the Season <svg class="arr"><use href="#arrow"/></svg></a>
+    </div></div>
+  </div>
+  <div class="slide">
+    <span class="px" data-plx="hero"><img src="https://images.unsplash.com/photo-1771466883546-a988d001f5ba?auto=format&fit=crop&q=80&w=2200" alt="White pillows stacked against a sage green headboard" loading="lazy" style="object-position:75% 50%"></span>
+    <div class="wrap"><div class="tx">
+      <p class="kick">Build yours</p>
+      <p class="h1">A Bed That Is Entirely Yours</p>
+      <p class="s">Choose the sheet, add the duvet, finish with pillows.</p>
+      <a class="btn" href="designer/index.html#v1">Start Designing <svg class="arr"><use href="#arrow"/></svg></a>
+    </div></div>
+  </div>
+  <div class="hdots"><div class="wrap">
+    <button class="d" aria-label="Slide 1" aria-current="true"><i></i></button>
+    <button class="d" aria-label="Slide 2"><i></i></button>
+    <button class="d" aria-label="Slide 3"><i></i></button>
+    <button class="pp" id="pp" aria-label="Pause slideshow"><svg class="b" viewBox="0 0 12 12"><path d="M2 1h3v10H2zM7 1h3v10H7z"/></svg><svg class="a" viewBox="0 0 12 12"><path d="M2 1l9 5-9 5z"/></svg></button>
+  </div></div>
+</section>
+
+<!-- version 5 only: a band of fabric names that runs with the scroll -->
+<div class="only5 mq" aria-hidden="true"><div class="mq-t" id="mq"><span>Crisp Percale</span><span>Smooth Sateen</span><span>Washed Linen</span><span>Pure Cotton</span><span>Quilted Layers</span><span>Soft Throws</span><span>Crisp Percale</span><span>Smooth Sateen</span><span>Washed Linen</span><span>Pure Cotton</span><span>Quilted Layers</span><span>Soft Throws</span></div></div>
+
+<!-- CATEGORIES -->
+<section class="sec" style="padding-top:var(--sec)" aria-labelledby="catsH">
+  <div class="wrap">
+    <div class="head c rv"><p class="kick">Our Categories</p><h2 class="h" id="catsH">Your Home, Beautifully Covered</h2></div>
+    <div class="cats">
+      <div class="tile big rv">
+        <span class="px" data-plx=".1"><img src="img/r_bedding.jpg" alt="A bright bedroom with a textured bedspread and layered pillows" loading="lazy"></span>
+        <div class="in">
+          <h3>Bedding</h3>
+          <p>Bed sheets, bedding sets and everything in between.</p>
+          <a class="btn light" href="v4-bedding.html">Shop Bedding <svg class="arr"><use href="#arrow"/></svg></a>
+          <div class="n"><a href="#sheets">Sheet Sets</a><a href="v4-bedding.html">Fitted Sheets</a><a href="v4-bedding.html">Pillowcases</a><a href="v4-bedding.html">Percale</a><a href="v4-bedding.html">Sateen</a></div>
+        </div>
+      </div>
+      <a class="tile rv" style="--d:.08s" href="v4-bedding.html"><span class="px" data-plx=".06"><img src="img/r_duvet.jpg" alt="" loading="lazy"></span><span class="lb">Duvets &amp; Comforters <svg class="arr"><use href="#arrow"/></svg></span></a>
+      <a class="tile rv" style="--d:.16s" href="v4-bedding.html"><span class="px" data-plx=".06"><img src="img/r_quilt.jpg" alt="" loading="lazy"></span><span class="lb">Quilts <svg class="arr"><use href="#arrow"/></svg></span></a>
+      <a class="tile rv" style="--d:.12s" href="v4-cushions.html"><span class="px" data-plx=".06"><img src="img/r_layering.jpg" alt="" loading="lazy"></span><span class="lb">Pillows &amp; Cushions <svg class="arr"><use href="#arrow"/></svg></span></a>
+      <a class="tile rv" style="--d:.2s" href="v4-living.html"><span class="px" data-plx=".06"><img src="img/r_throw.jpg" alt="" loading="lazy"></span><span class="lb">Throws &amp; More <svg class="arr"><use href="#arrow"/></svg></span></a>
+    </div>
+  </div>
+</section>
+
+<!-- BESTSELLERS -->
+<section class="sec" id="best" aria-labelledby="bestH">
+  <div class="wrap">
+    <div class="head rv"><div><p class="kick">Bestsellers</p><h2 class="h" id="bestH">Our Most Loved</h2></div><a class="link" href="v4-bedding.html">Shop All Bestsellers <svg class="arr"><use href="#arrow"/></svg></a></div>
+    <div class="rail-w rv"><div class="rail" id="railBest" tabindex="0" aria-label="Bestselling products"></div></div>
+  </div>
+</section>
+
+<!-- version 5 only: the three fabrics, changing as the page scrolls past -->
+<section class="only5 story" id="story" aria-labelledby="storyH">
+  <div class="story-pin"><div class="wrap story-in">
+    <div class="story-tx">
+      <p class="kick">Know Your Fabric</p>
+      <h2 class="h" id="storyH">Three Weaves, <em>Three Feelings</em></h2>
+      <ol id="storyList">
+        <li class="on"><b>Crisp Percale</b><span>Matte, cool and breathable, like a freshly pressed shirt.</span></li>
+        <li><b>Smooth Sateen</b><span>A soft sheen and a close, silky drape.</span></li>
+        <li><b>Washed Linen</b><span>Relaxed and airy, softer with every wash.</span></li>
+      </ol>
+      <a class="btn" href="v4-bedding.html">Shop by Fabric <svg class="arr"><use href="#arrow"/></svg></a>
+    </div>
+    <div class="story-im" id="storyIm">
+      <img src="img/r_sheets2.jpg" alt="White percale bedding" loading="lazy">
+      <img src="img/r_comfort.jpg" alt="Sateen pillows against an upholstered headboard" loading="lazy">
+      <img src="img/r_room.jpg" alt="A bed dressed in washed linen" loading="lazy">
+      <i class="story-bar"><i id="storyBar"></i></i>
+    </div>
+  </div></div>
+</section>
+
+<!-- SEASON EDIT -->
+<section class="sec" id="season">
+  <div class="wrap"><div class="band rv">
+    <span class="px" data-plx=".12"><img src="https://images.unsplash.com/photo-1618111415065-c20b4e1afd41?auto=format&fit=crop&q=80&w=1800" alt="Cream textured bedding beside a wooden nightstand" loading="lazy" style="object-position:50% 60%;transform:scaleX(-1)"></span>
+    <div class="tx">
+      <p class="kick">The Season Edit</p>
+      <h2 class="h">A <em>Warmer,</em> Softer Home</h2>
+      <p class="s">Layered comfort for the cooler days ahead.</p>
+      <a class="btn" href="v4-bedding.html">Shop the Season <svg class="arr"><use href="#arrow"/></svg></a>
+    </div>
+  </div></div>
+</section>
+
+<!-- SHEETS BY STYLE -->
+<section class="sec" id="sheets" aria-labelledby="sheetsH">
+  <div class="wrap">
+    <div class="head rv"><div><p class="kick">Shop Sheets by Style</p><h2 class="h" id="sheetsH">Find Your Perfect Sheets</h2></div>
+      <div class="tabs" id="tabs" role="group" aria-label="Sheet style">
+        <button aria-pressed="true" data-f="all">All</button><button aria-pressed="false" data-f="solids">Solids</button><button aria-pressed="false" data-f="prints">Prints</button><button aria-pressed="false" data-f="luxury">Ultra Luxury</button><button aria-pressed="false" data-f="cotton">Cotton</button><button aria-pressed="false" data-f="percale">Percale</button><button aria-pressed="false" data-f="sateen">Sateen</button>
+      </div>
+    </div>
+    <div class="rail-w rv"><div class="rail" id="railSheets" tabindex="0" aria-label="Sheet sets" aria-live="polite"></div></div>
+    <div class="more"><a class="btn" id="sheetsCta" href="v4-bedding.html"><span>Shop All Sheets</span> <svg class="arr"><use href="#arrow"/></svg></a></div>
+  </div>
+</section>
+
+<!-- MAKE YOUR OWN BED -->
+<section class="sec" aria-labelledby="myoH">
+  <div class="wrap"><div class="myo rv">
+    <div class="a">
+      <p class="kick">Build Yours</p>
+      <h2 class="h" id="myoH">Make Your Own Bed</h2>
+      <p class="s">Mix, match and design a bedding look that is uniquely yours.</p>
+      <a class="btn line" href="designer/index.html#v1">Start Designing <svg class="arr"><use href="#arrow"/></svg></a>
+    </div>
+    <div class="b" id="myoImg">
+      <span class="px" data-plx=".1"><img src="img/r_comfort.jpg" alt="White pillows and bedding against an upholstered headboard" loading="lazy"></span>
+      <a class="spot" href="designer/index.html#v1" data-l="Add pillows" aria-label="Add pillows" style="left:38%;top:44%">+</a>
+      <a class="spot" href="designer/index.html#v1" data-l="Choose a duvet" aria-label="Choose a duvet" style="left:64%;top:74%">+</a>
+    </div>
+    <div class="c">
+      <ol class="steps"><li>Choose a Bed Sheet</li><li>Add a Duvet or Comforter</li><li>Complete with Pillows</li></ol>
+      <div class="pick"><p>Preview a colour: <b id="pickN">Ivory</b></p>
+        <div id="pick"><button style="--c:#F6F1E6" data-t="" aria-label="Ivory" aria-pressed="true"></button><button style="--c:#D9C3A3" data-t="#E3D0B3" aria-label="Sand" aria-pressed="false"></button><button style="--c:#E3BFB4" data-t="#EBCDC4" aria-label="Blush" aria-pressed="false"></button><button style="--c:#B4C0A4" data-t="#C6D1B8" aria-label="Sage" aria-pressed="false"></button><button style="--c:#8C9198" data-t="#B5BAC2" aria-label="Stone" aria-pressed="false"></button></div>
+      </div>
+    </div>
+  </div></div>
+</section>
+
+<!-- GIFTING -->
+<section class="sec" id="gifting">
+  <div class="wrap"><div class="band r rv">
+    <span class="px" data-plx=".12"><img src="https://images.unsplash.com/photo-1668127039852-0e7c8b3a1601?auto=format&fit=crop&q=80&w=1800" alt="A white gift box tied with a green ribbon" loading="lazy" style="object-position:20% 50%"></span>
+    <div class="tx">
+      <p class="kick">The Gifting Edit</p>
+      <h2 class="h">Thoughtful Comfort, <em>Beautifully Gifted</em></h2>
+      <p class="s">Curated home textile gifts for every special occasion, boxed and ready to give.</p>
+      <a class="btn" href="v4-new.html">Explore Gifting <svg class="arr"><use href="#arrow"/></svg></a>
+    </div>
+  </div></div>
+</section>
+
+<!-- HOMES LIKE YOURS -->
+<section class="sec" aria-labelledby="ugcH">
+  <div class="wrap ugc">
+    <div class="rv"><p class="kick">Homes Like Yours</p><h2 class="h" id="ugcH">Real People. Real Homes.</h2><p class="s">Everyday moments with Hemmings at home.</p><a class="link" href="v4-contact.html">Share Yours <svg class="arr"><use href="#arrow"/></svg></a></div>
+    <ul id="ugcList">
+      <li class="rv"><img src="https://images.unsplash.com/photo-1675125530909-15213f01a9e1?auto=format&fit=crop&q=75&w=600&h=600" alt="Coffee and croissants on white bedding" loading="lazy"></li>
+      <li class="rv" style="--d:.07s"><img src="img/r_knit.jpg" alt="A chunky knit throw across a made bed" loading="lazy"></li>
+      <li class="rv" style="--d:.14s"><img src="https://images.unsplash.com/photo-1552841872-a0841f72a4ee?auto=format&fit=crop&q=75&w=600&h=600" alt="A breakfast board resting on white sheets" loading="lazy"></li>
+      <li class="rv" style="--d:.21s"><img src="img/r_throw2.jpg" alt="An armchair with a fringed throw" loading="lazy"></li>
+      <li class="rv" style="--d:.28s"><img src="https://images.unsplash.com/photo-1634208006171-6713e0c9a25e?auto=format&fit=crop&q=75&w=600&h=600" alt="A white bed with blush pillows" loading="lazy"></li>
+    </ul>
+  </div>
+</section>
+
+<!-- WHY HEMMINGS -->
+<section class="why" id="why" aria-labelledby="whyH">
+  <div class="wrap">
+    <h2 id="whyH">WHY HEMMINGS</h2>
+    <ul>
+      <li><svg viewBox="0 0 34 34"><path d="M17 4c4 3 9 3 9 9 0 4-3 7-6 7M17 4c-4 3-9 3-9 9 0 4 3 7 6 7M17 12v18M11 30h12M17 20c-2-2-4-2-5-5M17 17c2-2 4-2 5-5"/></svg><div><b>Premium Quality</b><span>Export-grade fabrics</span></div></li>
+      <li><svg viewBox="0 0 34 34"><path d="M4 12l13-6 13 6-13 6zM4 17l13 6 13-6M4 22l13 6 13-6"/></svg><div><b>Thoughtful Designs</b><span>Timeless and versatile</span></div></li>
+      <li><svg viewBox="0 0 34 34"><path d="M5 16 17 5l12 11M8 14v15h18V14M14 29v-8h6v8"/></svg><div><b>Made for Your Home</b><span>Comfort for every season</span></div></li>
+      <li><svg viewBox="0 0 34 34"><path d="M5 13h24v6H5zM7 19v10h20V19M17 13v16M17 13c-2-6-9-6-8-2 .6 2 4 2 8 2zM17 13c2-6 9-6 8-2-.6 2-4 2-8 2z"/></svg><div><b>A Better Gifting Choice</b><span>For home and loved ones</span></div></li>
+    </ul>
+  </div>
+</section>
+</main>
+<div id="hm-foot"></div>
+
+<script src="hm.js"></script>
+<script src="v4-home.js"></script>
+<script>window.HM_SILK = { scale: 1.25 };</script>
+<script src="v5-fx.js"></script>
+<script src="silk.js"></script>
+</body>
+</html>
