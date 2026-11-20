@@ -27,8 +27,24 @@
     { id: 'percale-sheet-set', n: 'Woven Stripe Percale Sheet Set', v: 'Stone', mat: 'Cotton percale', p: 6200, img: 'r_pillows', f: 'prints cotton percale' },
     { id: 'sateen-sheet-set', n: 'Sage Sateen Sheet Set', v: 'Sage', mat: 'Cotton sateen', p: 5200, img: 'r_sheets2', t: '#C5D0B6', f: 'solids cotton sateen' },
     { id: 'linen-sheet-set', n: 'Washed Linen Sheet Set', v: 'Oat', mat: 'Washed linen', p: 9800, img: 'r_room', f: 'solids luxury', tag: 'Ultra Luxury' },
-    { id: 'percale-sheet-set', n: 'Sage Stripe Percale Sheet Set', v: 'Stone', mat: 'Cotton percale', p: 6200, img: 'r_pillows', t: '#D3DCC6', f: 'prints cotton percale' }
+    { id: 'percale-sheet-set', n: 'Sage Stripe Percale Sheet Set', v: 'Stone', mat: 'Cotton percale', p: 6200, img: 'r_pillows', t: '#D3DCC6', f: 'prints cotton percale' },
+    { id: 'percale-sheet-set', n: 'Mist Percale Sheet Set', v: 'Mist', mat: 'Cotton percale', p: 5600, img: 'r_sheets2', t: '#C9D4DB', f: 'solids cotton percale' }
   ];
+  // the rest come straight from the shared sample catalogue
+  function fromCat(id, tag) {
+    var p = HM.byId(id);
+    return { id: p.id, n: p.n, mat: p.mat, p: p.sized ? p.price.single : p.price, bp: HM.price(p), from: p.sized ? 1 : 0, img: p.img, img2: p.img2, tag: tag || p.tag, v: p.c[0].n, dept: p.dept, sw: p.c.length > 1 ? p.c.map(function (c) { return c.h; }) : null };
+  }
+  var cat = function (ids, tag) { return ids.map(function (id) { return fromCat(id, tag); }); };
+  best = best.concat(cat(['sateen-duvet', 'soft-pillow']));
+  var fresh = cat(['sheer-linen-curtain', 'linen-cushion-cover', 'bath-towel', 'waffle-robe', 'cable-throw', 'boucle-cushion', 'wool-blanket', 'linen-sheet-set', 'ribbed-towel-set', 'pleated-linen-curtain'], 'New');
+  var home = {
+    all: cat(['bath-towel', 'washed-linen-curtain', 'velvet-cushion-cover', 'linen-throw', 'waffle-robe', 'sofa-cover-two', 'ribbed-towel-set', 'blackout-curtain', 'boucle-cushion', 'cable-throw']),
+    bath: cat(['bath-towel', 'ribbed-towel-set', 'waffle-robe', 'bath-sheet', 'hand-towel-pair', 'bath-mat']),
+    curtains: cat(['sheer-linen-curtain', 'washed-linen-curtain', 'blackout-curtain', 'pleated-linen-curtain', 'cotton-voile-curtain', 'textured-curtain']),
+    cushions: cat(['velvet-cushion-cover', 'linen-cushion-cover', 'boucle-cushion', 'striped-cushion-cover', 'quilted-cushion']),
+    living: cat(['knit-throw', 'linen-throw', 'cable-throw', 'sofa-cover-two', 'sofa-cover-three', 'waffle-blanket'])
+  };
   function card(p, i) {
     return '<article class="card" data-f="' + (p.f || '') + '">' +
       '<div class="ph' + (p.t ? ' tint" style="--t:' + p.t : '') + '"><img src="img/' + p.img + '.jpg" alt="" loading="lazy">' +
@@ -52,14 +68,23 @@
     var sync = function () { w.querySelector('.nb.p').disabled = el.scrollLeft < 8; w.querySelector('.nb.n').disabled = el.scrollLeft + el.clientWidth > el.scrollWidth - 8; };
     el.addEventListener('scroll', sync, { passive: true }); addEventListener('resize', sync); el._sync = sync; sync();
   }
-  rail($('railBest'), best); rail($('railSheets'), sheets);
+  // stacked grids: whole rows only (two rows on a desktop, three on tablets and phones), so no card is left alone on a last row
+  var grids = [];
+  function fit(el) {
+    var cols = getComputedStyle(el).gridTemplateColumns.split(' ').length, cards = all('.card:not(.hide)', el);
+    var n = Math.min(cards.length, cols * (cols > 3 ? 2 : 3)); if (n > cols) n -= n % cols;
+    cards.forEach(function (c, i) { c.classList.toggle('cut', i >= n); });
+  }
+  function grid(el, list) { el.innerHTML = list.map(card).join(''); el._list = list; if (grids.indexOf(el) < 0) grids.push(el); fit(el); }
+  addEventListener('resize', function () { grids.forEach(fit); });
+  grid($('railBest'), best); rail($('railNew'), fresh); grid($('railSheets'), sheets); grid($('railHome'), home.all);
 
   // quick add: the same bag the inner pages read
   document.addEventListener('click', function (e) {
     var q = e.target.closest('[data-add]'); if (!q) return;
-    var p = q.closest('.rail')._list[+q.dataset.add], sized = !!p.from || /sheet-set/.test(p.id), variant = (p.v || 'Ivory') + (sized ? ', Queen' : '');
+    var p = q.closest('.rail, .grid')._list[+q.dataset.add], sized = !!p.from || /sheet-set/.test(p.id), variant = (p.v || 'Ivory') + (sized ? ', Queen' : '');
     var b = HM.bag.read(), key = p.id + '/' + variant + '/' + p.n, hit = b.filter(function (l) { return l.key === key; })[0];
-    if (hit) hit.qty++; else b.push({ key: key, id: p.id, name: p.n, variant: variant, price: p.p, qty: 1, img: p.img });
+    if (hit) hit.qty++; else b.push({ key: key, id: p.id, name: p.n, variant: variant, price: p.bp || p.p, qty: 1, img: p.img });
     HM.bag.write(b); HM.toast('<span>Added: ' + p.n + '</span><a href="v4-bag.html">View bag</a>');
   });
 
@@ -84,8 +109,18 @@
     all('button', this).forEach(function (x) { x.setAttribute('aria-pressed', x === b); });
     var f = b.dataset.f, r = $('railSheets');
     all('.card', r).forEach(function (c) { c.classList.toggle('hide', f !== 'all' && c.dataset.f.split(' ').indexOf(f) < 0); });
-    r.scrollLeft = 0; r._sync();
+    fit(r);
     $('sheetsCta').firstElementChild.textContent = 'Shop ' + names[f];
+  });
+
+  /* ---- the rest of the home, by department ---- */
+  var depts = { all: ['All Home', 'v4-new.html'], bath: ['Bath', 'v4-bath.html'], curtains: ['Curtains', 'v4-curtains.html'], cushions: ['Cushions', 'v4-cushions.html'], living: ['Throws & Living', 'v4-living.html'] };
+  $('tabsHome').addEventListener('click', function (e) {
+    var b = e.target.closest('button'); if (!b) return;
+    all('button', this).forEach(function (x) { x.setAttribute('aria-pressed', x === b); });
+    var f = b.dataset.f, r = $('railHome'); grid(r, home[f]);
+    if (V5 && !reduce) all('.card:not(.cut)', r).forEach(function (c, i) { c.style.setProperty('--n', i); c.classList.add('pop'); });
+    $('homeCta').href = depts[f][1]; $('homeCta').firstElementChild.textContent = 'Shop ' + depts[f][0];
   });
 
   /* ---- make your own bed: colour preview ---- */
