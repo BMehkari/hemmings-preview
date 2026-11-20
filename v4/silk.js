@@ -3,7 +3,7 @@
 // tinted to the palette accent (--metal) with the mark in the palette main colour (--deep). It needs <canvas id="silk">.
 // window.HM_SILK = { scale: 1.2 } makes the cloth larger.
 (function silk() {
-  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches, opt = window.HM_SILK || {}, K = opt.scale || 1;
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches, opt = window.HM_SILK || {}, K = (opt.scale || 1) * 0.65;   // 0.65: the cloth was made 35% smaller at the client's request (2026-11-20)
   var cv = document.getElementById('silk'), gl = null;
   if (!cv) return;
   try { gl = cv.getContext('webgl', { alpha: true, premultipliedAlpha: true, antialias: true, depth: true }); } catch (e) {}
