@@ -110,6 +110,24 @@
   }
   if (!reduce) { addEventListener('scroll', function () { if (!tick) { tick = true; requestAnimationFrame(plx); } }, { passive: true }); addEventListener('resize', plx); plx(); }
 
+  /* ---- hover effects that follow the pointer (mouse only): tilting tiles, buttons that lean toward the pointer ---- */
+  if (!reduce && matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    all('.tile').forEach(function (t) {
+      t.addEventListener('pointermove', function (e) {
+        if (!t.classList.contains('in')) return;
+        var r = t.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height, big = t.classList.contains('big') ? 3 : 7;
+        t.classList.add('tilt'); t.style.transform = 'rotateY(' + ((x - .5) * big).toFixed(2) + 'deg) rotateX(' + ((.5 - y) * big).toFixed(2) + 'deg) translateZ(0)';
+        t.style.setProperty('--gx', (x * 100).toFixed(1) + '%'); t.style.setProperty('--gy', (y * 100).toFixed(1) + '%');
+      });
+      t.addEventListener('pointerleave', function () { t.classList.remove('tilt'); t.style.transform = ''; });
+    });
+
+    all('main .btn').forEach(function (b) {
+      b.addEventListener('pointermove', function (e) { var r = b.getBoundingClientRect(); b.style.transform = 'translate(' + ((e.clientX - r.left - r.width / 2) * .22).toFixed(1) + 'px,' + ((e.clientY - r.top - r.height / 2) * .3).toFixed(1) + 'px)'; });
+      b.addEventListener('pointerleave', function () { b.style.transition = 'transform .5s cubic-bezier(.2,.7,.2,1), background .3s, color .3s'; b.style.transform = ''; setTimeout(function () { b.style.transition = ''; }, 500); });
+    });
+  }
+
   /* ---- reveal on scroll ---- */
   var rv = all('.rv');
   if (reduce || !('IntersectionObserver' in window)) rv.forEach(function (x) { x.classList.add('in'); });

@@ -81,21 +81,6 @@
   hero.addEventListener('pointermove', function (e) { var r = hero.getBoundingClientRect(); hero.style.setProperty('--mx', (((e.clientX - r.left) / r.width - .5) * -26).toFixed(1) + 'px'); hero.style.setProperty('--my', (((e.clientY - r.top) / r.height - .5) * -16).toFixed(1) + 'px'); });
   hero.addEventListener('pointerleave', function () { hero.style.setProperty('--mx', '0px'); hero.style.setProperty('--my', '0px'); });
 
-  all('.tile').forEach(function (t) {
-    t.addEventListener('pointermove', function (e) {
-      if (!t.classList.contains('in')) return;
-      var r = t.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height, big = t.classList.contains('big') ? 3 : 7;
-      t.classList.add('tilt'); t.style.transform = 'rotateY(' + ((x - .5) * big).toFixed(2) + 'deg) rotateX(' + ((.5 - y) * big).toFixed(2) + 'deg) translateZ(0)';
-      t.style.setProperty('--gx', (x * 100).toFixed(1) + '%'); t.style.setProperty('--gy', (y * 100).toFixed(1) + '%');
-    });
-    t.addEventListener('pointerleave', function () { t.classList.remove('tilt'); t.style.transform = ''; });
-  });
-
-  all('main .btn').forEach(function (b) {
-    b.addEventListener('pointermove', function (e) { var r = b.getBoundingClientRect(); b.style.transform = 'translate(' + ((e.clientX - r.left - r.width / 2) * .22).toFixed(1) + 'px,' + ((e.clientY - r.top - r.height / 2) * .3).toFixed(1) + 'px)'; });
-    b.addEventListener('pointerleave', function () { b.style.transition = 'transform .5s cubic-bezier(.2,.7,.2,1), background .3s, color .3s'; b.style.transform = ''; setTimeout(function () { b.style.transition = ''; }, 500); });
-  });
-
   // the pointer ring: names what a click will do over tiles, product pictures, banners and rails
   var cur = document.createElement('div'); cur.className = 'fx-cur'; cur.setAttribute('aria-hidden', 'true'); document.body.appendChild(cur);
   var label = [['.btn, .wish, .qa, .nb, .spot, .tabs, .hdots, .pick, .n', ''], ['.tile', 'Shop'], ['.card .ph', 'View'], ['.band', 'Explore'], ['.ugc li', 'Look'], ['.rail', 'Drag']];

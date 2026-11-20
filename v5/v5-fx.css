@@ -37,43 +37,17 @@
 .mq-t span:nth-child(even) { color: var(--metal-ink); }
 
 /* category tiles: unveil, then tilt under the pointer with a moving sheen */
-[data-v="5"] .cats { perspective: 1400px; }
 [data-v="5"] .tile.rv { clip-path: inset(14% 14% 14% 14% round 10px); filter: none; }
 [data-v="5"] .tile.rv.in { clip-path: inset(0 0 0 0 round 10px); }
-[data-v="5"] .tile { transform-style: preserve-3d; will-change: transform; }
-[data-v="5"] .tile.tilt { transition: transform .12s linear; }
-[data-v="5"] .tile::before { content: ""; position: absolute; inset: 0; z-index: 1; background: radial-gradient(420px circle at var(--gx, 50%) var(--gy, 50%), rgba(255,255,255,.3), transparent 60%); opacity: 0; transition: opacity .4s; pointer-events: none; }
-[data-v="5"] .tile:hover::before { opacity: 1; }
-[data-v="5"] .tile:hover img { transform: scale(1.09); }
-[data-v="5"] .tile .lb, [data-v="5"] .tile.big .in { transform: translateZ(40px); }
 
 /* buttons: a second colour sweeps up, and they lean toward the pointer */
-[data-v="5"] .btn { position: relative; overflow: hidden; isolation: isolate; will-change: transform; }
-[data-v="5"] .btn::before { content: ""; position: absolute; inset: -1px; z-index: -1; background: var(--metal); border-radius: 50% 50% 0 0 / 100% 100% 0 0; transform: translateY(102%); transition: transform .55s cubic-bezier(.2,.7,.2,1), border-radius .55s; }
-[data-v="5"] .btn:hover { background: var(--btn); color: var(--ink); }
-[data-v="5"] .btn:hover::before { transform: none; border-radius: 0; }
-[data-v="5"] .btn.light:hover { background: #fff; color: var(--on-deep); }
-[data-v="5"] .btn.light::before, [data-v="5"] .btn.line::before { background: var(--deep); }
-[data-v="5"] .btn.line:hover { background: none; color: var(--on-deep); }
-[data-v="5"] .link { position: relative; border-bottom-color: transparent; }
-[data-v="5"] .link::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 1px; background: var(--metal); transform-origin: right; transition: transform .5s cubic-bezier(.2,.7,.2,1); }
-[data-v="5"] .link:hover::after { transform: scaleX(0); transform-origin: left; }
 
 /* product cards: lift, second photograph, rails that can be dragged and slide in with the scroll */
-[data-v="5"] .card { transition: transform .5s cubic-bezier(.2,.7,.2,1); }
-[data-v="5"] .card:hover { transform: translateY(-8px); }
-[data-v="5"] .card .ph { transition: box-shadow .5s; }
-[data-v="5"] .card:hover .ph { box-shadow: 0 26px 40px -26px rgba(0,0,0,.45); }
-[data-v="5"] .card .ph img.alt { display: block; position: absolute; inset: 0; opacity: 0; }
-[data-v="5"] .card:hover .ph img.alt { opacity: 1; }
-[data-v="5"] .card:hover .ph img { transform: scale(1.07); }
 [data-v="5"] .rail { transform: translate3d(var(--rx, 0px), 0, 0); cursor: grab; padding-top: 10px; }
 [data-v="5"] .rail.drag { cursor: grabbing; scroll-snap-type: none; }
 [data-v="5"] .rail.drag a { pointer-events: none; }
 [data-v="5"] .card.pop { animation: cardIn .7s cubic-bezier(.2,.7,.2,1) both; animation-delay: calc(var(--n) * 60ms); }
 @keyframes cardIn { from { opacity: 0; transform: translateY(26px) scale(.96); } }
-[data-v="5"] .tabs button { transition: background .25s, color .25s, border-color .25s, transform .3s; }
-[data-v="5"] .tabs button:hover { transform: translateY(-2px); }
 
 /* banners widen as they come into view, and their pictures settle */
 [data-v="5"] .band { clip-path: inset(calc((1 - var(--k, 1)) * 9%) calc((1 - var(--k, 1)) * 7%) round 14px); min-height: 420px; }
@@ -102,14 +76,10 @@
 [data-v="5"] .ugc ul { padding-block: 26px; }
 [data-v="5"] .ugc li { transform: translate3d(0, var(--u, 0px), 0); will-change: transform; }
 [data-v="5"] .ugc li.rv, [data-v="5"] .ugc li.rv.in { transform: translate3d(0, var(--u, 0px), 0); }
-[data-v="5"] .ugc li:hover img { transform: scale(1.12) rotate(1.5deg); }
 
 /* why Hemmings: the icons draw themselves */
 [data-v="5"] .why svg path { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1.8s cubic-bezier(.2,.7,.2,1); }
 [data-v="5"] .why.inv svg path { stroke-dashoffset: 0; }
-[data-v="5"] .why li { transition: background .4s; }
-[data-v="5"] .why li:hover { background: var(--cream); }
-[data-v="5"] .why li:hover svg { transform: translateY(-3px); transition: transform .4s; }
 
 /* ornaments and the closing wordmark move more */
 [data-v="5"] .deco { opacity: .44; }
