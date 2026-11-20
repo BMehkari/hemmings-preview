@@ -47,3 +47,19 @@ select, input[type="text"], input[type="email"], input[type="tel"], textarea { b
 
 /* bag */
 :root .bg-head h1 { text-transform: none; font-size: clamp(36px, 4.4vw, 60px); line-height: 1.05; }
+
+/* Laptops (roughly 1280 to 1680px wide, usually under 900px tall): the same layout a size down, so a screenful holds more. */
+@media (min-width: 1101px) and (max-width: 1680px) {
+  body { font-size: 15px; }
+  :root .banner { min-height: clamp(220px, 30vh, 320px); }
+  :root .banner h1 { font-size: clamp(36px, 3.8vw, 58px); }
+  :root .shop { padding-block: clamp(28px, 3vw, 44px) clamp(60px, 6vw, 96px); }
+  .cta { min-height: 46px; padding: 0 24px; font-size: 14.5px; }
+  .qty button { height: 46px; width: 40px; }
+  :root #info h1 { font-size: clamp(28px, 2.6vw, 38px); }
+  :root .bg-head h1 { font-size: clamp(32px, 3.4vw, 48px); }
+  .pc h3, .lrow h3, .ln h3 { font-size: 15px; }
+  .price { font-size: 14px; }
+}
+/* product page: the photograph never grows taller than the screen it is shown on */
+@media (min-width: 901px) { :root #gal { top: 96px; max-width: max(380px, calc((100vh - 190px) * .8 + 98px)); margin-left: auto; } }

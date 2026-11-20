@@ -120,6 +120,28 @@ html.silk .s-ft-word { padding-top: clamp(80px, 11vw, 150px); }
 .pal button i { display: block; width: 26px; height: 26px; border-radius: 50%; transform: none; outline: 0; box-shadow: 0 0 0 2px var(--white), 0 0 0 3px var(--line); transition: box-shadow .3s; }
 .pal button[aria-pressed="true"] i { box-shadow: 0 0 0 2px var(--white), 0 0 0 3.5px var(--ink); }
 
+/* Laptops (roughly 1280 to 1680px wide, usually under 900px tall): the same layout a size down, so a screenful holds more. */
+@media (min-width: 1101px) and (max-width: 1680px) {
+  :root { --s-wrap: 1240px; --gut: 40px; }
+  .s-util { font-size: 12.5px; }
+  .s-util ul { min-height: 32px; }
+  .s-hd-in { min-height: 66px; }
+  .s-nav > li > a, .s-nav > li > button { height: 66px; font-size: 14px; }
+  .s-nav > li > a::after, .s-nav > li > button::after { bottom: 18px; }
+  .s-wm { font-size: 21px; }
+  .s-wm.big { font-size: 30px; }
+  .s-tools a { width: 40px; height: 40px; }
+  .s-tools svg { width: 20px; height: 20px; }
+  .s-mega-in { padding-block: 28px 32px; }
+  .s-mega-f { min-height: 170px; }
+  .s-mega li a { font-size: 14.5px; padding: 5px 0; }
+  .s-btn { min-height: 44px; font-size: 14.5px; }
+  .s-news .s-wrap { padding-block: 38px; }
+  .s-news p { font-size: 15px; }
+  .s-news input { height: 44px; font-size: 15px; }
+  .s-ft { padding-top: 54px; font-size: 14px; }
+  .s-ft-e { margin-top: 40px; }
+}
 /* logo in the centre, navigation either side: tighten up before the menu collapses */
 @media (max-width: 1320px) {
   .s-nav { gap: 0; margin-left: -12px; }

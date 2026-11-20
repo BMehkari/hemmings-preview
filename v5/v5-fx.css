@@ -85,6 +85,19 @@
 [data-v="5"] .deco { opacity: .44; }
 [data-v="5"] .s-ft-word { transform: translate3d(var(--fw, 0px), 9%, 0); will-change: transform; }
 
+/* Laptops (roughly 1280 to 1680px wide, usually under 900px tall): the same layout a size down, so a screenful holds more. */
+@media (min-width: 1101px) and (max-width: 1680px) {
+  [data-v="5"] .hero { height: min(76vh, 660px); }
+  [data-v="5"] .band { min-height: 340px; }
+  .mq { padding-block: 16px; }
+  .mq-t { font-size: clamp(24px, 2.3vw, 34px); gap: 44px; }
+  .mq-t span { gap: 44px; }
+  .story-im { max-width: 460px; max-height: 66vh; }
+  .story-tx ol { margin: 26px 0 28px !important; }
+  .story-tx li { padding-block: 11px; }
+  .story-tx li b { font-size: clamp(20px, 1.8vw, 26px); }
+  .fx-cur { width: 66px; height: 66px; margin: -33px; }
+}
 @media (max-width: 900px) {
   .story { height: 260vh; }
   .story-in { grid-template-columns: 1fr; gap: 22px; }
