@@ -1,0 +1,51 @@
+/* Hemmings version 6, inner pages (shop, product, bag, account, checkout, contact, policies).
+   Generated from the version 1 pages by design/tools/build-pages.mjs and dressed as a traditional store:
+   one sans-serif family, boxed product cards with the Add to Bag button always showing, a compact department banner. */
+@import url("v4-shared.css");
+@import url("v6-chrome.css");
+body { font-family: var(--sans); }
+.h { font-weight: 700; letter-spacing: -.022em; line-height: 1.12; }
+.h em { font-style: normal; color: var(--metal-ink); }
+.lab { letter-spacing: .12em; font-size: 11.5px; }
+.crumb a:hover { color: var(--deep); }
+
+/* department banner: a compact coloured band */
+:root .banner { min-height: clamp(170px, 22vh, 240px); background: var(--deep); color: var(--on-deep); grid-template-columns: 7fr 5fr; }
+:root .banner h1 { font-size: clamp(32px, 3.4vw, 50px); color: var(--on-deep); }
+:root .banner p, :root .banner .crumb { color: var(--on-deep-2); }
+:root .banner-copy { justify-content: center; gap: 10px; }
+:root .side { top: calc(var(--hd) + 24px); }
+:root .side .tabs button { font-weight: 500; transition: color .2s, padding .25s; }
+:root .side .tabs button:hover { padding-left: 8px; color: var(--deep); }
+:root .side .tabs button[aria-pressed="true"] { font-weight: 700; color: var(--deep); }
+.toolbar { padding: 10px 16px; border: 1px solid var(--line); border-radius: 8px; background: var(--white); }
+
+/* product card: boxed, button always there */
+.pc { padding: 10px 10px 16px; border: 1px solid var(--line); border-radius: 10px; background: var(--white); transition: border-color .3s, box-shadow .4s, transform .4s cubic-bezier(.2,.7,.2,1); }
+.pc:hover { border-color: color-mix(in srgb, var(--deep) 45%, var(--line)); box-shadow: 0 22px 34px -24px rgba(0,0,0,.45); transform: translateY(-4px); }
+.pc .pic { border-radius: 6px; }
+.pc .tag { left: 20px; top: 20px; background: var(--deep); color: var(--on-deep); letter-spacing: .08em; }
+.pc .wish { top: 16px; right: 16px; transition: transform .3s, background .25s; }
+.pc .wish:hover { transform: scale(1.12); }
+.pc .wish[aria-pressed="true"] svg { fill: #B4453A; stroke: #B4453A; }
+.pc .quick { position: static; aspect-ratio: auto; order: 9; margin-top: 12px; }
+.pc { display: flex; flex-direction: column; }
+.pc .quick button, .pc:hover .quick button { opacity: 1; transform: none; height: 42px; margin: 0; border: 1.5px solid var(--deep); background: var(--white); color: var(--deep); font: 600 14px/1 var(--sans); border-radius: 8px; transition: background .3s, color .3s, transform .2s; }
+.pc .quick button:hover:not(:disabled) { background: var(--deep); color: var(--on-deep); }
+.pc .quick button:active { transform: scale(.97); }
+.pc .lab { padding-inline: 4px; }
+.pc h3, .pc .price { padding-inline: 4px; }
+.pc h3 { font-weight: 600; }
+.pc .price { font-weight: 600; margin-top: auto; }
+.pc .price > span:first-child { color: var(--deep); }
+
+/* product, bag */
+:root #gal { top: calc(var(--hd) + 20px); }
+:root #summary { top: calc(var(--hd) + 20px); border-radius: 10px; }
+.pprice { font-weight: 700; color: var(--deep); }
+.seg button, .sw button { transition: transform .2s; }
+.seg button:hover, .sw button:hover { transform: translateY(-2px); }
+.ac-nav, .co-sum { top: calc(var(--hd) + 24px); }
+:root .acct .cta.ghost:hover, :root .acct .cta:hover:not(:disabled) { color: var(--ink); }
+.acct .h em { color: var(--metal-ink); }
+.au-side .h em, .ac-thanks .h em { color: var(--metal-soft); }

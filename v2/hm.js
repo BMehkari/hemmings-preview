@@ -3,7 +3,7 @@
 // SAMPLE DATA: product names, prices, specifications and stock are illustrative, modelled on a typical
 // premium bedding range. The store catalogue replaces this list.
 (function () {
-  var root = document.documentElement, V = +root.dataset.v >= 1 && +root.dataset.v <= 5 ? +root.dataset.v : 2, $ = function (id) { return document.getElementById(id); };
+  var root = document.documentElement, V = +root.dataset.v >= 1 && +root.dataset.v <= 7 ? +root.dataset.v : 2, $ = function (id) { return document.getElementById(id); };
   var all = function (s, r) { return [].slice.call((r || document).querySelectorAll(s)); };
   var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
   var HM = window.HM = { v: V };
@@ -80,8 +80,22 @@
       HM.bag.write(b);
     },
     count: function () { return HM.bag.read().reduce(function (n, l) { return n + l.qty; }, 0); },
-    paint: function () { all('.bagN').forEach(function (s) { s.textContent = HM.bag.count(); }); }
+    paint: function () { all('.bagN').forEach(function (s) { s.textContent = HM.bag.count(); }); all('.bagT').forEach(function (s) { s.textContent = HM.money(HM.bag.read().reduce(function (n, l) { return n + l.qty * l.price; }, 0)); }); all('.wishN').forEach(function (s) { var n = HM.store.wish.read().length; s.textContent = n; s.hidden = !n; }); }
   };
+
+  /* ---------- account, orders, addresses and wishlist (versions 6 and 7; kept in this browser only, the store's customer accounts replace it) ---------- */
+  var box = function (key, empty) {
+    var m = null;
+    return { read: function () { try { var v = JSON.parse(localStorage.getItem(key)); return v === null ? (m === null ? empty : m) : v; } catch (e) { return m === null ? empty : m; } },
+      write: function (v) { m = v; try { if (v === null) localStorage.removeItem(key); else localStorage.setItem(key, JSON.stringify(v)); } catch (e) {} } };
+  };
+  HM.store = { user: box('hemmings.user', null), orders: box('hemmings.orders', []), addresses: box('hemmings.addresses', []), wish: box('hemmings.wish', []) };
+  HM.user = { get: function () { var u = HM.store.user.read(); return u && !u.out ? u : null; } };   // "out" = signed out; the profile is kept, as a store would keep it
+  HM.wish = {
+    has: function (id) { return HM.store.wish.read().indexOf(id) > -1; },
+    set: function (id, on) { var w = HM.store.wish.read().filter(function (x) { return x !== id; }); if (on) w.push(id); HM.store.wish.write(w); HM.bag.paint(); }
+  };
+  HM.page = page; HM.esc = esc;
 
   /* ---------- chrome ---------- */
   var ICON = { search: '<circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/>', user: '<circle cx="12" cy="8.5" r="3.5"/><path d="M5 20c1-4 4-5.5 7-5.5s6 1.5 7 5.5"/>', heart: '<path d="M12 20s-7-4.4-7-9.6A3.9 3.9 0 0 1 12 8a3.9 3.9 0 0 1 7 2.4C19 15.6 12 20 12 20z"/>', bag: '<path d="M6 8h12l1 12H5L6 8zM9 8V6.5a3 3 0 0 1 6 0V8"/>', menu: '<path d="M3 9h18M3 15h18"/>' };
@@ -97,7 +111,50 @@
   var cols = '<div><h3>Shop</h3><ul>' + links.slice(0, 6).map(li).join('') + '</ul></div><div><h3>Customer Support</h3><ul><li><a href="' + page('contact') + '">Contact</a></li><li><a href="' + page('terms') + '">Shipping and Returns</a></li><li><a href="' + page('contact') + '">Track an Order</a></li></ul></div><div><h3>About Hemmings</h3><ul><li><a href="' + home + '">Our Story</a></li><li><a href="' + home + '">The Journal</a></li><li><a href="' + designer + '">The Bed Designer</a></li></ul></div><div><h3>Follow</h3><ul><li><a href="' + home + '">Instagram</a></li><li><a href="' + home + '">Facebook</a></li><li><a href="' + home + '">Pinterest</a></li></ul></div>';
   var legal = '<span>&copy; 2026 Hemmings</span><a href="' + page('privacy') + '">Privacy Policy</a><a href="' + page('terms') + '">Terms and Conditions</a>';
   var top, foot;
-  if (V >= 4) {
+  if (V >= 6) {
+    // Versions 6 (the traditional store) and 7 (the luxury house): search, account, wishlist and bag in the header, a menu for every
+    // department, and account links in the drawer and footer. Styles: v6-chrome.css and v7-chrome.css (both build on v4-chrome.css).
+    var ico = function (d, box, cls) { return '<svg class="si' + (cls || '') + '" viewBox="0 0 ' + (box || '24 24') + '" aria-hidden="true">' + d + '</svg>'; }, chev = ico('<path d="M2.5 4.5 6 8l3.5-3.5"/>', '12 12', ' chev'), arrow = '<svg class="arr" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    var A = function (t, h) { return '<li><a href="' + h + '">' + t + '</a></li>'; }, des = 'designer/index.html#v1';
+    HM.designer = des; HM.arrow = arrow;
+    var me = HM.user.get(), acct = page('account'), acc = me ? acct : page('login'), dl = ['bedding', 'bath', 'curtains', 'cushions', 'living'];
+    var mega = function (k) {
+      var D = HM.depts[k];
+      return '<li><button type="button" aria-expanded="false"' + (dept === k ? ' aria-current="true"' : '') + '>' + D.t + ' ' + chev + '</button><div class="s-mega"><div class="s-mega-in s-wrap">' +
+        '<div><h3>Shop ' + D.t + '</h3><ul>' + D.cats.map(function (c) { return A(c[1], page(k) + (c[0] === 'all' ? '' : '#' + c[0])); }).join('') + '</ul></div>' +
+        '<div><h3>Most Loved</h3><ul>' + HM.products.filter(function (p) { return p.dept === k && !p.out; }).slice(0, 4).map(function (p) { return A(esc(p.n), page('product') + '#' + p.id); }).join('') + '</ul></div>' +
+        '<a class="s-mega-f" href="' + page(k) + '"><img src="img/' + D.img + '.jpg" alt="" loading="lazy"><span>' + D.t + '</span></a></div></div></li>';
+    };
+    var burgerB = '<button class="s-burger" id="burger" aria-label="Menu" aria-expanded="false" aria-controls="sheet">' + ico('<path d="M3 8h18M3 16h18"/>') + '</button>';
+    var search = function (cls, btn) { return '<form class="' + cls + '" role="search" action="' + page('new') + '" method="get"><label class="sr" for="q">Search the store</label><input id="q" name="q" type="search" placeholder="Search sheets, towels, curtains and more" autocomplete="off" maxlength="60">' + btn + '</form>'; };
+    if (V === 6) {
+      top = '<div class="t-util"><div class="s-wrap"><p>' + ico('<path d="M2 7h11v9H2zM13 10h4l4 3v3h-8zM6.5 19a1.8 1.8 0 1 0 0-3.6 1.8 1.8 0 0 0 0 3.6zM17 19a1.8 1.8 0 1 0 0-3.6 1.8 1.8 0 0 0 0 3.6z"/>') + 'Free delivery across Pakistan on orders over Rs. 5,000</p><ul>' + A('Track Order', acct + '#track') + A('Delivery &amp; Returns', page('terms')) + A('Help &amp; Contact', page('contact')) + '</ul></div></div>' +
+        '<header class="t-hd" id="hd"><div class="t-main s-wrap">' + burgerB + '<a class="s-wm" href="' + home + '" aria-label="Hemmings home">HEMMINGS</a>' +
+        search('t-search', '<button type="submit" aria-label="Search">' + svg('search') + '</button>') +
+        '<div class="t-acts"><a class="t-act" href="' + acc + '">' + svg('user') + '<span><small>' + (me ? 'Hello, ' + esc(me.name.split(' ')[0]) : 'Hello, sign in') + '</small><b>My Account</b></span></a>' +
+        '<a class="t-act opt" href="' + acct + '#wishlist">' + svg('heart') + '<span><small>Saved</small><b>Wishlist</b></span><i class="wishN" hidden>0</i></a>' +
+        '<a class="t-act" href="' + page('bag') + '" aria-label="Shopping bag">' + svg('bag') + '<span><small>Your Bag</small><b class="bagT">Rs. 0</b></span><i class="bagN">0</i></a></div></div>' +
+        '<div class="t-bar"><div class="s-wrap"><nav aria-label="Main"><ul class="s-nav">' + '<li><a href="' + page('new') + '"' + (dept === 'new' ? ' aria-current="true"' : '') + '>New In</a></li>' + dl.map(mega).join('') + '</ul></nav><a class="t-des" href="' + des + '">Make Your Own Bed ' + arrow + '</a></div></div></header>';
+    } else {
+      top = '<div class="l-note">Complimentary delivery across Pakistan<i></i><span>Cash on delivery available</span></div>' +
+        '<header class="l-hd" id="hd"><div class="l-in s-wrap">' + burgerB + '<nav aria-label="Main"><ul class="s-nav">' + '<li><a href="' + page('new') + '"' + (dept === 'new' ? ' aria-current="true"' : '') + '>New</a></li>' + dl.map(mega).join('') + '</ul></nav>' +
+        '<a class="l-wm" href="' + home + '" aria-label="Hemmings home"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M24 84V46A26 26 0 0 1 76 46V84M33 84V46A17 17 0 0 1 67 46V84M18 84H82M24 91H76M50 29V50M50 66V84M50 50L57 58L50 66L43 58Z"/></svg>HEMMINGS</a>' +
+        '<div class="l-right"><button type="button" class="l-t" id="lSearch" aria-expanded="false" aria-controls="lBar">Search</button><a class="l-t opt" href="' + acc + '">' + (me ? 'Account' : 'Sign In') + '</a><a class="l-t opt" href="' + acct + '#wishlist">Wishlist</a><a class="l-t" href="' + page('bag') + '">Bag (<span class="bagN">0</span>)</a></div></div>' +
+        '<div class="l-bar" id="lBar">' + search('l-search s-wrap', '<button type="submit">Search</button>') + '</div></header>';
+    }
+    top += '<div class="s-drawer" id="sheet"><nav aria-label="Menu"><button class="x" type="button" aria-label="Close menu">' + ico('<path d="M5 5l14 14M19 5 5 19"/>') + '</button><ul>' + A('New Arrivals', page('new')) + dl.map(function (k) { return A(HM.depts[k].t, page(k)); }).join('') + A('Make Your Own Bed', des) +
+      '</ul><h3>Account</h3><ul class="sub">' + A(me ? 'My Account' : 'Sign In or Register', acc) + A('My Orders', acct + '#orders') + A('Wishlist', acct + '#wishlist') + A('Track an Order', acct + '#track') +
+      '</ul><h3>Help</h3><ul class="sub">' + A('Contact Us', page('contact')) + A('Delivery &amp; Returns', page('terms')) + '</ul></nav></div>';
+    foot = '<section class="s-news" aria-labelledby="newsH"><div class="s-wrap"><div><h2 id="newsH">' + (V === 6 ? 'Be first to hear about new arrivals' : 'Letters from the House') + '</h2><p>' + (V === 6 ? 'Join the Hemmings list for new collections, seasonal offers and care advice.' : 'New collections, seasonal edits and the care of fine linen. Sent sparingly.') + '</p></div>' +
+      '<form id="news"><label class="sr" for="mail">Email address</label><input id="mail" type="email" required placeholder="Email address" autocomplete="email"><button class="s-btn" type="submit">Subscribe</button></form></div></section>' +
+      '<footer class="s-ft"><div class="s-wrap"><div class="s-ft-g"><div><a class="s-wm big" href="' + home + '" aria-label="Hemmings home">HEMMINGS</a><p>' + (V === 6 ? 'Premium bed and home textiles for every room, delivered across Pakistan.' : 'Bed and home textiles of quiet character, made to be lived in.') + '</p><p class="s-pay"><span>Cash on Delivery</span><span>Debit &amp; Credit Card</span><span>Bank Transfer</span></p></div>' +
+      '<div><h3>Shop</h3><ul>' + A('New Arrivals', page('new')) + dl.map(function (k) { return A(HM.depts[k].t, page(k)); }).join('') + '</ul></div>' +
+      '<div><h3>My Account</h3><ul>' + A(me ? 'Account Overview' : 'Sign In or Register', acc) + A('My Orders', acct + '#orders') + A('Track an Order', acct + '#track') + A('Wishlist', acct + '#wishlist') + A('Addresses', acct + '#addresses') + '</ul></div>' +
+      '<div><h3>Help</h3><ul>' + A('Contact Us', page('contact')) + A('Delivery &amp; Returns', page('terms')) + A('Privacy Policy', page('privacy')) + A('Terms &amp; Conditions', page('terms')) + '</ul></div>' +
+      '<div><h3>Hemmings</h3><ul>' + A('Make Your Own Bed', des) + A('Instagram', home) + A('Facebook', home) + A('Pinterest', home) + '</ul></div></div>' +
+      '<div class="s-ft-e"><span>&copy; 2026 Hemmings. All rights reserved.</span><div><a href="' + page('privacy') + '">Privacy Policy</a><a href="' + page('terms') + '">Terms &amp; Conditions</a></div></div></div><div class="s-ft-word" aria-hidden="true">HEMMINGS</div></footer>' +
+      '<div class="s-toast" id="toast" role="status"></div>' + palette;
+  } else if (V >= 4) {
     // Versions 4 and 5: the storefront chrome (utility bar, header with menus, drawer, newsletter band, footer). Styles: v4-chrome.css.
     var ico = function (d, box, cls) { return '<svg class="si' + (cls || '') + '" viewBox="0 0 ' + (box || '24 24') + '" aria-hidden="true">' + d + '</svg>'; }, chev = ico('<path d="M2.5 4.5 6 8l3.5-3.5"/>', '12 12', ' chev'), arrow = '<svg class="arr" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
     var A = function (t, h) { return '<li><a href="' + h + '">' + t + '</a></li>'; }, bed = page('bedding'), des = 'designer/index.html#v1';
@@ -187,6 +244,7 @@
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { menus(); shut(); } });
     document.addEventListener('click', function (e) { if (!e.target.closest('.s-nav')) menus(); });
     var toastT; HM.toast = function (html) { var t = $('toast'); t.innerHTML = html; t.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(function () { t.classList.remove('on'); }, 3600); };
+    if ($('lSearch')) $('lSearch').addEventListener('click', function () { var o = !hd.classList.contains('find'); hd.classList.toggle('find', o); this.setAttribute('aria-expanded', o); if (o) $('q').focus(); });
     $('news').addEventListener('submit', function (e) { e.preventDefault(); this.reset(); HM.toast('<span>Thank you. You are on the list.</span>'); });
   }
   HM.reveal = function () {
@@ -198,16 +256,16 @@
   document.addEventListener('submit', function (e) { if (e.target.classList.contains('fx-form')) { e.preventDefault(); e.target.querySelector('button').textContent = 'Thank you'; } });
   document.addEventListener('click', function (e) {
     var w = e.target.closest('.wish'), q = e.target.closest('[data-quick]');
-    if (w) w.setAttribute('aria-pressed', w.getAttribute('aria-pressed') !== 'true');
-    if (q && !q.disabled) { HM.bag.add(HM.byId(q.dataset.quick), 0, 'queen', 1); var t = q.textContent; q.textContent = 'Added to bag'; setTimeout(function () { q.textContent = t; }, 1500); }
+    if (w) { var won = w.getAttribute('aria-pressed') !== 'true'; w.setAttribute('aria-pressed', won); if (w.dataset.wish) { HM.wish.set(w.dataset.wish, won); if (V >= 6) HM.toast('<span>' + (won ? 'Saved to your wishlist' : 'Removed from your wishlist') + '</span>' + (won ? '<a href="' + page('account') + '#wishlist">View</a>' : '')); } }
+    if (q && !q.disabled) { HM.bag.add(HM.byId(q.dataset.quick), 0, 'queen', 1); var t = q.textContent; q.textContent = 'Added to bag'; setTimeout(function () { q.textContent = t; }, 1500); if (V >= 6) HM.toast('<span>Added: ' + esc(HM.byId(q.dataset.quick).n) + '</span><a href="' + page('bag') + '">View bag</a>'); }
   });
 
   HM.card = function (p, i, size) {
     var href = page('product') + '#' + p.id;
     return '<article class="pc" style="--d:' + ((i % 6) * 0.07).toFixed(2) + 's"><a class="pic" href="' + href + '"><img src="img/' + p.img + '.jpg" alt="' + esc(p.n) + '" loading="lazy"><img class="alt" src="img/' + p.img2 + '.jpg" alt="" loading="lazy"></a>' +
       (p.out ? '<span class="tag">Sold out</span>' : p.tag ? '<span class="tag">' + p.tag + '</span>' : '') +
-      '<button class="wish" type="button" aria-pressed="false" aria-label="Add ' + esc(p.n) + ' to wishlist">' + HM.heart + '</button>' +
-      '<div class="quick"><button type="button" data-quick="' + p.id + '"' + (p.out ? ' disabled' : '') + '>' + (p.out ? 'Sold out' : 'Quick add') + '</button></div>' +
+      '<button class="wish" type="button" data-wish="' + p.id + '" aria-pressed="' + HM.wish.has(p.id) + '" aria-label="Add ' + esc(p.n) + ' to wishlist">' + HM.heart + '</button>' +
+      '<div class="quick"><button type="button" data-quick="' + p.id + '"' + (p.out ? ' disabled' : '') + '>' + (p.out ? 'Sold out' : V === 6 ? 'Add to Bag' : 'Quick add') + '</button></div>' +
       '<span class="lab m">' + esc(p.mat) + '</span><h3><a href="' + href + '">' + esc(p.n) + '</a></h3><div class="price"><span>' + (p.sized && !size ? 'From ' + HM.money(p.price.single) : HM.money(HM.price(p, size))) + '</span><span class="dots">' + p.c.map(function (c) { return '<i style="background:' + c.h + '" title="' + c.n + '"></i>'; }).join('') + '</span></div></article>';
   };
 
@@ -216,6 +274,15 @@
     var st = { cat: 'all', fam: '', mats: {}, size: 'queen', max: '', stock: false, sort: 'featured' };
     var D = HM.depts[dept] || HM.depts.bedding, isNew = dept === 'new';
     var pool = HM.products.filter(function (p) { return isNew ? p.tag === 'New' : p.dept === (dept || 'bedding'); });
+    var q = ''; try { q = (new URLSearchParams(location.search).get('q') || '').trim().slice(0, 60); } catch (e) {}
+    if (q) {
+      var ql = q.toLowerCase();
+      pool = HM.products.filter(function (p) { return (p.n + ' ' + p.mat + ' ' + p.col + ' ' + p.cat + ' ' + p.dept).toLowerCase().indexOf(ql) > -1; });
+      D = { t: 'Search', d: pool.length + (pool.length === 1 ? ' result for \u201C' : ' results for \u201C') + q + '\u201D', img: 'r_layering', cats: [['all', 'All results']] };
+      if ($('q')) $('q').value = q;
+    }
+    var pick = function () { var h = location.hash.slice(1); if (D.cats.some(function (c) { return c[0] === h; })) st.cat = h; };
+    pick(); window.addEventListener('hashchange', function () { pick(); draw(); });
     document.title = D.t + ' | Hemmings';
     $('deptTitle').textContent = D.t; $('deptDesc').textContent = D.d; $('deptCrumb').textContent = D.t;
     $('deptImg').src = 'img/' + D.img + '.jpg';
@@ -290,7 +357,7 @@
         '<span class="lab m">' + esc(p.col) + ' Collection</span><h1 class="h">' + esc(p.n) + '</h1><div class="pprice">' + HM.money(HM.price(p, st.size)) + '</div><p class="pdesc">' + esc(p.d) + '</p>' +
         '<div class="opt"><div class="optl"><span>Colour</span><strong>' + c.n + '</strong></div><div class="sw">' + p.c.map(function (x, i) { return '<button type="button" data-c="' + i + '" aria-pressed="' + (i === st.c) + '" aria-label="' + x.n + '" title="' + x.n + '"><i style="background:' + x.h + '"></i></button>'; }).join('') + '</div></div>' +
         (p.sized ? '<div class="opt"><div class="optl"><span>Size</span><strong>' + st.size.charAt(0).toUpperCase() + st.size.slice(1) + '</strong><a href="#">Size guide</a></div><div class="seg">' + ['single', 'queen', 'king'].map(function (s) { return '<button type="button" data-size="' + s + '" aria-pressed="' + (st.size === s) + '">' + s.charAt(0).toUpperCase() + s.slice(1) + '</button>'; }).join('') + '</div></div>' : '') +
-        '<div class="buy"><div class="qty" role="group" aria-label="Quantity"><button type="button" data-q="-1" aria-label="One fewer">&minus;</button><span>' + st.q + '</span><button type="button" data-q="1" aria-label="One more">+</button></div><button type="button" class="cta" data-add' + (p.out ? ' disabled' : '') + '>' + (p.out ? 'Sold out' : 'Add to Bag') + '</button><button class="wish box" type="button" aria-pressed="false" aria-label="Add to wishlist">' + HM.heart + '</button></div>' +
+        '<div class="buy"><div class="qty" role="group" aria-label="Quantity"><button type="button" data-q="-1" aria-label="One fewer">&minus;</button><span>' + st.q + '</span><button type="button" data-q="1" aria-label="One more">+</button></div><button type="button" class="cta" data-add' + (p.out ? ' disabled' : '') + '>' + (p.out ? 'Sold out' : 'Add to Bag') + '</button><button class="wish box" type="button" data-wish="' + p.id + '" aria-pressed="' + HM.wish.has(p.id) + '" aria-label="Add to wishlist">' + HM.heart + '</button></div>' +
         '<p class="added" id="added" role="status"></p>' +
         '<a class="design" href="' + designer + '"><span>See it on your bed in the Bed Designer</span><span aria-hidden="true">&rarr;</span></a>' +
         '<p class="ship">' + (p.out ? 'Currently sold out.' : 'In stock.') + ' Delivery in 3 to 5 working days. Cash on delivery available.</p>' +
@@ -389,7 +456,7 @@
       var bag = HM.bag.read();
       if (b.dataset.rm) bag.splice(+b.dataset.rm, 1);
       else if (b.dataset.d) { var l = bag[+b.dataset.i]; l.qty += +b.dataset.d; if (l.qty < 1) bag.splice(+b.dataset.i, 1); }
-      else { note = 'Checkout opens on the store itself. This preview stops here.'; draw(); return; }
+      else { if (V >= 6) { location.href = page('checkout'); return; } note = 'Checkout opens on the store itself. This preview stops here.'; draw(); return; }
       HM.bag.write(bag); draw();
     });
     document.addEventListener('submit', function (e) { if (e.target.id !== 'code') return; e.preventDefault(); note = 'Codes are checked at checkout on the store.'; draw(); });

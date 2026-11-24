@@ -1,0 +1,83 @@
+/* Hemmings version 7, inner pages (shop, product, bag, account, checkout, contact, policies).
+   Generated from the version 1 pages by design/tools/build-pages.mjs and dressed as a luxury house: Cormorant Garamond and Jost,
+   square corners, generous space, three large products to a row, and product cards that are a photograph, a name and a price. */
+@import url("v4-shared.css");
+@import url("v7-chrome.css");
+body { font-family: var(--sans); font-weight: 300; font-size: 16px; line-height: 1.7; }
+.h { font-family: var(--serif); font-weight: 300; letter-spacing: -.005em; line-height: 1.04; }
+.h em { font-style: italic; }
+.lab { font: 400 11px/1.2 var(--sans); letter-spacing: .26em; }
+.go { font: 400 12px/1.2 var(--sans); letter-spacing: .22em; text-transform: uppercase; }
+.crumb { font-size: 11.5px; letter-spacing: .16em; text-transform: uppercase; }
+.txt { letter-spacing: .2em; }
+select, input[type="text"], input[type="email"], input[type="tel"], textarea, .pic, .qty { border-radius: 0; }
+
+/* department banner: tall, quiet, the name in light italic capitals */
+:root .banner { min-height: clamp(360px, 56vh, 620px); background: var(--paper); grid-template-columns: 5fr 7fr; }
+:root .banner h1 { font: italic 300 clamp(56px, 7vw, 120px)/.95 var(--serif); color: var(--deep); }
+:root .banner-copy { justify-content: center; gap: 22px; }
+:root .banner .pic img { animation-duration: 4s; }
+:root .shop { gap: clamp(32px, 5vw, 88px); padding-block: clamp(48px, 6vw, 96px) clamp(96px, 11vw, 170px); }
+:root .side { top: calc(var(--hd) + 32px); }
+:root .side .tabs button { font: 300 20px/1.2 var(--serif); min-height: 42px; transition: font-style .2s, padding .5s var(--ease), color .3s; }
+:root .side .tabs button:hover { padding-left: 10px; font-style: italic; }
+:root .side .tabs button[aria-pressed="true"] { font-style: italic; font-weight: 400; color: var(--deep); }
+@media (min-width: 901px) { :root .shop { grid-template-columns: 210px minmax(0, 1fr); } .pg:not(.four) { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(48px, 5vw, 84px) clamp(20px, 2.4vw, 40px); } }
+.pg.four { gap: clamp(40px, 4vw, 64px) clamp(16px, 2vw, 32px); }
+
+/* product card: photograph, name, price */
+.pc { text-align: center; }
+.pc .pic { border-radius: 0; }
+.pc .pic img { transition: transform 2.6s var(--ease), opacity 1.2s ease; }
+.pc:hover .pic img { transform: scale(1.06); }
+.pc .tag { left: 0; top: 18px; padding: 7px 14px; border-radius: 0; background: var(--paper); font: 400 10px/1 var(--sans); letter-spacing: .24em; }
+.pc .wish { top: 10px; right: 10px; background: none; opacity: 0; transition: opacity .5s, transform .5s var(--ease); }
+.pc:hover .wish, .pc .wish:focus-visible, .pc .wish[aria-pressed="true"] { opacity: 1; }
+.pc .wish svg { stroke: #fff; filter: drop-shadow(0 1px 3px rgba(0,0,0,.4)); }
+.pc .wish[aria-pressed="true"] svg { fill: #fff; }
+.pc .quick { left: 0; right: 0; }
+.pc .quick button { height: 48px; margin: 0; border-radius: 0; background: color-mix(in srgb, var(--paper) 92%, transparent); backdrop-filter: blur(6px); font: 400 11px/1 var(--sans); letter-spacing: .26em; text-transform: uppercase; transform: translateY(100%); opacity: 1; transition: transform .7s var(--ease), background .4s, color .4s; }
+.pc .quick { overflow: hidden; }
+.pc:hover .quick button, .pc .quick button:focus-visible { transform: none; }
+.pc .lab { margin-top: 20px; font: 400 10.5px/1.2 var(--sans); letter-spacing: .24em; text-transform: uppercase; color: var(--metal-ink); }
+.pc h3 { margin: 8px 0 6px; font: 400 clamp(21px, 1.7vw, 26px)/1.15 var(--serif); }
+.pc a:hover h3, .pc h3 a:hover { font-style: italic; color: inherit; }
+.pc .price { flex-direction: column; gap: 10px; font-size: 14px; letter-spacing: .06em; color: var(--muted); }
+.pc .dots { justify-content: center; }
+.lrow h3, .ln h3 { font: 400 22px/1.2 var(--serif); }
+
+/* product, bag, account */
+:root #gal { top: calc(var(--hd) + 24px); }
+:root #info h1 { font-size: clamp(36px, 3.6vw, 56px); }
+.pprice { font: 300 20px/1 var(--sans); letter-spacing: .06em; }
+:root .bg-head h1 { font: italic 300 clamp(48px, 6vw, 96px)/1 var(--serif); }
+:root #summary { top: calc(var(--hd) + 24px); }
+.sec-h .h, :root .sec-h .h { font-size: clamp(36px, 4.4vw, 68px); }
+.acct .txt, .acct .fld label { font: 400 11px/1.2 var(--sans); letter-spacing: .2em; text-transform: uppercase; }
+.acct .fld input, .acct .fld select { background: transparent; border-width: 0 0 1px; border-color: var(--ink); padding-inline: 0; }
+.acct .fld input:focus, .acct .fld select:focus { box-shadow: 0 1px 0 var(--deep); }
+.acct .cta.sm { font-size: 11px; letter-spacing: .2em; }
+.acct .cta.ghost { background: transparent; }
+.acct .cta.ghost::before { background: var(--deep); }
+:root .acct .cta.ghost:hover { color: var(--on-deep); background: transparent; }
+.ac-top h1 { font: 300 clamp(44px, 5vw, 76px)/1 var(--serif); }
+.ac-h h2 { font-size: clamp(30px, 3vw, 44px); }
+.au-card h1 { font-size: clamp(38px, 3.8vw, 56px); }
+.au, .ac-card, .ac-order, .ac-stats a, .co fieldset { background: transparent; }
+.au-tabs button { font: 400 12px/1 var(--sans); letter-spacing: .22em; text-transform: uppercase; }
+.au-tabs button::after { height: 1px; }
+.ac-nav a { font: 400 12px/1.2 var(--sans); letter-spacing: .2em; text-transform: uppercase; border-left-width: 1px; padding-block: 15px; }
+.ac-nav a[aria-current] { background: none; }
+.ac-stats b { font: 300 48px/1 var(--serif); }
+.ac-stats span, .ac-badge, .co-steps { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; }
+.ac-badge { border-radius: 0; font-weight: 400; }
+.ac-id { font: 400 22px/1.1 var(--serif); }
+.ac-order header { background: none; border-bottom: 1px solid var(--line); }
+.ac-item h3 { font: 400 19px/1.2 var(--serif); }
+.ac-tools .tabs button { border-radius: 0; font: 400 11px/1 var(--sans); letter-spacing: .18em; text-transform: uppercase; }
+.ac-tools input { background: transparent; border-width: 0 0 1px; border-color: var(--ink); padding: 0; font-weight: 300; }
+.co legend { font: 400 26px/1.1 var(--serif); }
+.co legend i { background: none; color: var(--metal-ink); border: 1px solid var(--metal); font: italic 400 16px/1 var(--serif); }
+.co-opt b, .co-opt em { font-weight: 400; }
+.co-sum { background: transparent; border: 1px solid var(--line); }
+.ac-nav, .co-sum { top: calc(var(--hd) + 32px); }

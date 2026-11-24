@@ -1,0 +1,104 @@
+/* Hemmings version 6, "the traditional store": the familiar e-commerce frame. A utility strip, a header with a wide search field and
+   labelled account / wishlist / bag buttons, a solid department bar with a menu for every department, and a five-column footer.
+   Builds on v4-chrome.css (palette tokens, menus, drawer, newsletter band, footer, toast, palette control); markup from hm.js. */
+@import url("v4-chrome.css");
+:root { --serif: 'Plus Jakarta Sans', system-ui, sans-serif; --sans: 'Plus Jakarta Sans', system-ui, sans-serif; --r: 8px; --ar: 8px; --s-wrap: 1360px; --hd: 122px; }
+
+/* utility strip */
+.t-util { background: var(--cream); color: var(--ink); font: 500 13px/1.3 var(--sans); border-bottom: 1px solid var(--line); }
+.t-util .s-wrap { display: flex; align-items: center; justify-content: space-between; gap: 20px; min-height: 36px; }
+.t-util p { margin: 0; display: flex; align-items: center; gap: 9px; }
+.t-util .si { width: 17px; height: 17px; color: var(--metal-ink); }
+.t-util ul { list-style: none; margin: 0; padding: 0; display: flex; }
+.t-util li + li { border-left: 1px solid var(--line); }
+.t-util li a { display: block; padding: 2px 16px; color: var(--muted); transition: color .2s; }
+.t-util li:last-child a { padding-right: 0; }
+.t-util li a:hover { color: var(--deep); text-decoration: underline; text-underline-offset: 3px; }
+
+/* header: logo, search, account / wishlist / bag */
+.t-hd { position: sticky; top: 0; z-index: 80; background: var(--white); color: var(--ink); font-family: var(--sans); transition: box-shadow .3s; }
+.t-hd.solid { box-shadow: 0 10px 30px -20px rgba(0,0,0,.45); }
+.t-main { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: clamp(20px, 3.4vw, 56px); min-height: 76px; }
+.t-main .s-wm { justify-self: start; font-size: 25px; }
+.t-search { position: relative; display: flex; max-width: 640px; width: 100%; justify-self: center; }
+.t-search input { flex: 1; min-width: 0; height: 46px; padding: 0 56px 0 20px; border: 1.5px solid var(--line); border-radius: 99px; background: var(--paper); font: 400 15px var(--sans); color: var(--ink); transition: border-color .25s, box-shadow .25s, background .25s; }
+.t-search input::placeholder { color: var(--muted); }
+.t-search input:hover { border-color: color-mix(in srgb, var(--deep) 45%, var(--line)); }
+.t-search input:focus { outline: 0; border-color: var(--deep); background: var(--white); box-shadow: 0 0 0 4px color-mix(in srgb, var(--metal) 28%, transparent); }
+.t-search button { position: absolute; right: 4px; top: 4px; width: 38px; height: 38px; border: 0; border-radius: 50%; background: var(--deep); color: var(--on-deep); display: grid; place-items: center; transition: background .25s, transform .25s; }
+.t-search button:hover { background: var(--mid); transform: scale(1.08); }
+.t-search svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; }
+.t-acts { display: flex; align-items: center; gap: 6px; }
+.t-act { position: relative; display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 8px; transition: background .25s, transform .25s; }
+.t-act:hover { background: var(--cream); transform: translateY(-1px); }
+.t-act svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; flex: none; transition: transform .3s; }
+.t-act:hover svg { transform: scale(1.1); }
+.t-act span { display: grid; gap: 2px; white-space: nowrap; }
+.t-act small { font-size: 11.5px; color: var(--muted); line-height: 1; }
+.t-act b { font-weight: 600; font-size: 14px; line-height: 1.1; }
+.t-act i { position: absolute; left: 26px; top: 2px; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px; background: var(--metal); color: var(--ink); font: 700 11px/18px var(--sans); font-style: normal; text-align: center; }
+
+/* department bar */
+.t-bar { position: relative; background: var(--deep); color: var(--on-deep); transition: background-color .6s; }
+.t-bar .s-wrap { display: flex; align-items: center; justify-content: space-between; }
+.t-bar .s-nav { margin-left: -16px; gap: 0; }
+.t-bar .s-nav > li > a, .t-bar .s-nav > li > button { height: 46px; padding: 0 16px; font: 600 14px/1 var(--sans); letter-spacing: .01em; transition: background .25s, color .25s; }
+.t-bar .s-nav > li > a::after, .t-bar .s-nav > li > button::after { left: 0; right: 0; bottom: 0; height: 3px; background: var(--metal); }
+.t-bar .s-nav > li:hover > a, .t-bar .s-nav > li:hover > button, .t-bar .s-nav > li > button[aria-expanded=true] { background: color-mix(in srgb, var(--on-deep) 10%, transparent); }
+.t-bar .s-nav > li:first-child > a { color: var(--metal-soft); }
+.t-bar .s-mega { color: var(--ink); border-top: 0; }
+.t-bar .s-mega-in { grid-template-columns: 1fr 1.3fr 1.2fr; padding-block: 28px 32px; }
+.t-bar .s-mega li a { padding: 6px 0; font-size: 14.5px; transition: border-color .25s, padding .25s, color .25s; }
+.t-bar .s-mega li a:hover { padding-left: 8px; color: var(--deep); border-color: transparent; }
+.t-bar .s-mega-f { min-height: 180px; }
+.t-bar .s-mega-f span { font: 600 20px/1.2 var(--sans); }
+.t-des { display: inline-flex; align-items: center; gap: 8px; height: 46px; font: 600 14px/1 var(--sans); color: var(--metal-soft); }
+.t-des:hover .arr { transform: translateX(5px); }
+
+/* buttons: the accent colour rises through them, and they lift */
+.s-btn, .cta, .btn { position: relative; z-index: 0; overflow: hidden; border-radius: 8px; transition: color .35s, border-color .35s, transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s; }
+.s-btn::before, .cta::before, .btn::before { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--metal); transform: translateY(102%); transition: transform .45s cubic-bezier(.2,.7,.2,1); }
+.s-btn:hover, .cta:hover:not(:disabled), .btn:hover { background: var(--deep); color: var(--ink); border-color: var(--metal); transform: translateY(-2px); box-shadow: 0 14px 24px -14px rgba(0,0,0,.5); }
+.s-btn:hover::before, .cta:hover:not(:disabled)::before, .btn:hover::before { transform: none; }
+.s-btn:active, .cta:active, .btn:active { transform: translateY(0) scale(.98); }
+.cta .arr, .btn .arr { transition: transform .35s; }
+.cta:hover .arr, .btn:hover .arr { transform: translateX(5px); }
+
+/* newsletter band and footer */
+.s-news::before { background: var(--cream); }
+.s-news h2 { font: 700 clamp(22px, 2.1vw, 28px)/1.2 var(--sans); letter-spacing: -.01em; }
+.s-news input { border-radius: 8px; }
+.s-ft { padding-bottom: 28px; }
+.s-ft-g { grid-template-columns: 1.6fr repeat(4, 1fr); }
+.s-ft h3 { font-size: 12px; letter-spacing: .12em; }
+.s-ft li a { transition: color .2s, padding .25s; }
+.s-ft li a:hover { padding-left: 6px; text-decoration: none; }
+.s-ft-word { display: none; }
+.s-pay { display: flex; flex-wrap: wrap; gap: 8px; max-width: none !important; }
+.s-pay span { padding: 7px 12px; border: 1px solid color-mix(in srgb, var(--on-deep) 26%, transparent); border-radius: 6px; font-size: 12.5px; color: var(--on-deep); }
+.s-drawer li a { font: 600 18px/1.2 var(--sans); }
+
+@media (min-width: 1101px) and (max-width: 1680px) {
+  :root { --s-wrap: 1260px; --hd: 110px; }
+  .t-main { min-height: 68px; }
+  .t-main .s-wm { font-size: 22px; }
+  .t-search input { height: 42px; font-size: 14.5px; }
+  .t-search button { width: 34px; height: 34px; }
+  .t-bar .s-nav > li > a, .t-bar .s-nav > li > button, .t-des { height: 42px; font-size: 13.5px; }
+  .t-util { font-size: 12.5px; } .t-util .s-wrap { min-height: 32px; }
+}
+@media (max-width: 1100px) {
+  :root { --hd: 124px; }
+  .t-util ul, .t-bar, .t-act span, .t-act.opt { display: none; }
+  .t-util .s-wrap { justify-content: center; }
+  .t-main { grid-template-columns: auto 1fr auto; grid-template-areas: "burger logo acts" "search search search"; gap: 0 8px; min-height: 0; padding-block: 8px 12px; }
+  .t-main .s-burger { grid-area: burger; }
+  .t-main .s-wm { grid-area: logo; justify-self: center; font-size: 21px; }
+  .t-acts { grid-area: acts; gap: 0; }
+  .t-search { grid-area: search; max-width: none; margin-top: 8px; }
+  .t-act { padding: 8px; }
+  .t-act i { left: 22px; }
+  .s-ft-g { grid-template-columns: 1fr 1fr 1fr; }
+}
+@media (max-width: 720px) { .s-ft-g { grid-template-columns: 1fr 1fr; } .t-util { font-size: 12px; } }
+@media (prefers-reduced-motion: reduce) { .s-btn, .cta, .btn, .s-btn::before, .cta::before, .btn::before, .t-act, .t-act svg { transition: none; } }
