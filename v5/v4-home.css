@@ -302,3 +302,35 @@ main { position: relative; overflow-x: clip; }
   *, *::before, *::after { transition-duration: .01ms !important; animation: none !important; }
   .rv { opacity: 1; transform: none; } .slide .px > img { transform: none; } .px { transform: none; }
 }
+
+/* Version 10: the three-colour palette on the homepage (tokens and the rule of three are in v4-chrome.css).
+   Sage does the buttons, the hover fills and the highlights; charcoal does the type; every surface is a beige. */
+[data-palette="trio"] .btn { color: var(--ink); }
+[data-palette="trio"] .btn::before { background: var(--ink); }
+[data-palette="trio"] .btn:hover { color: var(--paper); }
+[data-palette="trio"] .btn.light { background: var(--white); color: var(--ink); }
+[data-palette="trio"] .btn.light::before, [data-palette="trio"] .btn.line::before { background: var(--metal); }
+[data-palette="trio"] .btn.light:hover, [data-palette="trio"] .btn.line:hover { color: var(--ink); }
+[data-palette="trio"] .btn.line { color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); }
+[data-palette="trio"] .h em { color: inherit; background: linear-gradient(transparent 64%, color-mix(in srgb, var(--metal) 60%, transparent) 64%, color-mix(in srgb, var(--metal) 60%, transparent) 92%, transparent 92%); }
+[data-palette="trio"] .kick::before { border-color: var(--metal); background: var(--metal); }
+[data-palette="trio"] .tile .lb, [data-palette="trio"] .card .qa, [data-palette="trio"] .nb, [data-palette="trio"] .spot, [data-palette="trio"] .tabs button { background: var(--white); }
+[data-palette="trio"] .tile.big, [data-palette="trio"] .spot::after { color: var(--white); }
+[data-palette="trio"] .tile.big .n a { border-color: color-mix(in srgb, var(--white) 60%, transparent); }
+[data-palette="trio"] .tile.big .n a:hover { background: var(--metal); border-color: var(--metal); color: var(--ink); }
+[data-palette="trio"] .tile:hover .lb { background: var(--metal); }
+[data-palette="trio"] .card .tag { background: var(--metal); color: var(--ink); }
+[data-palette="trio"] .card .wish { background: color-mix(in srgb, var(--white) 88%, transparent); }
+[data-palette="trio"] .card .wish:hover { background: var(--metal); }
+[data-palette="trio"] .card .wish[aria-pressed=true] svg { fill: var(--metal); stroke: var(--ink); }
+[data-palette="trio"] .card .qa:hover { background: var(--metal); color: var(--ink); }
+[data-palette="trio"] .nb:hover { background: var(--metal); }
+[data-palette="trio"] .tabs button:hover { border-color: var(--metal); background: color-mix(in srgb, var(--metal) 30%, var(--white)); }
+[data-palette="trio"] .tabs button[aria-pressed=true] { background: var(--metal); border-color: var(--metal); color: var(--ink); }
+[data-palette="trio"] .steps li::before { border-color: var(--metal); background: var(--metal); color: var(--ink); }
+[data-palette="trio"] .why svg { stroke: var(--ink); }
+[data-palette="trio"] .why li:hover { background: color-mix(in srgb, var(--metal) 26%, var(--paper)); }
+[data-palette="trio"] .hdots button.d i::after { background: var(--metal); }
+[data-palette="trio"] .hdots button.d i { background: color-mix(in srgb, var(--ink) 30%, transparent); }
+[data-palette="trio"] .deco { opacity: .5; }
+[data-palette="trio"] .why h2 { font-weight: 500; }

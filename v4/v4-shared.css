@@ -63,3 +63,19 @@ select, input[type="text"], input[type="email"], input[type="tel"], textarea { b
 }
 /* product page: the photograph never grows taller than the screen it is shown on */
 @media (min-width: 901px) { :root #gal { top: 96px; max-width: max(380px, calc((100vh - 190px) * .8 + 98px)); margin-left: auto; } }
+
+/* Version 10: the three-colour palette on the inner pages (tokens in v4-chrome.css). Sage buttons with charcoal lettering,
+   turning charcoal on hover; sage for the selected and highlighted states; beige for every surface. */
+[data-palette="trio"] .cta { background: var(--metal); border-color: var(--metal); color: var(--ink); }
+[data-palette="trio"] .cta:hover:not(:disabled) { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+[data-palette="trio"] .h em { color: inherit; background: linear-gradient(transparent 64%, color-mix(in srgb, var(--metal) 60%, transparent) 64%, color-mix(in srgb, var(--metal) 60%, transparent) 92%, transparent 92%); }
+[data-palette="trio"] .pc .tag { background: var(--metal); color: var(--ink); }
+[data-palette="trio"] .pc .wish { background: color-mix(in srgb, var(--white) 88%, transparent); }
+[data-palette="trio"] .wish[aria-pressed="true"] svg { fill: var(--metal); stroke: var(--ink); }
+[data-palette="trio"] .pc .quick button { background: var(--white); color: var(--ink); }
+[data-palette="trio"] .pc .quick button:hover:not(:disabled) { background: var(--metal); color: var(--ink); }
+[data-palette="trio"] .pc a:hover h3, [data-palette="trio"] .pc h3 a:hover, [data-palette="trio"] .lrow h3 a:hover { color: var(--ink); text-decoration: underline; text-decoration-color: var(--metal); text-decoration-thickness: 2px; text-underline-offset: 4px; }
+[data-palette="trio"] .seg button[aria-pressed="true"] { background: var(--metal); border-color: var(--metal); color: var(--ink); }
+[data-palette="trio"] .go::after { background: var(--metal); height: 2px; }
+[data-palette="trio"] .design:hover { border-color: var(--metal); background: color-mix(in srgb, var(--metal) 24%, var(--paper)); }
+[data-palette="trio"] .back:hover { background: color-mix(in srgb, var(--metal) 24%, var(--paper)); }

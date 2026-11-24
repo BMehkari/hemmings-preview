@@ -5,33 +5,136 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
 <title>Hemmings | Design Versions</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Jost:wght@300;400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Jost:wght@300;400;500&display=swap">
 <style>
 *{box-sizing:border-box}
-body{margin:0;min-height:100vh;display:grid;place-items:center;background:#F7F4ED;color:#252923;font-family:'Jost',sans-serif;font-weight:300;padding:40px 20px}
-main{width:min(100%,880px)}
-p.k{margin:0 0 14px;font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:#6E5B2E}
-h1{margin:0 0 44px;font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(44px,8vw,92px);line-height:1}
+body{margin:0;background:#F7F4ED;color:#252923;font-family:'Jost',sans-serif;font-weight:300;font-size:16px;line-height:1.6;padding:clamp(40px,7vw,96px) 20px}
+main{width:min(100%,1040px);margin:0 auto}
+p.k{margin:0 0 14px;font-size:11px;font-weight:400;letter-spacing:.32em;text-transform:uppercase;color:#6E5B2E}
+h1{margin:0 0 16px;font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(44px,8vw,92px);line-height:1}
 h1 em{font-style:italic}
-ul{list-style:none;margin:0;padding:0;border-top:1px solid #D9D0BD}
-a{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 24px;padding:26px 4px;border-bottom:1px solid #D9D0BD;color:inherit;text-decoration:none;transition:padding .4s,background .4s}
-a:hover,a:focus-visible{padding-left:18px;background:#E8E0CF;outline:0}
-a strong{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(28px,4vw,42px)}
-a span{font-size:16px;color:#555A50}
+p.i{margin:0 0 44px;max-width:62ch;color:#555A50}
+nav{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 36px}
+nav a{padding:8px 14px;border:1px solid #D9D0BD;border-radius:99px;color:inherit;text-decoration:none;font-size:14px;font-weight:400;transition:background .3s,border-color .3s,color .3s}
+nav a:hover,nav a:focus-visible{background:#252923;border-color:#252923;color:#F7F4ED;outline:0}
+ul{list-style:none;margin:0;padding:0;display:grid;gap:18px}
+article{border:1px solid #D9D0BD;background:#FFFDF8;transition:border-color .3s,box-shadow .4s}
+article:hover{border-color:#B49A62;box-shadow:0 24px 40px -30px rgba(0,0,0,.4)}
+header a{display:grid;grid-template-columns:auto 1fr auto;align-items:baseline;gap:6px 22px;padding:22px clamp(18px,3vw,32px);color:inherit;text-decoration:none;background:#EFE9DB;transition:background .3s}
+header a:hover,header a:focus-visible{background:#E8E0CF;outline:0}
+.n{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:clamp(28px,3.6vw,40px);line-height:1}
+.t{font-size:16px;color:#555A50}
+.go{font-size:12px;font-weight:400;letter-spacing:.2em;text-transform:uppercase;white-space:nowrap}
+.go b{display:inline-block;font-weight:400;transition:transform .3s}
+header a:hover .go b{transform:translateX(6px)}
+dl{display:grid;grid-template-columns:150px 1fr;gap:14px 24px;margin:0;padding:24px clamp(18px,3vw,32px) 28px}
+dt{font-size:11px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:#6E5B2E;padding-top:4px}
+dd{margin:0}
+.sws{display:flex;flex-wrap:wrap;gap:8px 18px;margin-bottom:8px}
+.sw{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:400}
+.sw i{width:20px;height:20px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(0,0,0,.14)}
+.sw i+i{margin-left:-14px}
+.sw em{font-style:normal}
+@media (max-width:640px){dl{grid-template-columns:1fr;gap:4px}dt{padding-top:12px}header a{grid-template-columns:1fr auto}.t{grid-column:1/-1;grid-row:2}}
 </style>
 </head>
 <body>
 <main>
   <p class="k">Hemmings</p>
   <h1>Design <em>Versions</em></h1>
+  <p class="i">Ten versions of the store. Each card says what the version is made of: its layout and style, its colours, its fonts and what is in it. Products, prices and offers are illustrative in all of them.</p>
+  <nav aria-label="Versions"><a href="v1/">Version 1</a><a href="v2/">Version 2</a><a href="v3/">Version 3</a><a href="v4/">Version 4</a><a href="v5/">Version 5</a><a href="v6/">Version 6</a><a href="v7/">Version 7</a><a href="v8/">Version 8</a><a href="v9/">Version 9</a><a href="v10/">Version 10</a></nav>
   <ul>
-    <li><a href="v1/"><strong>Version 1</strong><span>Editorial layout, five palettes</span></a></li>
-    <li><a href="v2/"><strong>Version 2</strong><span>Maison layout, five palettes</span></a></li>
-    <li><a href="v3/"><strong>Version 3</strong><span>Atelier layout, five palettes</span></a></li>
-    <li><a href="v4/"><strong>Version 4</strong><span>Storefront layout, five palettes, floating silk</span></a></li>
-    <li><a href="v5/"><strong>Version 5</strong><span>Storefront layout with scroll, hover and parallax effects</span></a></li>
-    <li><a href="v6/"><strong>Version 6</strong><span>Traditional online store, with accounts, orders and checkout</span></a></li>
-    <li><a href="v7/"><strong>Version 7</strong><span>Luxury house, with accounts, orders and checkout</span></a></li>
+    <li><article>
+      <header><a href="v1/"><span class="n">Version 1</span><span class="t">Editorial</span><span class="go">Open <b>&rarr;</b></span></a></header>
+      <dl>
+        <dt>Layout and style</dt><dd>Magazine-style layout: large upper-case didone headings, left-aligned, an announcement bar, light ground, generous photography.</dd>
+        <dt>Colours</dt><dd><div class="sws"><span class="sw" title="Forest & Gold"><i style="background:#183B32"></i><i style="background:#B49A62"></i><em>Forest & Gold</em></span><span class="sw" title="Burgundy & Champagne"><i style="background:#481C2C"></i><i style="background:#D6B98C"></i><em>Burgundy & Champagne</em></span><span class="sw" title="Navy & Platinum"><i style="background:#101D35"></i><i style="background:#A8ADB5"></i><em>Navy & Platinum</em></span><span class="sw" title="Truffle & Sage"><i style="background:#2C2420"></i><i style="background:#A6C090"></i><em>Truffle & Sage</em></span><span class="sw" title="Ink & Sage"><i style="background:#1F2A30"></i><i style="background:#8FA287"></i><em>Ink & Sage</em></span></div>Five switchable palettes, each a deep colour with a metallic or sage accent on a warm paper ground. Switch with the control at the bottom right of any page.</dd>
+        <dt>Fonts</dt><dd>Bodoni Moda (headings), Jost (body and labels).</dd>
+        <dt>What it has</dt><dd>Homepage, shop pages with filters, product page, bag, Bed Designer, contact and policy pages.</dd>
+      </dl>
+    </article></li>
+    <li><article>
+      <header><a href="v2/"><span class="n">Version 2</span><span class="t">Maison</span><span class="go">Open <b>&rarr;</b></span></a></header>
+      <dl>
+        <dt>Layout and style</dt><dd>Classic maison layout: centred logo lockup with navigation either side, light italic serif headings, matted photographs, a dark footer.</dd>
+        <dt>Colours</dt><dd><div class="sws"><span class="sw" title="Forest & Gold"><i style="background:#183B32"></i><i style="background:#B49A62"></i><em>Forest & Gold</em></span><span class="sw" title="Burgundy & Champagne"><i style="background:#481C2C"></i><i style="background:#D6B98C"></i><em>Burgundy & Champagne</em></span><span class="sw" title="Navy & Platinum"><i style="background:#101D35"></i><i style="background:#A8ADB5"></i><em>Navy & Platinum</em></span><span class="sw" title="Truffle & Sage"><i style="background:#2C2420"></i><i style="background:#A6C090"></i><em>Truffle & Sage</em></span><span class="sw" title="Ink & Sage"><i style="background:#1F2A30"></i><i style="background:#8FA287"></i><em>Ink & Sage</em></span></div>Five switchable palettes, each a deep colour with a metallic or sage accent on a warm paper ground. Switch with the control at the bottom right of any page.</dd>
+        <dt>Fonts</dt><dd>Cormorant Garamond (headings), Libre Caslon Display (logo), Tenor Sans (labels), Jost (body).</dd>
+        <dt>What it has</dt><dd>Same pages as version 1, in this treatment.</dd>
+      </dl>
+    </article></li>
+    <li><article>
+      <header><a href="v3/"><span class="n">Version 3</span><span class="t">Atelier</span><span class="go">Open <b>&rarr;</b></span></a></header>
+      <dl>
+        <dt>Layout and style</dt><dd>Contemporary studio layout: a full-screen numbered menu, oversized serif headings, small monospace labels, and the floating silk cloth carrying the logo.</dd>
+        <dt>Colours</dt><dd><div class="sws"><span class="sw" title="Forest & Gold"><i style="background:#183B32"></i><i style="background:#B49A62"></i><em>Forest & Gold</em></span><span class="sw" title="Burgundy & Champagne"><i style="background:#481C2C"></i><i style="background:#D6B98C"></i><em>Burgundy & Champagne</em></span><span class="sw" title="Navy & Platinum"><i style="background:#101D35"></i><i style="background:#A8ADB5"></i><em>Navy & Platinum</em></span><span class="sw" title="Truffle & Sage"><i style="background:#2C2420"></i><i style="background:#A6C090"></i><em>Truffle & Sage</em></span><span class="sw" title="Ink & Sage"><i style="background:#1F2A30"></i><i style="background:#8FA287"></i><em>Ink & Sage</em></span></div>Five switchable palettes, each a deep colour with a metallic or sage accent on a warm paper ground. Switch with the control at the bottom right of any page.</dd>
+        <dt>Fonts</dt><dd>Instrument Serif (headings), DM Sans (body), DM Mono (labels).</dd>
+        <dt>What it has</dt><dd>Same pages as version 1, in this treatment, plus the floating silk.</dd>
+      </dl>
+    </article></li>
+    <li><article>
+      <header><a href="v4/"><span class="n">Version 4</span><span class="t">Storefront</span><span class="go">Open <b>&rarr;</b></span></a></header>
+      <dl>
+        <dt>Layout and style</dt><dd>The client layout: service strip, logo in the centre with navigation left and right, photo slideshow with the text on the left, category grid with Bedding as the large tile, stacked product grids, soft rounded corners. Floating silk cloth, background parallax, hover effects on tiles, cards and buttons.</dd>
+        <dt>Colours</dt><dd><div class="sws"><span class="sw" title="Forest & Gold"><i style="background:#183B32"></i><i style="background:#B49A62"></i><em>Forest & Gold</em></span><span class="sw" title="Burgundy & Champagne"><i style="background:#481C2C"></i><i style="background:#D6B98C"></i><em>Burgundy & Champagne</em></span><span class="sw" title="Navy & Platinum"><i style="background:#101D35"></i><i style="background:#A8ADB5"></i><em>Navy & Platinum</em></span><span class="sw" title="Truffle & Sage"><i style="background:#2C2420"></i><i style="background:#A6C090"></i><em>Truffle & Sage</em></span><span class="sw" title="Ink & Sage"><i style="background:#1F2A30"></i><i style="background:#8FA287"></i><em>Ink & Sage</em></span></div>Five switchable palettes, each a deep colour with a metallic or sage accent on a warm paper ground. Switch with the control at the bottom right of any page.</dd>
+        <dt>Fonts</dt><dd>Fraunces (headings), Figtree (body and interface), Libre Caslon Display (logo).</dd>
+        <dt>What it has</dt><dd>About 40 products on the homepage, four products to a row on shop pages, Make Your Own Bed, gifting and season banners, laptop sizing.</dd>
+      </dl>
+    </article></li>
+    <li><article>
+      <header><a href="v5/"><span class="n">Version 5</span><span class="t">Storefront, more motion</span><span class="go">Open <b>&rarr;</b></span></a></header>
+      <dl>
+        <dt>Layout and style</dt><dd>Version 4 with the effects turned up: headings that rise word by word, a curtain opening on the banner, a pinned "Three Weaves" story, a running band of fabric names, draggable product rows, a labelled pointer ring, a scroll progress line.</dd>
+        <dt>Colours</dt><dd><div class="sws"><span class="sw" title="Forest & Gold"><i style="background:#183B32"></i><i style="background:#B49A62"></i><em>Forest & Gold</em></span><span class="sw" title="Burgundy & Champagne"><i style="background:#481C2C"></i><i style="background:#D6B98C"></i><em>Burgundy & Champagne</em></span><span class="sw" title="Navy & Platinum"><i style="background:#101D35"></i><i style="background:#A8ADB5"></i><em>Navy & Platinum</em></span><span class="sw" title="Truffle & Sage"><i style="background:#2C2420"></i><i style="background:#A6C090"></i><em>Truffle & Sage</em></span><span class="sw" title="Ink & Sage"><i style="background:#1F2A30"></i><i style="background:#8FA287"></i><em>Ink & Sage</em></span></div>Five switchable palettes, each a deep colour with a metallic or sage accent on a warm paper ground. Switch with the control at the bottom right of any page.</dd>
+        <dt>Fonts</dt><dd>Fraunces (headings), Figtree (body and interface), Libre Caslon Display (logo).</dd>
+        <dt>What it has</dt><dd>Everything in version 4, plus the scroll, hover and parallax effects.</dd>
+      </dl>
+    </article></li>
+    <li><article>
+      <header><a href="v6/"><span class="n">Version 6</span><span class="t">Traditional online store</span><span class="go">Open <b>&rarr;</b></span></a></header>
+      <dl>
+        <dt>Layout and style</dt><dd>The familiar e-commerce frame: wide search bar, labelled Account / Wishlist / Bag buttons, a solid department bar with drop-downs, a promotional slider with two side offers, round category shortcuts, boxed product cards with Add to Bag always showing, parallax promotional banners. Buttons fill with the accent colour and lift on hover.</dd>
+        <dt>Colours</dt><dd><div class="sws"><span class="sw" title="Forest & Gold"><i style="background:#183B32"></i><i style="background:#B49A62"></i><em>Forest & Gold</em></span><span class="sw" title="Burgundy & Champagne"><i style="background:#481C2C"></i><i style="background:#D6B98C"></i><em>Burgundy & Champagne</em></span><span class="sw" title="Navy & Platinum"><i style="background:#101D35"></i><i style="background:#A8ADB5"></i><em>Navy & Platinum</em></span><span class="sw" title="Truffle & Sage"><i style="background:#2C2420"></i><i style="background:#A6C090"></i><em>Truffle & Sage</em></span><span class="sw" title="Ink & Sage"><i style="background:#1F2A30"></i><i style="background:#8FA287"></i><em>Ink & Sage</em></span></div>Five switchable palettes, each a deep colour with a metallic or sage accent on a warm paper ground. Switch with the control at the bottom right of any page.</dd>
+        <dt>Fonts</dt><dd>Plus Jakarta Sans (everything), Libre Caslon Display (logo).</dd>
+        <dt>What it has</dt><dd>Search, sign in and registration, account with order history and tracking, saved addresses, wishlist, checkout. About 35 products on the homepage.</dd>
+      </dl>
+    </article></li>
+    <li><article>
+      <header><a href="v7/"><span class="n">Version 7</span><span class="t">Luxury house</span><span class="go">Open <b>&rarr;</b></span></a></header>
+      <dl>
+        <dt>Layout and style</dt><dd>A fashion-house treatment: emblem and wordmark in the centre, words instead of icons, square corners, a full-height opening photograph, a statement, two collections, "The House" index where each department shows its room, full-width parallax banners. Buttons wipe slowly from the left.</dd>
+        <dt>Colours</dt><dd><div class="sws"><span class="sw" title="Forest & Gold"><i style="background:#183B32"></i><i style="background:#B49A62"></i><em>Forest & Gold</em></span><span class="sw" title="Burgundy & Champagne"><i style="background:#481C2C"></i><i style="background:#D6B98C"></i><em>Burgundy & Champagne</em></span><span class="sw" title="Navy & Platinum"><i style="background:#101D35"></i><i style="background:#A8ADB5"></i><em>Navy & Platinum</em></span><span class="sw" title="Truffle & Sage"><i style="background:#2C2420"></i><i style="background:#A6C090"></i><em>Truffle & Sage</em></span><span class="sw" title="Ink & Sage"><i style="background:#1F2A30"></i><i style="background:#8FA287"></i><em>Ink & Sage</em></span></div>Five switchable palettes, each a deep colour with a metallic or sage accent on a warm paper ground. Switch with the control at the bottom right of any page.</dd>
+        <dt>Fonts</dt><dd>Cormorant Garamond (headings), Jost (body and interface), Libre Caslon Display (logo).</dd>
+        <dt>What it has</dt><dd>Search, sign in and registration, account with order history and tracking, saved addresses, wishlist, checkout. Three large products to a row on shop pages.</dd>
+      </dl>
+    </article></li>
+    <li><article>
+      <header><a href="v8/"><span class="n">Version 8</span><span class="t">Version 7 banner on the version 6 store</span><span class="go">Open <b>&rarr;</b></span></a></header>
+      <dl>
+        <dt>Layout and style</dt><dd>The full-height opening photograph and serif headline of version 7, followed by the whole of version 6: search header, department bar, service strip, category shortcuts, boxed product grids and parallax banners.</dd>
+        <dt>Colours</dt><dd><div class="sws"><span class="sw" title="Forest & Gold"><i style="background:#183B32"></i><i style="background:#B49A62"></i><em>Forest & Gold</em></span><span class="sw" title="Burgundy & Champagne"><i style="background:#481C2C"></i><i style="background:#D6B98C"></i><em>Burgundy & Champagne</em></span><span class="sw" title="Navy & Platinum"><i style="background:#101D35"></i><i style="background:#A8ADB5"></i><em>Navy & Platinum</em></span><span class="sw" title="Truffle & Sage"><i style="background:#2C2420"></i><i style="background:#A6C090"></i><em>Truffle & Sage</em></span><span class="sw" title="Ink & Sage"><i style="background:#1F2A30"></i><i style="background:#8FA287"></i><em>Ink & Sage</em></span></div>Five switchable palettes, each a deep colour with a metallic or sage accent on a warm paper ground. Switch with the control at the bottom right of any page.</dd>
+        <dt>Fonts</dt><dd>Plus Jakarta Sans (the store), Cormorant Garamond and Jost (the opening banner only), Libre Caslon Display (logo).</dd>
+        <dt>What it has</dt><dd>Search, sign in and registration, account with order history and tracking, saved addresses, wishlist, checkout.</dd>
+      </dl>
+    </article></li>
+    <li><article>
+      <header><a href="v9/"><span class="n">Version 9</span><span class="t">Version 7, shorter, new banner</span><span class="go">Open <b>&rarr;</b></span></a></header>
+      <dl>
+        <dt>Layout and style</dt><dd>Version 7 without "The House" index section, and with a different opening photograph (white pillows against a sage headboard). Everything else is as version 7.</dd>
+        <dt>Colours</dt><dd><div class="sws"><span class="sw" title="Forest & Gold"><i style="background:#183B32"></i><i style="background:#B49A62"></i><em>Forest & Gold</em></span><span class="sw" title="Burgundy & Champagne"><i style="background:#481C2C"></i><i style="background:#D6B98C"></i><em>Burgundy & Champagne</em></span><span class="sw" title="Navy & Platinum"><i style="background:#101D35"></i><i style="background:#A8ADB5"></i><em>Navy & Platinum</em></span><span class="sw" title="Truffle & Sage"><i style="background:#2C2420"></i><i style="background:#A6C090"></i><em>Truffle & Sage</em></span><span class="sw" title="Ink & Sage"><i style="background:#1F2A30"></i><i style="background:#8FA287"></i><em>Ink & Sage</em></span></div>Five switchable palettes, each a deep colour with a metallic or sage accent on a warm paper ground. Switch with the control at the bottom right of any page.</dd>
+        <dt>Fonts</dt><dd>Cormorant Garamond (headings), Jost (body and interface), Libre Caslon Display (logo).</dd>
+        <dt>What it has</dt><dd>Search, sign in and registration, account with order history and tracking, saved addresses, wishlist, checkout.</dd>
+      </dl>
+    </article></li>
+    <li><article>
+      <header><a href="v10/"><span class="n">Version 10</span><span class="t">Version 4 in three colours</span><span class="go">Open <b>&rarr;</b></span></a></header>
+      <dl>
+        <dt>Layout and style</dt><dd>The version 4 storefront, held to three colours and two typefaces. Sage is the accent (buttons, hover fills, highlights, selected states), beige is every ground and section, charcoal is all headings, text and icons, plus the top strip and footer. No palette switcher.</dd>
+        <dt>Colours</dt><dd><div class="sws"><span class="sw" title="Sage, accent"><i style="background:#A5C28F"></i><em>Sage, accent</em></span><span class="sw" title="Beige, grounds"><i style="background:#F2ECE0"></i><em>Beige, grounds</em></span><span class="sw" title="Charcoal, text"><i style="background:#2F312E"></i><em>Charcoal, text</em></span></div>Three colours only. The lighter and deeper beiges used for cards and hairlines are steps of the same beige. Product photographs and product colour swatches keep their own colours.</dd>
+        <dt>Fonts</dt><dd>Two families only: Fraunces (headings and logo), Figtree (body and interface).</dd>
+        <dt>What it has</dt><dd>Everything in version 4: about 40 products on the homepage, floating silk, parallax, hover effects, Make Your Own Bed.</dd>
+      </dl>
+    </article></li>
   </ul>
 </main>
 </body>

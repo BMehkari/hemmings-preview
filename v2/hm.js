@@ -3,13 +3,13 @@
 // SAMPLE DATA: product names, prices, specifications and stock are illustrative, modelled on a typical
 // premium bedding range. The store catalogue replaces this list.
 (function () {
-  var root = document.documentElement, V = +root.dataset.v >= 1 && +root.dataset.v <= 7 ? +root.dataset.v : 2, $ = function (id) { return document.getElementById(id); };
+  var root = document.documentElement, HV = +root.dataset.v >= 1 && +root.dataset.v <= 10 ? +root.dataset.v : 2, V = { 8: 6, 9: 7, 10: 4 }[HV] || HV, $ = function (id) { return document.getElementById(id); };
   var all = function (s, r) { return [].slice.call((r || document).querySelectorAll(s)); };
   var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
   var HM = window.HM = { v: V };
   var page = function (n) { return 'v' + (V === 5 ? 4 : V) + '-' + n + '.html'; }, local = location.protocol === 'file:' || /^(localhost|127\.0\.0\.1)$/.test(location.hostname);
   // Deployed, each version's homepage is its folder's index page; in the source folder v2 and v3 are v2.html and v3.html.
-  var home = V === 1 || !local ? 'index.html' : 'index.html';
+  var home = V === 1 || !local ? 'index.html' : 'index.html';   // HV: the version whose homepage this is (8, 9 and 10 borrow the pages of 6, 7 and 4)
   HM.money = function (n) { return 'Rs. ' + n.toLocaleString('en-PK'); };
 
   var C = { ivory: { n: 'Ivory', h: '#F4F0E6', f: 'neutral' }, oat: { n: 'Oat', h: '#DDD2BC', f: 'neutral' }, stone: { n: 'Stone', h: '#B9B2A3', f: 'neutral' }, sage: { n: 'Sage', h: '#9DAA94', f: 'green' }, forest: { n: 'Forest', h: '#2F4F42', f: 'green' }, clay: { n: 'Clay', h: '#B98566', f: 'earth' }, sand: { n: 'Sand', h: '#CDB894', f: 'earth' }, mist: { n: 'Mist', h: '#AEBBC2', f: 'blue' }, char: { n: 'Charcoal', h: '#3A3D38', f: 'dark' } };
@@ -217,7 +217,7 @@
   HM.bag.paint();
 
   /* ---------- palette ---------- */
-  var PAL = { forest: { name: 'Forest', main: 'h_forest', mid: 'm_emerald', accent: 'h_gold' }, burgundy: { name: 'Burgundy', main: 'h_burgundy', mid: 'm_rose', accent: 'h_champagne' }, navy: { name: 'Navy', main: 'h_navy', mid: 'm_slate', accent: 'h_platinum' }, sage: { name: 'Sage Accent', main: 'h_truffle', mid: 'm_taupe', accent: 'h_sage' }, sagemain: { name: 'Ink & Sage', main: 'h_ink', mid: 'm_sage', accent: 'h_champagne' } };
+  var PAL = { trio: { name: 'Sage & Charcoal', main: 'h_ink', mid: 'm_sage', accent: 'h_sage' }, forest: { name: 'Forest', main: 'h_forest', mid: 'm_emerald', accent: 'h_gold' }, burgundy: { name: 'Burgundy', main: 'h_burgundy', mid: 'm_rose', accent: 'h_champagne' }, navy: { name: 'Navy', main: 'h_navy', mid: 'm_slate', accent: 'h_platinum' }, sage: { name: 'Sage Accent', main: 'h_truffle', mid: 'm_taupe', accent: 'h_sage' }, sagemain: { name: 'Ink & Sage', main: 'h_ink', mid: 'm_sage', accent: 'h_champagne' } };
   HM.setPalette = function (id, save) {
     if (!PAL[id]) id = 'forest';
     if (id === 'forest') root.removeAttribute('data-palette'); else root.setAttribute('data-palette', id);

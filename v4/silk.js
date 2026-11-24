@@ -3,7 +3,7 @@
 // tinted to the palette accent (--metal) with the mark in the palette main colour (--deep). It needs <canvas id="silk">.
 // window.HM_SILK = { scale: 1.2 } makes the cloth larger.
 (function silk() {
-  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches, opt = window.HM_SILK || {}, K = (opt.scale || 1) * 0.65;   // 0.65: the cloth was made 35% smaller at the client's request (2026-11-20)
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches, opt = window.HM_SILK || {}, MF = opt.font || 'Libre Caslon Display', K = (opt.scale || 1) * 0.65;   // 0.65: the cloth was made 35% smaller at the client's request (2026-11-20)
   var cv = document.getElementById('silk'), gl = null;
   if (!cv) return;
   try { gl = cv.getContext('webgl', { alpha: true, premultipliedAlpha: true, antialias: true, depth: true }); } catch (e) {}
@@ -120,14 +120,14 @@
     x.stroke(new Path2D('M24 84V46A26 26 0 0 1 76 46V84M33 84V46A17 17 0 0 1 67 46V84M18 84H82M24 91H76M50 29V50M50 66V84M50 50L57 58L50 66L43 58Z'));
     x.beginPath(); x.arc(50, 11, 1.8, 0, 6.2832); x.fill(); x.restore();
     // wordmark, letter-spaced by hand
-    var word = 'HEMMINGS', fs = 92, sp = fs * 0.18, w = 0, i; x.font = fs + 'px "Libre Caslon Display", "Times New Roman", serif'; x.textBaseline = 'alphabetic';
+    var word = 'HEMMINGS', fs = 92, sp = fs * 0.18, w = 0, i; x.font = fs + 'px "' + MF + '", "Times New Roman", serif'; x.textBaseline = 'alphabetic';
     for (i = 0; i < word.length; i++) w += x.measureText(word[i]).width + (i < word.length - 1 ? sp : 0);
     var px = -w / 2; for (i = 0; i < word.length; i++) { x.fillText(word[i], px, 60); px += x.measureText(word[i]).width + sp; }
     markTex(c);
   }
   var blank = document.createElement('canvas'); blank.width = blank.height = 2; markTex(blank);
   gl.uniform1i(U.tB, 1);
-  if (document.fonts && document.fonts.load) document.fonts.load('92px "Libre Caslon Display"', 'HEMMINGS').then(drawMark, drawMark); else drawMark();
+  if (document.fonts && document.fonts.load) document.fonts.load('92px "' + MF + '"', 'HEMMINGS').then(drawMark, drawMark); else drawMark();
 
   var W = 0, H = 0, dpr = 1, probe = document.createElement('i'), fade = 0;
   probe.style.cssText = 'position:absolute;width:0;height:0;visibility:hidden'; document.body.appendChild(probe);

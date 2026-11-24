@@ -20,13 +20,15 @@
   }
 
   /* the index: pointing at a line brings its photograph forward */
-  var idx = $('idx'), frame = $('idxIm'), links = all('a', idx);
+  var idx = $('idx'), frame = $('idxIm'), links = idx ? all('a', idx) : [];
+  if (idx) {
   frame.innerHTML = links.map(function (a, i) { return '<img src="img/' + a.dataset.im + '.jpg" alt="" loading="lazy"' + (i ? '' : ' class="on"') + '>'; }).join('');
   var ims = all('img', frame);
   links.forEach(function (a, i) {
     var show = function () { all('li', idx).forEach(function (li, k) { li.classList.toggle('on', k === i); }); ims.forEach(function (im, k) { im.classList.toggle('on', k === i); }); };
     a.addEventListener('pointerenter', show); a.addEventListener('focus', show);
   });
+  }
 
   /* slow parallax: the opening photograph and the story photograph drift as the page moves */
   var hero = $('heroIm'), story = $('storyIm'), tick = false;

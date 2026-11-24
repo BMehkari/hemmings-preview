@@ -6,7 +6,8 @@
   var ids = function (list) { return list.map(HM.byId); };
 
   /* ---- slider ---- */
-  var slider = $('slider'), slides = all('.t-slide', slider), cur = 0, timer;
+  var slider = $('slider'), slides = slider ? all('.t-slide', slider) : [], cur = 0, timer;
+  if (slider) {
   $('dots').innerHTML = slides.map(function (s, i) { return '<button type="button" aria-label="Slide ' + (i + 1) + '"></button>'; }).join('');
   var dots = all('button', $('dots'));
   function go(i, user) {
@@ -21,6 +22,10 @@
   slider.addEventListener('mouseenter', function () { clearTimeout(timer); });
   slider.addEventListener('mouseleave', function () { go(cur); });
   go(0);
+  }
+  /* version 8 opens with the version 7 photograph instead of the slider */
+  var hero = $('hero'), heroIm = $('heroIm');
+  if (hero) { setTimeout(function () { hero.classList.add('in'); }, 60); if (!reduce) addEventListener('scroll', function () { var y = scrollY; if (y < innerHeight * 1.2) { heroIm.style.setProperty('--y', (y * .22).toFixed(1) + 'px'); hero.style.setProperty('--f', Math.min(1, y / (innerHeight * .7)).toFixed(3)); } }, { passive: true }); }
 
   /* ---- tabbed products ---- */
   var TABS = {
