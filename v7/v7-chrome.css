@@ -103,3 +103,14 @@ html.l-home .l-hd:not(.solid):not(.find):not(:hover) .l-wm svg { stroke: current
   #lSearch::after { display: none; }
 }
 @media (prefers-reduced-motion: reduce) { .s-btn, .cta, .btn, .s-btn::before, .cta::before, .btn::before, .l-wm, .l-bar, .l-t::after { transition: none; } }
+
+/* Versions 8 to 10 share the three-colour palette ("trio": sage accent, beige grounds, charcoal text; tokens in v4-chrome.css)
+   and its two font families. On this frame: sage buttons with charcoal lettering, wiped charcoal on hover. */
+[data-palette="trio"] .s-btn, [data-palette="trio"] .cta, [data-palette="trio"] .btn { background: var(--metal); border-color: var(--metal); color: var(--ink); }
+[data-palette="trio"] .s-btn::before, [data-palette="trio"] .cta::before, [data-palette="trio"] .btn::before { background: var(--ink); }
+[data-palette="trio"] .s-btn:hover, [data-palette="trio"] .cta:hover:not(:disabled), [data-palette="trio"] .btn:hover { background: var(--metal); color: var(--paper); }
+[data-palette="trio"] .s-news .s-btn, [data-palette="trio"] .s-news .s-btn:hover { background: none; border: 0; color: var(--ink); }
+[data-palette="trio"] .s-news .s-btn:hover { text-decoration: underline; text-decoration-color: var(--metal); text-decoration-thickness: 2px; text-underline-offset: 6px; }
+[data-palette="trio"] .l-wm { font-weight: 500; }
+[data-palette="trio"] .l-hd .s-mega li a:hover { color: var(--ink); text-decoration: underline; text-decoration-color: var(--metal); text-decoration-thickness: 2px; text-underline-offset: 6px; }
+[data-palette="trio"] .l-hd .s-mega-f { color: var(--white); }

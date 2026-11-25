@@ -8,17 +8,17 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://images.unsplash.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=Figtree:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Figtree:wght@300..600&display=swap">
 <link rel="stylesheet" href="v4-chrome.css">
 <link rel="stylesheet" href="v4-home.css">
+<link rel="stylesheet" href="about.css">
 <!--fx-css-->
 <script src="lock.js"></script>
-<script>window.HM_LOCK = 'trio'; window.HM_SILK = { font: 'Fraunces' };</script>
+<script>window.HM_LOCK = 'trio';</script>
 <script>(function(){var d=document.documentElement;d.classList.add('js');try{var p=window.HM_LOCK||localStorage.getItem('hemmings.palette');if(p&&p!=='forest')d.setAttribute('data-palette',p)}catch(e){}})();</script>
 </head>
 <body>
 <!-- Version 10 homepage. GENERATED from v4.html by design/tools/build-pages.mjs: edit v4.html and the "trio" palette rules, not this file. -->
-<canvas id="silk" aria-hidden="true"></canvas>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="arrow" viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="heart" viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-9.6A3.9 3.9 0 0 1 12 8a3.9 3.9 0 0 1 7 2.4C19 15.6 12 20 12 20z"/></symbol>
@@ -36,7 +36,7 @@
 <!-- HERO. Each slide takes an image now; a <video autoplay muted loop playsinline> can replace the <img> one-for-one. -->
 <section class="hero play" id="hero" aria-roledescription="carousel" aria-label="Featured">
   <div class="slide on">
-    <span class="px" data-plx="hero"><img src="https://images.unsplash.com/photo-1772567732940-568fc18984f1?auto=format&fit=crop&q=80&w=2200" alt="A neatly made bed with layered pillows beside a warm lamp" fetchpriority="high" style="object-position:70% 62%"></span>
+    <span class="px" data-plx="hero"><img src="https://images.unsplash.com/photo-1771466883546-a988d001f5ba?auto=format&fit=crop&q=80&w=2200" alt="White pillows stacked against a sage green headboard" fetchpriority="high" style="object-position:75% 50%"></span>
     <div class="wrap"><div class="tx">
       <p class="kick">Home textiles by Hemmings</p>
       <h1>Everyday Comfort for Modern Homes</h1>
@@ -54,7 +54,7 @@
     </div></div>
   </div>
   <div class="slide">
-    <span class="px" data-plx="hero"><img src="https://images.unsplash.com/photo-1771466883546-a988d001f5ba?auto=format&fit=crop&q=80&w=2200" alt="White pillows stacked against a sage green headboard" loading="lazy" style="object-position:75% 50%"></span>
+    <span class="px" data-plx="hero"><img src="https://images.unsplash.com/photo-1772567732940-568fc18984f1?auto=format&fit=crop&q=80&w=2200" alt="A neatly made bed with layered pillows beside a warm lamp" loading="lazy" style="object-position:70% 62%"></span>
     <div class="wrap"><div class="tx">
       <p class="kick">Build yours</p>
       <p class="h1">A Bed That Is Entirely Yours</p>
@@ -70,8 +70,20 @@
   </div></div>
 </section>
 
-<!-- version 5 only: a band of fabric names that runs with the scroll -->
-<div class="only5 mq" aria-hidden="true"><div class="mq-t" id="mq"><span>Crisp Percale</span><span>Smooth Sateen</span><span>Washed Linen</span><span>Pure Cotton</span><span>Quilted Layers</span><span>Soft Throws</span><span>Crisp Percale</span><span>Smooth Sateen</span><span>Washed Linen</span><span>Pure Cotton</span><span>Quilted Layers</span><span>Soft Throws</span></div></div>
+<!-- ABOUT (text supplied by the client, 2026-11-25; the heading and the three points are drawn from it) -->
+<section class="ab" id="about" aria-labelledby="abH">
+  <div class="ab-in">
+    <div class="ab-im rv"><img src="img/r_layering.jpg" alt="Layered pillows and bedding" loading="lazy"><img class="s" src="img/r_fabric.jpg" alt="A close view of woven fabric" loading="lazy"></div>
+    <div class="ab-tx">
+      <p class="ab-k rv">About Hemmings</p>
+      <h2 class="ab-h rv" id="abH">Making Home Feel Better, <em>One Detail at a Time</em></h2>
+      <p class="rv">Hemmings is a home textile brand by Al Karam, bringing a fresh perspective to the way we experience our homes. Built on Al Karam’s expertise in textiles, we combine quality, thoughtful design and modern aesthetics to create bedding and home essentials that feel as good as they look.</p>
+      <p class="rv">From everyday comfort to the little details that make a space your own, Hemmings is about making home feel better, one detail at a time.</p>
+      <ul class="ab-f rv"><li><b>Quality</b><span>Built on Al Karam’s expertise in textiles</span></li><li><b>Thoughtful design</b><span>Essentials that feel as good as they look</span></li><li><b>Modern aesthetics</b><span>A fresh perspective on the home</span></li></ul>
+      <a class="ab-a rv" href="v4-contact.html">More About Hemmings</a>
+    </div>
+  </div>
+</section>
 
 <!-- CATEGORIES -->
 <section class="sec" style="padding-top:var(--sec)" aria-labelledby="catsH">
@@ -128,7 +140,7 @@
 <!-- SEASON EDIT -->
 <section class="sec" id="season">
   <div class="wrap"><div class="band rv">
-    <span class="px" data-plx=".12"><img src="https://images.unsplash.com/photo-1618111415065-c20b4e1afd41?auto=format&fit=crop&q=80&w=1800" alt="Cream textured bedding beside a wooden nightstand" loading="lazy" style="object-position:50% 60%;transform:scaleX(-1)"></span>
+    <span class="px" data-plx=".12"><img src="https://images.unsplash.com/photo-1634208006171-6713e0c9a25e?auto=format&fit=crop&q=80&w=1800" alt="A white bed with blush pillows" loading="lazy" style="object-position:50% 55%"></span>
     <div class="tx">
       <p class="kick">The Season Edit</p>
       <h2 class="h">A <em>Warmer,</em> Softer Home</h2>
@@ -138,20 +150,12 @@
   </div></div>
 </section>
 
-<!-- NEW ARRIVALS -->
-<section class="sec" id="new" aria-labelledby="newH">
-  <div class="wrap">
-    <div class="head rv"><div><p class="kick">Just In</p><h2 class="h" id="newH">New Arrivals</h2></div><a class="link" href="v4-new.html">Shop All New <svg class="arr"><use href="#arrow"/></svg></a></div>
-    <div class="rail-w rv"><div class="rail" id="railNew" tabindex="0" aria-label="New arrivals"></div></div>
-  </div>
-</section>
-
 <!-- SHEETS BY STYLE -->
 <section class="sec" id="sheets" aria-labelledby="sheetsH">
   <div class="wrap">
     <div class="head rv"><div><p class="kick">Shop Sheets by Style</p><h2 class="h" id="sheetsH">Find Your Perfect Sheets</h2></div>
       <div class="tabs" id="tabs" role="group" aria-label="Sheet style">
-        <button aria-pressed="true" data-f="all">All</button><button aria-pressed="false" data-f="solids">Solids</button><button aria-pressed="false" data-f="prints">Prints</button><button aria-pressed="false" data-f="luxury">Ultra Luxury</button><button aria-pressed="false" data-f="cotton">Cotton</button><button aria-pressed="false" data-f="percale">Percale</button><button aria-pressed="false" data-f="sateen">Sateen</button>
+        <button aria-pressed="true" data-f="all">All</button><button aria-pressed="false" data-f="solids">Solids</button><button aria-pressed="false" data-f="prints">Prints</button>
       </div>
     </div>
     <div class="grid rv" id="railSheets" aria-label="Sheet sets" aria-live="polite"></div>
@@ -182,19 +186,6 @@
   </div></div>
 </section>
 
-<!-- THE REST OF THE HOME -->
-<section class="sec" id="home" aria-labelledby="homeH">
-  <div class="wrap">
-    <div class="head rv"><div><p class="kick">Beyond the Bedroom</p><h2 class="h" id="homeH">Shop the Whole Home</h2></div>
-      <div class="tabs" id="tabsHome" role="group" aria-label="Department">
-        <button aria-pressed="true" data-f="all">All</button><button aria-pressed="false" data-f="bath">Bath</button><button aria-pressed="false" data-f="curtains">Curtains</button><button aria-pressed="false" data-f="cushions">Cushions</button><button aria-pressed="false" data-f="living">Throws &amp; Living</button>
-      </div>
-    </div>
-    <div class="grid rv" id="railHome" aria-label="Home textiles" aria-live="polite"></div>
-    <div class="more"><a class="btn" id="homeCta" href="v4-new.html"><span>Shop All Home</span> <svg class="arr"><use href="#arrow"/></svg></a></div>
-  </div>
-</section>
-
 <!-- GIFTING -->
 <section class="sec" id="gifting">
   <div class="wrap"><div class="band r rv">
@@ -213,11 +204,11 @@
   <div class="wrap ugc">
     <div class="rv"><p class="kick">Homes Like Yours</p><h2 class="h" id="ugcH">Real People. Real Homes.</h2><p class="s">Everyday moments with Hemmings at home.</p><a class="link" href="v4-contact.html">Share Yours <svg class="arr"><use href="#arrow"/></svg></a></div>
     <ul id="ugcList">
-      <li class="rv"><img src="https://images.unsplash.com/photo-1675125530909-15213f01a9e1?auto=format&fit=crop&q=75&w=600&h=600" alt="Coffee and croissants on white bedding" loading="lazy"></li>
+      <li class="rv"><img src="https://images.unsplash.com/photo-1675125530909-15213f01a9e1?auto=format&fit=crop&q=75&w=640&h=800" alt="Coffee and croissants on white bedding" loading="lazy"></li>
       <li class="rv" style="--d:.07s"><img src="img/r_knit.jpg" alt="A chunky knit throw across a made bed" loading="lazy"></li>
-      <li class="rv" style="--d:.14s"><img src="https://images.unsplash.com/photo-1552841872-a0841f72a4ee?auto=format&fit=crop&q=75&w=600&h=600" alt="A breakfast board resting on white sheets" loading="lazy"></li>
+      <li class="rv" style="--d:.14s"><img src="https://images.unsplash.com/photo-1552841872-a0841f72a4ee?auto=format&fit=crop&q=75&w=640&h=800" alt="A breakfast board resting on white sheets" loading="lazy"></li>
       <li class="rv" style="--d:.21s"><img src="img/r_throw2.jpg" alt="An armchair with a fringed throw" loading="lazy"></li>
-      <li class="rv" style="--d:.28s"><img src="https://images.unsplash.com/photo-1634208006171-6713e0c9a25e?auto=format&fit=crop&q=75&w=600&h=600" alt="A white bed with blush pillows" loading="lazy"></li>
+      <li class="rv" style="--d:.28s"><img src="https://images.unsplash.com/photo-1634208006171-6713e0c9a25e?auto=format&fit=crop&q=75&w=640&h=800" alt="A white bed with blush pillows" loading="lazy"></li>
     </ul>
   </div>
 </section>
@@ -240,6 +231,5 @@
 <script src="hm.js"></script>
 <script src="v4-home.js"></script>
 <!--fx-js-->
-<script src="silk.js"></script>
 </body>
 </html>

@@ -160,3 +160,25 @@ main > section:last-child { padding-bottom: clamp(48px, 5vw, 80px); }
   .t-banners, .t-depts { grid-template-columns: 1fr; }
 }
 @media (prefers-reduced-motion: reduce) { .t-slide, .t-slide .tx > *, .t-slide img, .t-cats span, .t-cats img { transition: none; } }
+
+/* Versions 8 to 10: the three-colour palette and two font families on the version 6 homepage (version 8 uses it). */
+[data-palette="trio"] .t-head::after { background: var(--metal); }
+[data-palette="trio"] .t-head .h, [data-palette="trio"] .t-slide .h, [data-palette="trio"] .t-offer b, [data-palette="trio"] .t-ban b, [data-palette="trio"] .t-wide b, [data-palette="trio"] .t-dept-h b, [data-palette="trio"] .t-join .h { font-family: var(--serif); font-weight: 500; letter-spacing: -.012em; }
+[data-palette="trio"] .chip { background: var(--metal); color: var(--ink); }
+[data-palette="trio"] .t-offer, [data-palette="trio"] .t-ban, [data-palette="trio"] .t-wide, [data-palette="trio"] .t-dept-h { color: var(--white); }
+[data-palette="trio"] .t-wide em { color: var(--white); }
+[data-palette="trio"] .t-ban .cta, [data-palette="trio"] .t-wide .cta { background: var(--white); border-color: var(--white); color: var(--ink); }
+[data-palette="trio"] .t-ban .cta::before, [data-palette="trio"] .t-wide .cta::before { background: var(--metal); }
+[data-palette="trio"] .t-ban:hover .cta, [data-palette="trio"] .t-wide:hover .cta { color: var(--ink); border-color: var(--metal); }
+[data-palette="trio"] .t-tabs button:hover { border-color: var(--metal); }
+[data-palette="trio"] .t-tabs button[aria-pressed="true"] { background: var(--metal); border-color: var(--metal); color: var(--ink); }
+[data-palette="trio"] .t-arr:hover { background: var(--metal); color: var(--ink); }
+[data-palette="trio"] .t-dots button.on { background: var(--metal); }
+[data-palette="trio"] .t-cats a:hover span { box-shadow: 0 0 0 4px var(--paper), 0 0 0 6px var(--metal); }
+[data-palette="trio"] .t-usp svg { stroke: var(--ink); }
+[data-palette="trio"] .t-usp li:hover { background: color-mix(in srgb, var(--metal) 26%, var(--white)); }
+[data-palette="trio"] .t-dept li i { color: var(--ink); }
+[data-palette="trio"] .cta.alt { background: transparent; border-color: var(--ink); color: var(--ink); }
+[data-palette="trio"] .t-join .cta::before { background: var(--paper); }
+[data-palette="trio"] .t-join .cta:hover { background: var(--metal); color: var(--ink); border-color: var(--paper); }
+[data-palette="trio"] .t-join .cta.alt { background: transparent; border-color: var(--on-deep); color: var(--on-deep); }

@@ -102,3 +102,15 @@
 }
 @media (max-width: 720px) { .s-ft-g { grid-template-columns: 1fr 1fr; } .t-util { font-size: 12px; } }
 @media (prefers-reduced-motion: reduce) { .s-btn, .cta, .btn, .s-btn::before, .cta::before, .btn::before, .t-act, .t-act svg { transition: none; } }
+
+/* Versions 8 to 10 share the three-colour palette ("trio": sage accent, beige grounds, charcoal text; tokens in v4-chrome.css)
+   and its two font families. On this frame: sage buttons with charcoal lettering that fill charcoal on hover. */
+[data-palette="trio"] .s-btn, [data-palette="trio"] .cta, [data-palette="trio"] .btn { background: var(--metal); border-color: var(--metal); color: var(--ink); }
+[data-palette="trio"] .s-btn::before, [data-palette="trio"] .cta::before, [data-palette="trio"] .btn::before { background: var(--ink); }
+[data-palette="trio"] .s-btn:hover, [data-palette="trio"] .cta:hover:not(:disabled), [data-palette="trio"] .btn:hover { background: var(--metal); border-color: var(--ink); color: var(--paper); }
+[data-palette="trio"] .t-search button { background: var(--metal); color: var(--ink); }
+[data-palette="trio"] .t-search button:hover { background: var(--ink); color: var(--paper); }
+[data-palette="trio"] .t-bar .s-mega-f span { font: 500 22px/1.2 var(--serif); }
+[data-palette="trio"] .t-bar .s-mega-f { color: var(--white); }
+[data-palette="trio"] .s-news h2 { font: 500 clamp(24px, 2.3vw, 32px)/1.15 var(--serif); }
+[data-palette="trio"] .s-drawer li a { font: 500 20px/1.2 var(--serif); }

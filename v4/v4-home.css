@@ -334,3 +334,23 @@ main { position: relative; overflow-x: clip; }
 [data-palette="trio"] .hdots button.d i { background: color-mix(in srgb, var(--ink) 30%, transparent); }
 [data-palette="trio"] .deco { opacity: .5; }
 [data-palette="trio"] .why h2 { font-weight: 500; }
+
+/* Version 10 homepage only (v10.html, generated from v4.html). */
+/* sheets: three filters as one segmented control */
+[data-v="10"] #tabs { gap: 4px; padding: 5px; border: 1px solid var(--line); border-radius: 99px; background: var(--white); flex-wrap: nowrap; }
+[data-v="10"] #tabs button { min-height: 44px; min-width: 116px; padding: 0 28px; border: 0; background: none; font-size: 15px; font-weight: 500; }
+[data-v="10"] #tabs button:hover { background: color-mix(in srgb, var(--metal) 32%, var(--white)); transform: none; }
+[data-v="10"] #tabs button[aria-pressed=true] { background: var(--metal); color: var(--ink); box-shadow: 0 6px 14px -8px color-mix(in srgb, var(--ink) 60%, transparent); }
+/* real homes: portrait pictures, the shape of a social post */
+[data-v="10"] .ugc li { aspect-ratio: 4 / 5; }
+/* banners (main, season, gifting): brighter photographs and a lighter wash behind the words */
+[data-v="10"] .slide .px > img, [data-v="10"] .band .px > img { filter: brightness(1.1) saturate(1.12); }
+[data-v="10"] .hero, [data-v="10"] .band { background: var(--white); }
+[data-v="10"] .slide::after { background: linear-gradient(90deg, color-mix(in srgb, var(--white) 94%, transparent) 0%, color-mix(in srgb, var(--white) 80%, transparent) 24%, color-mix(in srgb, var(--white) 0%, transparent) 54%); }
+[data-v="10"] .band::after { background: linear-gradient(90deg, var(--white) 0%, color-mix(in srgb, var(--white) 90%, transparent) 28%, color-mix(in srgb, var(--white) 0%, transparent) 58%); }
+[data-v="10"] .band.r::after { background: linear-gradient(270deg, var(--white) 0%, color-mix(in srgb, var(--white) 90%, transparent) 32%, color-mix(in srgb, var(--white) 0%, transparent) 62%); }
+@media (max-width: 720px) {
+  [data-v="10"] #tabs { width: 100%; margin-right: 0; padding-right: 5px; overflow: visible; }
+  [data-v="10"] #tabs button { flex: 1; min-width: 0; padding: 0 10px; }
+  [data-v="10"] .ugc ul { grid-template-columns: repeat(5, 58%); }
+}

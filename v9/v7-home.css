@@ -123,3 +123,14 @@ a.l-link:hover::after, a:hover > .l-link::after { animation: redraw 1s var(--eas
   .l-hero-im img, .l-hero h1 i, .l-hero .lab, .l-hero .l-link, .l-index-r img, .l-tile .pic img { transition: none; }
   .l-hero h1 i { transform: none; } .l-hero .lab, .l-hero .l-link { opacity: 1; } .l-scroll i::after { animation: none; }
 }
+
+/* Versions 8 to 10: the three-colour palette and two font families on the version 7 homepage (version 9 uses it). */
+[data-palette="trio"] .l-hero, [data-palette="trio"] .l-ban { color: var(--white); }
+[data-palette="trio"] .l-ban .cta { background: transparent; border-color: var(--white); color: var(--white); }
+[data-palette="trio"] .l-ban .cta::before { background: var(--metal); }
+[data-palette="trio"] .l-ban .cta:hover { background: transparent; border-color: var(--metal); color: var(--ink); }
+[data-palette="trio"] .l-story .cta { background: transparent; border-color: var(--metal); color: var(--on-deep); }
+[data-palette="trio"] .l-story .cta::before { background: var(--metal); }
+[data-palette="trio"] .l-story .cta:hover { background: transparent; color: var(--ink); }
+[data-palette="trio"] .l-serv > div:hover { background: color-mix(in srgb, var(--metal) 22%, var(--paper)); }
+[data-palette="trio"] .l-hero .h em, [data-palette="trio"] .l-ban .h em, [data-palette="trio"] .l-story .h em { background: none; }   /* no highlighter over photographs or the dark panel */

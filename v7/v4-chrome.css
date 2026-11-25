@@ -186,7 +186,7 @@ html.silk .s-ft-word { padding-top: clamp(80px, 11vw, 150px); }
   --metal: #A5C28F; --metal-soft: #A5C28F; --metal-ink: #2F312E;
   --paper: #F2ECE0; --sand: #E6DDCC; --white: #F9F5EC; --line: #D9CEBA;
   --on-deep: #F2ECE0; --on-deep-2: #CFC7B6;
-  --caslon: var(--serif); --btn: var(--metal); --btn-h: var(--ink);
+  --serif: 'Fraunces', Georgia, serif; --sans: 'Figtree', system-ui, sans-serif; --caslon: var(--serif); --btn: var(--metal); --btn-h: var(--ink);
 }
 [data-palette="trio"] .s-wm { font-weight: 500; letter-spacing: .22em; padding-left: .22em; }
 [data-palette="trio"] .s-btn { color: var(--ink); }

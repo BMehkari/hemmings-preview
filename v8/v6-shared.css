@@ -49,3 +49,15 @@ body { font-family: var(--sans); }
 :root .acct .cta.ghost:hover, :root .acct .cta:hover:not(:disabled) { color: var(--ink); }
 .acct .h em { color: var(--metal-ink); }
 .au-side .h em, .ac-thanks .h em { color: var(--metal-soft); }
+
+/* Versions 8 to 10: the three-colour palette and two font families on the version 6 inner pages. */
+[data-palette="trio"] .h { font-weight: 500; letter-spacing: -.012em; }
+[data-palette="trio"] .h em { font-style: italic; color: inherit; }
+[data-palette="trio"] .pc .wish[aria-pressed="true"] svg { fill: var(--metal); stroke: var(--ink); }
+[data-palette="trio"] .pc .quick button, [data-palette="trio"] .pc:hover .quick button { border-color: var(--ink); color: var(--ink); background: var(--white); }
+[data-palette="trio"] .pc .quick button:hover:not(:disabled) { background: var(--metal); border-color: var(--metal); color: var(--ink); }
+[data-palette="trio"] .pc .price > span:first-child, [data-palette="trio"] .pprice { color: var(--ink); }
+:root[data-palette="trio"] .acct .cta.ghost { background: transparent; border-color: var(--ink); color: var(--ink); }
+:root[data-palette="trio"] .acct .cta.ghost:hover, :root[data-palette="trio"] .acct .cta:hover:not(:disabled) { color: var(--paper); }
+:root[data-palette="trio"] .ac-thanks .cta::before { background: var(--paper); }
+:root[data-palette="trio"] .ac-thanks .cta:hover { color: var(--ink); }

@@ -182,3 +182,10 @@
   #hm-top, #hm-foot, .ac-nav, .ac-acts, .ac-top, .ac-back, .pal, .s-toast { display: none !important; }
   .ac { display: block; } .ac-card { break-inside: avoid; }
 }
+
+/* Versions 8 to 10 (three-colour palette): order states use sage and charcoal only. */
+[data-palette="trio"] .ac-badge, [data-palette="trio"] .ac-badge.shipped, [data-palette="trio"] .ac-badge.out { background: color-mix(in srgb, var(--metal) 40%, var(--white)); color: var(--ink); }
+[data-palette="trio"] .ac-badge.delivered { background: var(--metal); color: var(--ink); }
+[data-palette="trio"] .ac-badge.cancelled { background: color-mix(in srgb, var(--ink) 12%, var(--white)); color: var(--ink); }
+[data-palette="trio"] .ac-track .done i { background: var(--metal); border-color: var(--ink); }
+[data-palette="trio"] .ac-track::after { background: var(--ink); }

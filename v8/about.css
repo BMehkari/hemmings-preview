@@ -1,0 +1,30 @@
+/* Hemmings versions 8, 9 and 10: the About section that follows the opening banner on the homepage.
+   The same markup and styles on all three (design/tools/build-pages.mjs inserts it), drawn from the palette and font tokens.
+   The text is the client's own (supplied 2026-11-25); the heading and the three points are drawn from it. */
+.ab { padding-block: clamp(56px, 7vw, 112px); background: var(--paper); color: var(--ink); font-family: var(--sans); }
+.ab-in { width: min(100%, calc(var(--s-wrap) + var(--gut) * 2)); margin-inline: auto; padding-inline: var(--gut); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: clamp(32px, 6vw, 104px); align-items: center; }
+.ab-im { position: relative; padding: 0 12% 12% 0; }
+.ab-im img { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: var(--r, 0px); background: var(--sand); }
+.ab-im img.s { position: absolute; right: 0; bottom: 0; width: 46%; aspect-ratio: 1; border: 8px solid var(--paper); transition: transform .9s cubic-bezier(.2,.7,.2,1); }
+.ab-im:hover img.s { transform: translate(-10px, -10px); }
+.ab-im::before { content: ""; position: absolute; left: -14px; top: -14px; width: 38%; aspect-ratio: 1; background: var(--metal); border-radius: var(--r, 0px); z-index: -1; }
+.ab-im { z-index: 0; }
+.ab-k { display: flex; align-items: center; gap: 12px; margin: 0 0 18px; font: 600 11px/1 var(--sans); letter-spacing: .24em; text-transform: uppercase; color: var(--ink); }
+.ab-k::before { content: ""; width: 28px; height: 2px; background: var(--metal); }
+.ab-h { margin: 0 0 22px; font: 400 clamp(32px, 3.6vw, 54px)/1.08 var(--serif); letter-spacing: -.012em; text-wrap: balance; color: var(--ink); }
+.ab-h em { font-style: italic; background: linear-gradient(transparent 64%, color-mix(in srgb, var(--metal) 60%, transparent) 64%, color-mix(in srgb, var(--metal) 60%, transparent) 92%, transparent 92%); }
+.ab-tx > p:not(.ab-k) { margin: 0 0 14px; max-width: 52ch; font-size: 17px; line-height: 1.65; font-weight: 400; color: var(--muted); }
+.ab-f { list-style: none; margin: 30px 0 30px; padding: 26px 0 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; border-top: 1px solid var(--line); }
+.ab-f li { display: grid; gap: 6px; align-content: start; padding-left: 14px; border-left: 2px solid var(--metal); }
+.ab-f b { font: 500 19px/1.2 var(--serif); color: var(--ink); }
+.ab-f span { font-size: 14px; line-height: 1.45; color: var(--muted); }
+.ab-a { display: inline-flex; align-items: center; gap: 10px; padding-bottom: 6px; border-bottom: 2px solid var(--metal); font: 500 15px/1.2 var(--sans); color: var(--ink); transition: gap .35s, border-color .3s; }
+.ab-a::after { content: "\2192"; transition: transform .35s; }
+.ab-a:hover { gap: 16px; border-color: var(--ink); }
+@media (min-width: 1101px) and (max-width: 1680px) { .ab-tx > p:not(.ab-k) { font-size: 16px; } .ab-h { font-size: clamp(30px, 3.1vw, 44px); } }
+@media (max-width: 900px) {
+  .ab-in { grid-template-columns: minmax(0, 1fr); }
+  .ab-im { max-width: 520px; }
+  .ab-f { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+}
+@media (prefers-reduced-motion: reduce) { .ab-im img.s, .ab-a, .ab-a::after { transition: none; } }

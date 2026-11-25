@@ -1,2 +1,2 @@
-// Palette lock for this edition. Empty = the visitor picks from the three brand palettes (v1, v2).
-window.HM_LOCK = '';
+// Palette lock for this edition: versions 8, 9 and 10 are fixed to the three-colour palette (sage, beige, charcoal).
+window.HM_LOCK = 'trio';

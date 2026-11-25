@@ -81,3 +81,10 @@ select, input[type="text"], input[type="email"], input[type="tel"], textarea, .p
 .co-opt b, .co-opt em { font-weight: 400; }
 .co-sum { background: transparent; border: 1px solid var(--line); }
 .ac-nav, .co-sum { top: calc(var(--hd) + 32px); }
+
+/* Versions 8 to 10: the three-colour palette and two font families on the version 7 inner pages (version 9 uses them). */
+:root[data-palette="trio"] .acct .cta.ghost { background: transparent; border-color: var(--ink); color: var(--ink); }
+:root[data-palette="trio"] .acct .cta.ghost::before { background: var(--ink); }
+:root[data-palette="trio"] .acct .cta.ghost:hover { color: var(--paper); background: transparent; }
+[data-palette="trio"] .pc .tag { background: var(--metal); color: var(--ink); }
+[data-palette="trio"] .pc .lab { color: var(--muted); }

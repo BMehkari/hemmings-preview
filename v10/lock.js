@@ -1,2 +1,2 @@
-// Palette lock for this edition: version 10 is fixed to the three-colour palette, and the silk mark uses the heading face.
-window.HM_LOCK = 'trio'; window.HM_SILK = { font: 'Fraunces' };
+// Palette lock for this edition: versions 8, 9 and 10 are fixed to the three-colour palette (sage, beige, charcoal).
+window.HM_LOCK = 'trio';

@@ -28,7 +28,10 @@
     { id: 'sateen-sheet-set', n: 'Sage Sateen Sheet Set', v: 'Sage', mat: 'Cotton sateen', p: 5200, img: 'r_sheets2', t: '#C5D0B6', f: 'solids cotton sateen' },
     { id: 'linen-sheet-set', n: 'Washed Linen Sheet Set', v: 'Oat', mat: 'Washed linen', p: 9800, img: 'r_room', f: 'solids luxury', tag: 'Ultra Luxury' },
     { id: 'percale-sheet-set', n: 'Sage Stripe Percale Sheet Set', v: 'Stone', mat: 'Cotton percale', p: 6200, img: 'r_pillows', t: '#D3DCC6', f: 'prints cotton percale' },
-    { id: 'percale-sheet-set', n: 'Mist Percale Sheet Set', v: 'Mist', mat: 'Cotton percale', p: 5600, img: 'r_sheets2', t: '#C9D4DB', f: 'solids cotton percale' }
+    { id: 'percale-sheet-set', n: 'Mist Percale Sheet Set', v: 'Mist', mat: 'Cotton percale', p: 5600, img: 'r_sheets2', t: '#C9D4DB', f: 'solids cotton percale' },
+    { id: 'sateen-sheet-set', n: 'Sand Stripe Sateen Sheet Set', v: 'Sand', mat: 'Cotton sateen', p: 5900, img: 'r_pillows', t: '#EADBC0', f: 'prints cotton sateen' },
+    { id: 'percale-sheet-set', n: 'Mist Stripe Percale Sheet Set', v: 'Mist', mat: 'Cotton percale', p: 6200, img: 'r_pillows', t: '#CFD9DF', f: 'prints cotton percale' },
+    { id: 'sateen-sheet-set', n: 'Blush Stripe Sateen Sheet Set', v: 'Sand', mat: 'Cotton sateen', p: 5900, img: 'r_pillows', t: '#EED3CA', f: 'prints cotton sateen' }
   ];
   // the rest come straight from the shared sample catalogue
   function fromCat(id, tag) {
@@ -77,7 +80,7 @@
   }
   function grid(el, list) { el.innerHTML = list.map(card).join(''); el._list = list; if (grids.indexOf(el) < 0) grids.push(el); fit(el); }
   addEventListener('resize', function () { grids.forEach(fit); });
-  grid($('railBest'), best); rail($('railNew'), fresh); grid($('railSheets'), sheets); grid($('railHome'), home.all);
+  grid($('railBest'), best); if ($('railNew')) rail($('railNew'), fresh); grid($('railSheets'), sheets); if ($('railHome')) grid($('railHome'), home.all);   // version 10 has no New Arrivals row and no Shop the Whole Home
 
   // quick add: the same bag the inner pages read
   document.addEventListener('click', function (e) {
@@ -115,7 +118,7 @@
 
   /* ---- the rest of the home, by department ---- */
   var depts = { all: ['All Home', 'v4-new.html'], bath: ['Bath', 'v4-bath.html'], curtains: ['Curtains', 'v4-curtains.html'], cushions: ['Cushions', 'v4-cushions.html'], living: ['Throws & Living', 'v4-living.html'] };
-  $('tabsHome').addEventListener('click', function (e) {
+  if ($('tabsHome')) $('tabsHome').addEventListener('click', function (e) {
     var b = e.target.closest('button'); if (!b) return;
     all('button', this).forEach(function (x) { x.setAttribute('aria-pressed', x === b); });
     var f = b.dataset.f, r = $('railHome'); grid(r, home[f]);
