@@ -255,18 +255,30 @@
   };
   document.addEventListener('submit', function (e) { if (e.target.classList.contains('fx-form')) { e.preventDefault(); e.target.querySelector('button').textContent = 'Thank you'; } });
   document.addEventListener('click', function (e) {
-    var w = e.target.closest('.wish'), q = e.target.closest('[data-quick]');
+    var w = e.target.closest('.wish'), q = e.target.closest('[data-quick]'), sw = e.target.closest('[data-ci]');
+    if (sw) { e.preventDefault(); HM.swatch(sw); return; }
     if (w) { var won = w.getAttribute('aria-pressed') !== 'true'; w.setAttribute('aria-pressed', won); if (w.dataset.wish) { HM.wish.set(w.dataset.wish, won); if (V >= 6) HM.toast('<span>' + (won ? 'Saved to your wishlist' : 'Removed from your wishlist') + '</span>' + (won ? '<a href="' + page('account') + '#wishlist">View</a>' : '')); } }
-    if (q && !q.disabled) { HM.bag.add(HM.byId(q.dataset.quick), 0, 'queen', 1); var t = q.textContent; q.textContent = 'Added to bag'; setTimeout(function () { q.textContent = t; }, 1500); if (V >= 6) HM.toast('<span>Added: ' + esc(HM.byId(q.dataset.quick).n) + '</span><a href="' + page('bag') + '">View bag</a>'); }
+    if (q && !q.disabled) { HM.bag.add(HM.byId(q.dataset.quick), +((q.closest('.pc') || q).dataset.pick || 0), 'queen', 1); var t = q.textContent; q.textContent = 'Added to bag'; setTimeout(function () { q.textContent = t; }, 1500); if (V >= 6) HM.toast('<span>Added: ' + esc(HM.byId(q.dataset.quick).n) + '</span><a href="' + page('bag') + '">View bag</a>'); }
   });
 
+  // A colour swatch on a product card: tint the photograph (the first colour is the one photographed, so it clears the tint),
+  // mark the swatch, remember the choice on the card, and point the card's links at that colour.
+  HM.swatch = function (d) {
+    var card = d.closest('.pc, .card'); if (!card) return;
+    var pic = card.querySelector('.pic, .ph'), k = +d.dataset.ci;
+    all('[data-ci]', card).forEach(function (x) { x.setAttribute('aria-pressed', x === d); });
+    card.dataset.pick = k; card.dataset.pickName = d.getAttribute('aria-label');
+    pic.classList.toggle('tint', k > 0); if (k > 0) pic.style.setProperty('--t', d.style.backgroundColor); else pic.style.removeProperty('--t');
+    all('a[href*="product.html#"]', card).forEach(function (a) { var h = a.getAttribute('href').split('#'); a.setAttribute('href', h[0] + '#' + h[1].split('~')[0] + (k ? '~' + k : '')); });
+  };
+  document.addEventListener('keydown', function (e) { var d = e.target.closest && e.target.closest('[data-ci]'); if (d && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); HM.swatch(d); } });
   HM.card = function (p, i, size) {
     var href = page('product') + '#' + p.id;
     return '<article class="pc" style="--d:' + ((i % 6) * 0.07).toFixed(2) + 's"><a class="pic" href="' + href + '"><img src="img/' + p.img + '.jpg" alt="' + esc(p.n) + '" loading="lazy"><img class="alt" src="img/' + p.img2 + '.jpg" alt="" loading="lazy"></a>' +
       (p.out ? '<span class="tag">Sold out</span>' : p.tag ? '<span class="tag">' + p.tag + '</span>' : '') +
       '<button class="wish" type="button" data-wish="' + p.id + '" aria-pressed="' + HM.wish.has(p.id) + '" aria-label="Add ' + esc(p.n) + ' to wishlist">' + HM.heart + '</button>' +
       '<div class="quick"><button type="button" data-quick="' + p.id + '"' + (p.out ? ' disabled' : '') + '>' + (p.out ? 'Sold out' : V === 6 ? 'Add to Bag' : 'Quick add') + '</button></div>' +
-      '<span class="lab m">' + esc(p.mat) + '</span><h3><a href="' + href + '">' + esc(p.n) + '</a></h3><div class="price"><span>' + (p.sized && !size ? 'From ' + HM.money(p.price.single) : HM.money(HM.price(p, size))) + '</span><span class="dots">' + p.c.map(function (c) { return '<i style="background:' + c.h + '" title="' + c.n + '"></i>'; }).join('') + '</span></div></article>';
+      '<span class="lab m">' + esc(p.mat) + '</span><h3><a href="' + href + '">' + esc(p.n) + '</a></h3><div class="price"><span>' + (p.sized && !size ? 'From ' + HM.money(p.price.single) : HM.money(HM.price(p, size))) + '</span><span class="dots">' + p.c.map(function (c, k) { return '<i role="button" tabindex="0" data-ci="' + k + '" aria-pressed="' + (k === 0) + '" aria-label="' + c.n + '" style="background:' + c.h + '" title="' + c.n + '"></i>'; }).join('') + '</span></div></article>';
   };
 
   /* ---------- listing ---------- */
@@ -366,7 +378,7 @@
         '<details><summary>Care instructions</summary><p>Machine wash cool with like colours. Tumble dry low or line dry in shade. Warm iron if needed. Do not bleach.</p></details>' +
         '<details><summary>Delivery and returns</summary><p>Complimentary delivery on orders over Rs. 5,000. Unused pieces can be returned in their original packaging.</p></details></div>';
     }
-    function load() { p = HM.byId(location.hash.slice(1)) || HM.products[0]; st = { c: 0, size: 'queen', q: 1 }; draw(true); window.scrollTo(0, 0); }
+    function load() { var h = location.hash.slice(1).split('~'); p = HM.byId(h[0]) || HM.products[0]; st = { c: +h[1] < p.c.length ? +h[1] : 0, size: 'queen', q: 1 }; draw(true); window.scrollTo(0, 0); }
     document.addEventListener('click', function (e) {
       var b = e.target.closest('[data-c],[data-size],[data-q],[data-add],[data-shot],[data-zoom]'); if (!b) return;
       if (b.dataset.c) st.c = +b.dataset.c;

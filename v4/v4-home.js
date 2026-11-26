@@ -48,6 +48,8 @@
     cushions: cat(['velvet-cushion-cover', 'linen-cushion-cover', 'boucle-cushion', 'striped-cushion-cover', 'quilted-cushion']),
     living: cat(['knit-throw', 'linen-throw', 'cable-throw', 'sofa-cover-two', 'sofa-cover-three', 'waffle-blanket'])
   };
+  // swatch hex -> colour name, from the shared catalogue
+  var NAMES = {}; HM.products.forEach(function (x) { x.c.forEach(function (c) { NAMES[c.h.toUpperCase()] = c.n; }); });
   function card(p, i) {
     return '<article class="card" data-f="' + (p.f || '') + '">' +
       '<div class="ph' + (p.t ? ' tint" style="--t:' + p.t : '') + '"><img src="img/' + p.img + '.jpg" alt="" loading="lazy">' +
@@ -57,7 +59,7 @@
       '<button class="qa" data-add="' + i + '">Quick Add</button></div>' +
       '<div class="meta"><span class="mat">' + p.mat + '</span><h3 class="nm"><a href="v4-product.html#' + p.id + '">' + p.n + '</a></h3>' +
       '<div class="row"><span class="pr">' + (p.from ? 'From ' : '') + HM.money(p.p) + '</span>' +
-      (p.sw ? '<span class="sw" aria-label="' + p.sw.length + ' colours">' + p.sw.map(function (c) { return '<i style="background:' + c + '"></i>'; }).join('') + '</span>' : '') + '</div></div></article>';
+      (p.sw ? '<span class="sw" aria-label="' + p.sw.length + ' colours">' + p.sw.map(function (c, k) { return '<i role="button" tabindex="0" data-ci="' + k + '" aria-pressed="' + (k === 0) + '" aria-label="' + (NAMES[c.toUpperCase()] || 'Colour ' + (k + 1)) + '" title="' + (NAMES[c.toUpperCase()] || '') + '" style="background:' + c + '"></i>'; }).join('') + '</span>' : '') + '</div></div></article>';
   }
   function rail(el, list) {
     el.innerHTML = list.map(card).join('');
@@ -85,7 +87,7 @@
   // quick add: the same bag the inner pages read
   document.addEventListener('click', function (e) {
     var q = e.target.closest('[data-add]'); if (!q) return;
-    var p = q.closest('.rail, .grid')._list[+q.dataset.add], sized = !!p.from || /sheet-set/.test(p.id), variant = (p.v || 'Ivory') + (sized ? ', Queen' : '');
+    var p = q.closest('.rail, .grid')._list[+q.dataset.add], sized = !!p.from || /sheet-set/.test(p.id), variant = (q.closest('.card').dataset.pickName || p.v || 'Ivory') + (sized ? ', Queen' : '');   // the colour picked on the card, if any
     var b = HM.bag.read(), key = p.id + '/' + variant + '/' + p.n, hit = b.filter(function (l) { return l.key === key; })[0];
     if (hit) hit.qty++; else b.push({ key: key, id: p.id, name: p.n, variant: variant, price: p.bp || p.p, qty: 1, img: p.img });
     HM.bag.write(b); HM.toast('<span>Added: ' + p.n + '</span><a href="v4-bag.html">View bag</a>');
