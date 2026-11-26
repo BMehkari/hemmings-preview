@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en" data-v="4">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Your Bag | Hemmings</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Figtree:wght@300..600&display=swap">
+<link rel="stylesheet" href="v4-shared.css">
+<link rel="stylesheet" href="hm-pages.css">
+<script src="lock.js"></script>
+<script>(function(){var d=document.documentElement;d.classList.add('js');try{var p=window.HM_LOCK||localStorage.getItem('hemmings.palette');if(p&&p!=='forest')d.setAttribute('data-palette',p)}catch(e){}})();</script>
+<style>
+main { min-height: 80vh; }
+.bg-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 14px 30px; padding-block: clamp(40px, 5vw, 80px) clamp(24px, 3vw, 44px); border-bottom: 1px solid var(--line); }
+.bg-head .h { font-size: clamp(44px, 6.4vw, 104px); text-transform: uppercase; color: var(--deep); }
+.bg-head .meta { display: flex; align-items: center; gap: 30px; color: var(--muted); }
+.bgrid { display: grid; grid-template-columns: 8fr 4fr; gap: clamp(30px, 5vw, 90px); align-items: start; padding-bottom: clamp(90px, 11vw, 170px); }
+#summary { position: sticky; top: 140px; margin-top: clamp(24px, 3vw, 44px); padding: clamp(24px, 2.6vw, 40px); background: var(--sand); transition: background-color .8s; }
+#summary .h { text-transform: none; }
+#code input { padding: 0; }
+.back { display: flex; justify-content: space-between; align-items: center; gap: 14px; margin-top: 30px; min-height: 56px; padding: 0 20px; border: 1px solid var(--deep); color: var(--deep); font-size: 15px; }
+@media (max-width: 900px) { .bgrid { grid-template-columns: minmax(0, 1fr); } #summary { position: static; } }
+</style>
+</head>
+<body>
+<div id="hm-top"></div>
+<main>
+  <div class="wrap">
+    <div class="bg-head"><h1 class="h">Your Bag</h1><div class="meta"><span id="bagCount"></span><a class="go" href="v4-bedding.html">Continue shopping</a></div></div>
+    <div class="bgrid">
+      <div><div id="lines"></div><a class="back" href="designer/index.html#v1"><span>Compose a whole bed in the Bed Designer</span><span aria-hidden="true">&rarr;</span></a></div>
+      <aside id="summary" aria-label="Order summary"></aside>
+    </div>
+  </div>
+</main>
+<div id="hm-foot"></div>
+<script src="hm.js"></script>
+<script>HM.bagPage();</script>
+</body>
+</html>

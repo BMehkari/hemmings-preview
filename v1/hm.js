@@ -3,7 +3,7 @@
 // SAMPLE DATA: product names, prices, specifications and stock are illustrative, modelled on a typical
 // premium bedding range. The store catalogue replaces this list.
 (function () {
-  var root = document.documentElement, HV = +root.dataset.v >= 1 && +root.dataset.v <= 10 ? +root.dataset.v : 2, V = { 8: 6, 9: 7, 10: 4 }[HV] || HV, $ = function (id) { return document.getElementById(id); };
+  var root = document.documentElement, HV = +root.dataset.v >= 1 && +root.dataset.v <= 11 ? +root.dataset.v : 2, V = { 8: 6, 9: 7, 10: 4, 11: 4 }[HV] || HV, $ = function (id) { return document.getElementById(id); };
   var all = function (s, r) { return [].slice.call((r || document).querySelectorAll(s)); };
   var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
   var HM = window.HM = { v: V };

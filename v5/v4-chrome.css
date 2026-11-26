@@ -198,3 +198,10 @@ html.silk .s-ft-word { padding-top: clamp(80px, 11vw, 150px); }
 [data-palette="trio"] .s-ft li a:hover { color: var(--metal); }
 [data-palette="trio"] .s-news input:focus { outline: 2px solid var(--metal); outline-offset: 1px; }
 [data-palette="trio"] :focus-visible { outline-color: var(--ink); }
+
+/* Version 11: version 10 on a white ground (lock.js sets data-ed="11" on <html> for the whole edition).
+   Still three colours: sage, charcoal, and beige, which now does the panels and bands while the page itself is white.
+   --lime is the brighter step of the sage that buttons take on hover. */
+:root[data-ed="11"] { --paper: #FFFFFF; --white: #FFFFFF; --on-deep: #FFFFFF; --line: #E2DACA; --lime: #BCE08A; }
+[data-ed="11"] .s-btn:hover { background: var(--lime); color: var(--ink); }
+[data-ed="11"] .s-hd { background: color-mix(in srgb, #FFFFFF 94%, transparent); }

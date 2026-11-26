@@ -1,0 +1,85 @@
+/* Hemmings versions 4 and 5, inner pages (shop, product, bag, contact, policies).
+   The pages are generated from the version 1 pages by design/tools/build-pages.mjs, so they share that structure;
+   this file gives them the storefront look: its own chrome (v4-chrome.css), Fraunces and Figtree, soft corners,
+   and four products to a row on the shop pages. */
+@import url("v1-shared.css");
+@import url("v4-chrome.css");
+:root { --display: var(--serif); --label: var(--sans); --body: var(--sans); --g: max(var(--gut), calc((100vw - var(--s-wrap)) / 2)); --ease: cubic-bezier(.2,.7,.2,1); }
+body { font-weight: 400; font-size: 16px; line-height: 1.55; }
+main { padding-top: 0; }
+:focus-visible { outline: 2px solid var(--metal-ink); outline-offset: 3px; }
+.h { font-weight: 400; letter-spacing: -.012em; line-height: 1.1; }
+.lab { font: 600 11px/1.2 var(--sans); letter-spacing: .2em; }
+.go { font: 500 15px/1.2 var(--sans); letter-spacing: 0; text-transform: none; gap: 12px; }
+.go::after { width: 26px; }
+.go:hover::after { width: 44px; }
+.cta { min-height: 50px; padding: 0 28px; border-radius: 6px; font: 500 15px/1 var(--sans); letter-spacing: .01em; text-transform: none; }
+.pic { border-radius: var(--r); }
+select, input[type="text"], input[type="email"], input[type="tel"], textarea { border-radius: 6px; }
+.sec-h .h, :root .sec-h .h { font-size: clamp(28px, 3.1vw, 44px); }
+.crumb { font-size: 13.5px; }
+
+/* shop pages: a calmer banner and four products to a row */
+:root .banner { min-height: clamp(260px, 36vh, 380px); background: var(--cream); }
+:root .banner h1 { font-size: clamp(40px, 5vw, 72px); text-transform: none; line-height: 1.02; }
+:root .banner .pic { border-radius: 0; }
+:root .shop { gap: clamp(24px, 3vw, 48px); padding-block: clamp(32px, 4vw, 56px) clamp(72px, 8vw, 120px); }
+@media (min-width: 901px) { :root .shop { grid-template-columns: 200px minmax(0, 1fr); } }
+:root .side { top: 104px; }
+:root .side .tabs button { font: 400 15px/1.2 var(--sans); }
+.tabs button { font: 500 14.5px/1.2 var(--sans); letter-spacing: 0; text-transform: none; }
+@media (min-width: 1181px) { .pg, .pg.four { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 36px 16px; } }
+@media (min-width: 901px) and (max-width: 1180px) { .pg, .pg.four { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px 16px; } }
+@media (max-width: 900px) { .pg, .pg.four { gap: 28px 12px; } }
+
+/* product card */
+.pc .pic { border-radius: var(--r); }
+.pc .lab { margin-top: 14px; font: 400 12.5px/1.2 var(--sans); letter-spacing: .04em; text-transform: none; color: var(--muted); }
+.pc h3, .lrow h3, .ln h3 { margin: 4px 0; font: 500 16px/1.3 var(--sans); }
+.pc .tag { left: 12px; top: 12px; padding: 6px 10px; border-radius: 4px; background: #fff; font: 600 10.5px/1 var(--sans); letter-spacing: .14em; }
+.pc .wish { top: 8px; right: 8px; width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,.85); }
+.pc .wish svg { fill: none; stroke-width: 1.5; }
+.pc .quick { left: 10px; right: 10px; }
+.pc .quick button { height: 44px; margin-bottom: 10px; border-radius: 6px; background: rgba(255,255,255,.96); font: 500 14.5px/1 var(--sans); letter-spacing: 0; text-transform: none; }
+.price { font-size: 15px; }
+.dots i { border: 0; box-shadow: inset 0 0 0 1px rgba(0,0,0,.18); }
+.qty { border-radius: 6px; }
+
+/* bag */
+:root .bg-head h1 { text-transform: none; font-size: clamp(36px, 4.4vw, 60px); line-height: 1.05; }
+
+/* Laptops (roughly 1280 to 1680px wide, usually under 900px tall): the same layout a size down, so a screenful holds more. */
+@media (min-width: 1101px) and (max-width: 1680px) {
+  body { font-size: 15px; }
+  :root .banner { min-height: clamp(220px, 30vh, 320px); }
+  :root .banner h1 { font-size: clamp(36px, 3.8vw, 58px); }
+  :root .shop { padding-block: clamp(28px, 3vw, 44px) clamp(60px, 6vw, 96px); }
+  .cta { min-height: 46px; padding: 0 24px; font-size: 14.5px; }
+  .qty button { height: 46px; width: 40px; }
+  :root #info h1 { font-size: clamp(28px, 2.6vw, 38px); }
+  :root .bg-head h1 { font-size: clamp(32px, 3.4vw, 48px); }
+  .pc h3, .lrow h3, .ln h3 { font-size: 15px; }
+  .price { font-size: 14px; }
+}
+/* product page: the photograph never grows taller than the screen it is shown on */
+@media (min-width: 901px) { :root #gal { top: 96px; max-width: max(380px, calc((100vh - 190px) * .8 + 98px)); margin-left: auto; } }
+
+/* Version 10: the three-colour palette on the inner pages (tokens in v4-chrome.css). Sage buttons with charcoal lettering,
+   turning charcoal on hover; sage for the selected and highlighted states; beige for every surface. */
+[data-palette="trio"] .cta { background: var(--metal); border-color: var(--metal); color: var(--ink); }
+[data-palette="trio"] .cta:hover:not(:disabled) { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+[data-palette="trio"] .h em { color: inherit; background: linear-gradient(transparent 64%, color-mix(in srgb, var(--metal) 60%, transparent) 64%, color-mix(in srgb, var(--metal) 60%, transparent) 92%, transparent 92%); }
+[data-palette="trio"] .pc .tag { background: var(--metal); color: var(--ink); }
+[data-palette="trio"] .pc .wish { background: color-mix(in srgb, var(--white) 88%, transparent); }
+[data-palette="trio"] .wish[aria-pressed="true"] svg { fill: var(--metal); stroke: var(--ink); }
+[data-palette="trio"] .pc .quick button { background: var(--white); color: var(--ink); }
+[data-palette="trio"] .pc .quick button:hover:not(:disabled) { background: var(--metal); color: var(--ink); }
+[data-palette="trio"] .pc a:hover h3, [data-palette="trio"] .pc h3 a:hover, [data-palette="trio"] .lrow h3 a:hover { color: var(--ink); text-decoration: underline; text-decoration-color: var(--metal); text-decoration-thickness: 2px; text-underline-offset: 4px; }
+[data-palette="trio"] .seg button[aria-pressed="true"] { background: var(--metal); border-color: var(--metal); color: var(--ink); }
+[data-palette="trio"] .go::after { background: var(--metal); height: 2px; }
+[data-palette="trio"] .design:hover { border-color: var(--metal); background: color-mix(in srgb, var(--metal) 24%, var(--paper)); }
+[data-palette="trio"] .back:hover { background: color-mix(in srgb, var(--metal) 24%, var(--paper)); }
+
+/* Version 11: buttons turn the brighter green on hover (tokens in v4-chrome.css). */
+[data-ed="11"] .cta:hover:not(:disabled) { background: var(--lime); border-color: var(--lime); color: var(--ink); }
+[data-ed="11"] .pc .quick button:hover:not(:disabled) { background: var(--lime); }

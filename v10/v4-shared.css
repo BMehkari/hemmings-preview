@@ -79,3 +79,7 @@ select, input[type="text"], input[type="email"], input[type="tel"], textarea { b
 [data-palette="trio"] .go::after { background: var(--metal); height: 2px; }
 [data-palette="trio"] .design:hover { border-color: var(--metal); background: color-mix(in srgb, var(--metal) 24%, var(--paper)); }
 [data-palette="trio"] .back:hover { background: color-mix(in srgb, var(--metal) 24%, var(--paper)); }
+
+/* Version 11: buttons turn the brighter green on hover (tokens in v4-chrome.css). */
+[data-ed="11"] .cta:hover:not(:disabled) { background: var(--lime); border-color: var(--lime); color: var(--ink); }
+[data-ed="11"] .pc .quick button:hover:not(:disabled) { background: var(--lime); }
