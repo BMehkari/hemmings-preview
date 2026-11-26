@@ -35,6 +35,14 @@ dd{margin:0}
 .sw i{width:20px;height:20px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(0,0,0,.14)}
 .sw i+i{margin-left:-14px}
 .sw em{font-style:normal}
+a.logo{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:16px 32px;margin:0 0 28px;padding:26px clamp(18px,3vw,32px);border:1px solid #D9D0BD;background:#fff;color:inherit;text-decoration:none;transition:border-color .3s,box-shadow .4s}
+a.logo:hover,a.logo:focus-visible{border-color:#A5C28F;box-shadow:0 24px 40px -30px rgba(0,0,0,.4);outline:0}
+a.logo img{height:46px;width:auto;display:block}
+a.logo span b{display:block;font-family:'Cormorant Garamond',serif;font-weight:400;font-size:28px;line-height:1.1}
+a.logo span i{display:block;font-style:normal;color:#555A50;margin-top:4px;max-width:60ch}
+a.logo .go b{display:inline-block;font-family:inherit;font-size:inherit;font-weight:400;transition:transform .3s}
+a.logo:hover .go b{transform:translateX(6px)}
+@media (max-width:640px){a.logo{grid-template-columns:1fr}}
 @media (max-width:640px){dl{grid-template-columns:1fr;gap:4px}dt{padding-top:12px}header a{grid-template-columns:1fr auto}.t{grid-column:1/-1;grid-row:2}}
 </style>
 </head>
@@ -42,7 +50,8 @@ dd{margin:0}
 <main>
   <p class="k">Hemmings</p>
   <h1>Design <em>Versions</em></h1>
-  <p class="i">Eleven versions of the store. Each card says what the version is made of: its layout and style, its colours, its fonts and what is in it. Products, prices and offers are illustrative in all of them.</p>
+  <p class="i">The logo, and eleven versions of the store. Each card says what the version is made of: its layout and style, its colours, its fonts and what is in it. Products, prices and offers are illustrative in all of them.</p>
+  <a class="logo" href="logos/"><img src="logos/svg/hemmings-lockup-horizontal-colour.svg" alt="Hemmings logo"><span><b>The Logo</b><i>The Archway H: stacked and side-by-side logos, wordmark, icon and favicon, in colour, on dark, black and white. Download as SVG or PNG, or everything as one zip.</i></span><span class="go">Open <b>&rarr;</b></span></a>
   <nav aria-label="Versions"><a href="v1/">Version 1</a><a href="v2/">Version 2</a><a href="v3/">Version 3</a><a href="v4/">Version 4</a><a href="v5/">Version 5</a><a href="v6/">Version 6</a><a href="v7/">Version 7</a><a href="v8/">Version 8</a><a href="v9/">Version 9</a><a href="v10/">Version 10</a><a href="v11/">Version 11</a></nav>
   <ul>
     <li><article>
