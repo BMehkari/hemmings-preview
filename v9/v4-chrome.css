@@ -205,3 +205,4 @@ html.silk .s-ft-word { padding-top: clamp(80px, 11vw, 150px); }
 :root[data-ed="11"] { --paper: #FFFFFF; --white: #FFFFFF; --on-deep: #FFFFFF; --line: #E2DACA; --lime: #BCE08A; }
 [data-ed="11"] .s-btn:hover { background: var(--lime); color: var(--ink); }
 [data-ed="11"] .s-hd { background: color-mix(in srgb, #FFFFFF 94%, transparent); }
+[data-ed="11"] .s-btn { background: var(--ink); color: var(--white); }   /* matches the banner button: charcoal, green on hover */

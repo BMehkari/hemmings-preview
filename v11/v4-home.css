@@ -360,33 +360,41 @@ main { position: relative; overflow-x: clip; }
 [data-ed="11"] .btn:hover, [data-ed="11"] .btn.light:hover, [data-ed="11"] .btn.line:hover { color: var(--ink); }
 [data-ed="11"] .card .qa:hover, [data-ed="11"] .tile:hover .lb { background: var(--lime); }
 
-/* Version 11 categories: six equal tiles; pointing at one opens it over the whole block, and it closes again on leaving.
-   Each tile is placed by its column (--x) and row (--y) so that its position and size can animate. */
-.cats6 { position: relative; height: clamp(440px, 38vw, 580px); --gp: 16px; }
-.ct { position: absolute; left: calc(var(--x) * (100% + var(--gp)) / 3); top: calc(var(--y) * (100% + var(--gp)) / 2); width: calc((100% - var(--gp) * 2) / 3); height: calc((100% - var(--gp)) / 2); z-index: 1; overflow: hidden; border-radius: var(--r); background: var(--cream); color: var(--white); display: block;
-  transition: left .75s cubic-bezier(.3,.7,.2,1), top .75s cubic-bezier(.3,.7,.2,1), width .75s cubic-bezier(.3,.7,.2,1), height .75s cubic-bezier(.3,.7,.2,1), box-shadow .75s, z-index 0s .75s; }
+/* Version 11 categories: six tiles in a grid of three columns and two rows. Pointing at a tile widens its column and deepens its row,
+   so it becomes the large one while the other five shrink and stay in view; the grid's tracks animate, so every tile moves smoothly. */
+.cats6 { display: grid; grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 16px; height: clamp(460px, 40vw, 600px); transition: grid-template-columns .7s cubic-bezier(.3,.7,.2,1), grid-template-rows .7s cubic-bezier(.3,.7,.2,1); }
+.ct { position: relative; min-width: 0; min-height: 0; overflow: hidden; border-radius: var(--r); background: var(--cream); color: var(--white); display: block; transition: box-shadow .6s; }
 .ct img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 1.6s cubic-bezier(.2,.7,.2,1); }
-.ct::after { content: ""; position: absolute; inset: 0; background: linear-gradient(20deg, rgba(20,22,18,.7) 0%, rgba(20,22,18,.24) 44%, transparent 66%); opacity: 0; transition: opacity .6s; }
-.ct .lb { position: absolute; left: 18px; bottom: 18px; z-index: 2; display: inline-flex; align-items: center; gap: 10px; padding: 11px 16px; border-radius: 6px; background: var(--white); color: var(--ink); font-weight: 500; font-size: 16px; line-height: 1.2; transition: opacity .3s, transform .4s; }
-.ct .in { position: absolute; left: 0; bottom: 0; z-index: 2; display: grid; justify-items: start; gap: 14px; padding: clamp(24px, 3.4vw, 52px); max-width: 34em; opacity: 0; transform: translateY(16px); pointer-events: none; transition: opacity .3s, transform .4s; }
-.ct .in b { font: 400 clamp(38px, 4.4vw, 68px)/1 var(--serif); letter-spacing: -.015em; }
-.ct .in em { font-style: normal; font-size: 17px; line-height: 1.5; }
-.ct .in .btn { margin-top: 6px; }
+.ct::after { content: ""; position: absolute; inset: 0; background: linear-gradient(20deg, rgba(20,22,18,.72) 0%, rgba(20,22,18,.26) 46%, transparent 70%); opacity: 0; transition: opacity .6s; }
+.ct .lb { position: absolute; left: 14px; bottom: 14px; z-index: 2; display: inline-flex; align-items: center; gap: 10px; max-width: calc(100% - 28px); padding: 10px 15px; border-radius: 6px; background: var(--white); color: var(--ink); font-weight: 500; font-size: 15.5px; line-height: 1.2; white-space: nowrap; overflow: hidden; transition: opacity .3s, transform .4s, font-size .4s, padding .4s; }
+.ct .lb .arr { transition: width .4s, opacity .3s; }
+.ct .in { position: absolute; left: 0; bottom: 0; z-index: 2; width: min(100%, 34em); display: grid; justify-items: start; gap: 12px; padding: clamp(22px, 2.8vw, 44px); opacity: 0; transform: translateY(16px); pointer-events: none; transition: opacity .25s, transform .3s; }
+.ct .in b { font: 400 clamp(34px, 3.8vw, 58px)/1 var(--serif); letter-spacing: -.015em; white-space: nowrap; }
+.ct .in em { font-style: normal; font-size: 16.5px; line-height: 1.5; }
+.ct .in .btn { margin-top: 4px; }
 @media (hover: hover) and (min-width: 721px) {
-  .ct:hover, .ct:focus-visible { left: 0; top: 0; width: 100%; height: 100%; z-index: 5; box-shadow: 0 30px 60px -34px rgba(20,22,18,.6); transition-delay: .1s, .1s, .1s, .1s, .1s, 0s; }
-  .ct:hover img, .ct:focus-visible img { transform: scale(1.04); }
-  .ct:hover::after, .ct:focus-visible::after { opacity: 1; transition-delay: .25s; }
-  .ct:hover .lb, .ct:focus-visible .lb { opacity: 0; transform: translateY(8px); }
-  .ct:hover .in, .ct:focus-visible .in { opacity: 1; transform: none; pointer-events: auto; transition: opacity .6s .4s, transform .8s cubic-bezier(.2,.7,.2,1) .4s; }
+  .cats6:has(.ct:nth-child(3n+1):is(:hover, :focus-visible)) { grid-template-columns: 4fr 1fr 1fr; }
+  .cats6:has(.ct:nth-child(3n+2):is(:hover, :focus-visible)) { grid-template-columns: 1fr 4fr 1fr; }
+  .cats6:has(.ct:nth-child(3n):is(:hover, :focus-visible)) { grid-template-columns: 1fr 1fr 4fr; }
+  .cats6:has(.ct:nth-child(-n+3):is(:hover, :focus-visible)) { grid-template-rows: 3fr 1fr; }
+  .cats6:has(.ct:nth-child(n+4):is(:hover, :focus-visible)) { grid-template-rows: 1fr 3fr; }
+  /* while one is open, the others carry a smaller label without its arrow */
+  .cats6:has(.ct:is(:hover, :focus-visible)) .ct .lb { font-size: 13.5px; padding: 8px 11px; }
+  .cats6:has(.ct:is(:hover, :focus-visible)) .ct .lb .arr { width: 0; opacity: 0; margin-left: -10px; }
+  .ct:is(:hover, :focus-visible) { box-shadow: 0 26px 50px -30px rgba(20,22,18,.6); }
+  .ct:is(:hover, :focus-visible) img { transform: scale(1.04); }
+  .ct:is(:hover, :focus-visible)::after { opacity: 1; transition-delay: .2s; }
+  .cats6 .ct:is(:hover, :focus-visible) .lb { opacity: 0; transform: translateY(8px); }
+  .ct:is(:hover, :focus-visible) .in { opacity: 1; transform: none; pointer-events: auto; transition: opacity .6s .4s, transform .8s cubic-bezier(.2,.7,.2,1) .4s; }
 }
-@media (min-width: 1101px) and (max-width: 1680px) { .cats6 { height: clamp(380px, 32vw, 500px); --gp: 14px; } .ct .lb { font-size: 14.5px; padding: 9px 14px; left: 14px; bottom: 14px; } .ct .in em { font-size: 15.5px; } }
+@media (min-width: 1101px) and (max-width: 1680px) { .cats6 { height: clamp(420px, 35vw, 520px); gap: 14px; } .ct .in em { font-size: 15.5px; } }
 @media (hover: none), (max-width: 720px) {
-  .cats6 { height: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .ct { position: relative; left: auto; top: auto; width: auto; height: auto; aspect-ratio: 1; }
+  .cats6 { height: auto; grid-template-columns: 1fr 1fr; grid-template-rows: none; gap: 10px; }
+  .ct { aspect-ratio: 1; }
   .ct .in { display: none; }
   .ct .lb { left: 10px; bottom: 10px; font-size: 14px; padding: 9px 12px; }
 }
-@media (prefers-reduced-motion: reduce) { .ct, .ct img, .ct .in, .ct .lb, .ct::after { transition-duration: .01ms !important; transition-delay: 0s !important; } }
-/* Version 11 main banner: the button rests in charcoal and fills with the brighter green on hover. */
-[data-ed="11"] .slide .btn { background: var(--ink); color: var(--white); }
-[data-ed="11"] .slide .btn:hover { background: var(--ink); color: var(--ink); }
+@media (prefers-reduced-motion: reduce) { .cats6, .ct, .ct img, .ct .in, .ct .lb, .ct::after { transition-duration: .01ms !important; transition-delay: 0s !important; } }
+/* Version 11 buttons: every primary button rests in charcoal and fills with the brighter green on hover (main banner, bands, sheets). */
+[data-ed="11"] .btn:not(.light):not(.line) { background: var(--ink); color: var(--white); }
+[data-ed="11"] .btn:not(.light):not(.line):hover { background: var(--ink); color: var(--ink); }

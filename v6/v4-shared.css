@@ -83,3 +83,4 @@ select, input[type="text"], input[type="email"], input[type="tel"], textarea { b
 /* Version 11: buttons turn the brighter green on hover (tokens in v4-chrome.css). */
 [data-ed="11"] .cta:hover:not(:disabled) { background: var(--lime); border-color: var(--lime); color: var(--ink); }
 [data-ed="11"] .pc .quick button:hover:not(:disabled) { background: var(--lime); }
+[data-ed="11"] .cta { background: var(--ink); border-color: var(--ink); color: var(--white); }   /* matches the banner button: charcoal, green on hover */
