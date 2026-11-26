@@ -387,3 +387,6 @@ main { position: relative; overflow-x: clip; }
   .ct .lb { left: 10px; bottom: 10px; font-size: 14px; padding: 9px 12px; }
 }
 @media (prefers-reduced-motion: reduce) { .ct, .ct img, .ct .in, .ct .lb, .ct::after { transition-duration: .01ms !important; transition-delay: 0s !important; } }
+/* Version 11 main banner: the button rests in charcoal and fills with the brighter green on hover. */
+[data-ed="11"] .slide .btn { background: var(--ink); color: var(--white); }
+[data-ed="11"] .slide .btn:hover { background: var(--ink); color: var(--ink); }
