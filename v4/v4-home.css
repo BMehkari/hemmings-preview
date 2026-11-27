@@ -373,11 +373,11 @@ main { position: relative; overflow-x: clip; }
 .ct .in em { font-style: normal; font-size: 16.5px; line-height: 1.5; }
 .ct .in .btn { margin-top: 4px; }
 @media (hover: hover) and (min-width: 721px) {
-  .cats6:has(.ct:nth-child(3n+1):is(:hover, :focus-visible)) { grid-template-columns: 4fr 1fr 1fr; }
-  .cats6:has(.ct:nth-child(3n+2):is(:hover, :focus-visible)) { grid-template-columns: 1fr 4fr 1fr; }
-  .cats6:has(.ct:nth-child(3n):is(:hover, :focus-visible)) { grid-template-columns: 1fr 1fr 4fr; }
-  .cats6:has(.ct:nth-child(-n+3):is(:hover, :focus-visible)) { grid-template-rows: 3fr 1fr; }
-  .cats6:has(.ct:nth-child(n+4):is(:hover, :focus-visible)) { grid-template-rows: 1fr 3fr; }
+  .cats6:has(.ct:nth-child(3n+1):is(:hover, :focus-visible)) { grid-template-columns: 2.6fr 1fr 1fr; }
+  .cats6:has(.ct:nth-child(3n+2):is(:hover, :focus-visible)) { grid-template-columns: 1fr 2.6fr 1fr; }
+  .cats6:has(.ct:nth-child(3n):is(:hover, :focus-visible)) { grid-template-columns: 1fr 1fr 2.6fr; }
+  .cats6:has(.ct:nth-child(-n+3):is(:hover, :focus-visible)) { grid-template-rows: 1.75fr 1fr; }
+  .cats6:has(.ct:nth-child(n+4):is(:hover, :focus-visible)) { grid-template-rows: 1fr 1.75fr; }
   /* while one is open, the others carry a smaller label without its arrow */
   .cats6:has(.ct:is(:hover, :focus-visible)) .ct .lb { font-size: 13.5px; padding: 8px 11px; }
   .cats6:has(.ct:is(:hover, :focus-visible)) .ct .lb .arr { width: 0; opacity: 0; margin-left: -10px; }
